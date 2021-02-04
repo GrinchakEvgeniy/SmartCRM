@@ -1,0 +1,13 @@
+node_modules/
+
+api/__pycache__
+dashboard/__pycache__
+smartCRM/__pycache__
+
+db.sqlite3
+
+api/migrations
+dashboard/migrations
+
+!api/migrations/__init__.py
+!dashboard/migrations/__init__.py
