@@ -11,9 +11,11 @@ const LogIn = () => {
     const Login = () =>{
         getToken({username:username, password:password})
             .then(data=>{
-                document.cookie = "userToken="+data.token;
-                console.log(document.cookie)
-                // window.location.href = '/dashboard'
+                if (data.token){
+                    document.cookie = "userToken="+data.token;
+                    console.log(document.cookie)
+                    window.location.href = '/dashboard'
+                }
             })
     }
 
