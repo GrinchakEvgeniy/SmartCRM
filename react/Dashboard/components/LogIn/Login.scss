@@ -1,0 +1,43 @@
+.login__wrap {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("https://storge.pic2.me/c/1360x800/175/54884124b88e4.jpg");
+  background-size: cover;
+  background-position: center;
+  .login {
+    background: white;
+    width: 450px;
+    height: 550px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 6px 4px 10px -2px #cacaca;
+
+    .login_form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 300px;
+
+      .login_form_username {
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .login_form_pass {
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .login_form_btn {
+        width: 100%;
+        height: 56px;
+      }
+    }
+  }
+}

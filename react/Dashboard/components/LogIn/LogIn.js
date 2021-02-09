@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import login from './login.scss';
+import './Login.scss';
 import {getToken} from "../requests";
 
 const LogIn = () => {
@@ -20,25 +20,28 @@ const LogIn = () => {
     }
 
     return (
-        <div className={'login'}>
-            <form action={'submit'} className={'login_form'}>
-                <TextField className={'login_form_username'}
-                           onChange={(event)=>setUsername(event.target.value)}
-                           id="outlined-basic"
-                           label="Username"
-                           variant="outlined"/>
-                <TextField className={'login_form_pass'}
-                           onChange={(event)=>setPassword(event.target.value)}
-                           id="outlined-basic"
-                           label="Password"
-                           variant="outlined"/>
-                <Button variant="contained"
-                        className="login_form_btn"
-                        onClick={Login}
-                        color="primary">
-                    LOG IN
-                </Button>
-            </form>
+        <div className={'login__wrap'}>
+            <div className={'login'}>
+                <form action={'submit'} className={'login_form'}>
+                    <TextField className={'login_form_username'}
+                               onChange={(event) => setUsername(event.target.value)}
+                               id="outlined-basic"
+                               label="Username"
+                               variant="outlined"/>
+                    <TextField className={'login_form_pass'}
+                               type="password"
+                               onChange={(event) => setPassword(event.target.value)}
+                               id="outlined-basic"
+                               label="Password"
+                               variant="outlined"/>
+                    <Button variant="contained"
+                            className="login_form_btn"
+                            onClick={Login}
+                            color="primary">
+                        LOG IN
+                    </Button>
+                </form>
+            </div>
         </div>
     );
 };
