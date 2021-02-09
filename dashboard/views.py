@@ -14,4 +14,7 @@ def login(request):
 
 
 def dashboard(request):
-    return render(request, 'dashboard/index.html')
+    if 'userToken' in request.COOKIES:
+        return render(request, 'dashboard/index.html')
+    else:
+        return redirect('login-page')
