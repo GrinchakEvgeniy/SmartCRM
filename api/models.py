@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 
 
 class Role(models.Model):
-    timestamps = models.DateTimeField()
+    timestamps = models.DateTimeField(blank=True,null=True)
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=100)
 
@@ -18,10 +18,10 @@ class Role(models.Model):
 
 
 class Profile(models.Model):
-    timestamps = models.DateTimeField()
+    timestamps = models.DateTimeField(blank=True,null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="profile")
     birthday = models.DateTimeField()
-    role_id = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="profile")
+    role_id = models.OneToOneField(Role, on_delete=models.CASCADE, related_name="profile", null=True)
 
     def save(self):
         self.timestamps = datetime.now()
@@ -29,7 +29,7 @@ class Profile(models.Model):
 
 
 class Avatar(models.Model):
-    timestamps = models.DateTimeField()
+    timestamps = models.DateTimeField(blank=True,null=True)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="avatar")
     image = models.ImageField(upload_to='avatars/')
 

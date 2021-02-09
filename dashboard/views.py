@@ -1,16 +1,18 @@
 from django.shortcuts import render, redirect
 
-# Create your views here.
 
 def main(request):
-    if request.user.is_authenticated:
+    if 'userToken' in request.COOKIES:
         return redirect('dashboard')
     else:
         return redirect('login-page')
 
 
 def login(request):
-    return render(request, 'dashboard/index.html')
+    if 'userToken' in request.COOKIES:
+        return redirect('dashboard')
+    else:
+        return render(request, 'dashboard/index.html')
 
 
 def dashboard(request):
