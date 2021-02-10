@@ -1,24 +1,21 @@
 import React, {useState} from 'react';
 import './DashBoardHead.scss'
+import DashBoardHeadUserMenu from "../DashBoardHeadUserMenu/DashBoardHeadUserMenu";
 
 const DashBoardHead = () => {
 
     const [showMenu, setShowMenu] = useState(false)
     const [headWidth, setHeadWidth] = useState(0)
-    const [active, setActive] = useState('')
     const selectWidth = () => {
-
-        if(showMenu){
+        showMenu
+            ?
             setHeadWidth(0)
-            setActive('')
-        } else {
+            :
             setHeadWidth(200)
-            setActive(' active')
-        }
     }
 
     return (
-        <div className={"dashboard__head_wrap" + active}
+        <div className={showMenu ? "dashboard__head_wrap active" : "dashboard__head_wrap"}
              style={{width: "calc(100% - " + headWidth + "px)"}}>
             <div className="dashboard__head">
                 <div className="burgerMenu"
@@ -33,12 +30,7 @@ const DashBoardHead = () => {
                 <div className="logo">
                     <img src="/static/images/logo.png" alt="logo"/>
                 </div>
-                <div className="userMenu">
-                    <h3>hello user</h3>
-                    <div className="userAva">
-                        <img src="/static/images/userIcon.svg" alt="ava"/>
-                    </div>
-                </div>
+                <DashBoardHeadUserMenu/>
             </div>
         </div>
     );

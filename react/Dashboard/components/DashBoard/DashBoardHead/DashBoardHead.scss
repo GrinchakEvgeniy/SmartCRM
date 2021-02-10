@@ -68,29 +68,12 @@
         width: 100%;
       }
     }
-
-    .userMenu {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      h3 {
-        font-size: 20px;
-        margin-right: 20px;
-      }
-
-      .userAva {
-        width: 30px;
-        height: 30px;
-        cursor: pointer;
-      }
-    }
   }
 
   &.active {
     .dashboard__head {
 
-      .burgerMenu{
+      .burgerMenu {
         span {
           margin-left: 5px;
           margin-right: 15px;
