@@ -43,9 +43,9 @@ class Children(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="children", blank=True, null=True)
     birthday = models.CharField(blank=True, null=True, max_length=100)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
-        super(Children, self).save()
+        super(Children, self).save(*args, **kwargs)
 
 
 
@@ -54,11 +54,11 @@ class Client(models.Model):
     name = models.CharField(max_length=100)
     contact_data = models.CharField(max_length=1000)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
-        super(Client, self).save()
+        super(Client, self).save(*args, **kwargs)
 
-
+# =================================PROJECT================================================
 class Project(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
     users_list = models.CharField(blank=True, null=True, max_length=1000)
@@ -66,17 +66,67 @@ class Project(models.Model):
     description = models.TextField()
     accesses = models.CharField(max_length=1000, blank=True, null=True)
     client_id = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='project', blank=True, null=True)
-    # status = models.
+    status = models.CharField(blank=True, null=True, max_length=100)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
-        super(Project, self).save()
+        super(Project, self).save(*args, **kwargs)
+
+
+class ProjectFile(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    file = models.FileField(upload_to='files/', blank=True, null=True)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_file")
+
+    def save(self, *args, **kwargs):
+        self.timestamps = datetime.now()
+        super(ProjectFile, self).save(*args, **kwargs)
+
+
+class ProjectReminder(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_reminder")
+    description = models.CharField(max_length=1000)
+
+    def save(self, *args, **kwargs):
+        self.timestamps = datetime.now()
+        super(ProjectReminder, self).save(*args, **kwargs)
+
+
+class ProjectComment(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_comment")
+    description = models.CharField(max_length=1000)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_comment")
+
+    def save(self, *args, **kwargs):
+        self.timestamps = datetime.now()
+        super(ProjectComment, self).save(*args, **kwargs)
+
+
+class ProjectTask(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    name = models.CharField(blank=True, null=True, max_length=500)
+    description = models.CharField(max_length=1000)
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_task")
+    user_work = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_task")
+
+    def save(self, *args, **kwargs):
+        self.timestamps = datetime.now()
+        super(ProjectTask, self).save(*args, **kwargs)
 
 
 
+class ProjectTaskFile(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    project_task_id = models.ForeignKey(ProjectTask, on_delete=models.CASCADE, related_name="project_task_file")
+    file = models.FileField(upload_to='tasks_files/')
 
+    def save(self, *args, **kwargs):
+        self.timestamps = datetime.now()
+        super(ProjectTaskFile, self).save(*args, **kwargs)
 
-
+# ================================PROJECT END========================================
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
