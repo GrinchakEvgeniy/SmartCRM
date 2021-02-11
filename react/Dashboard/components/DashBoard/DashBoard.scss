@@ -1,4 +1,9 @@
 .dashboard__wrap {
   width: 100vw;
-  height: 100vh;
+  padding-left: 70px;
+  padding-right: 6px;
+  transition: 0.4s;
+  &.active{
+    padding-left: 206px;
+  }
 }

@@ -1,10 +1,24 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './DashBoardSidebar.scss'
 import DashBoardSidebarElms from "../DashBoardSidebarElms/DashBoardSidebarElms";
 
-const DashBoardSidebar = () => {
+const DashBoardSidebar = (props) => {
+
+    const openSideBarStyle = {
+        width: "198px",
+    }
+    const closeSideBarStyle = {
+        width: "64px",
+    }
+
     return (
-        <div className="dashBoardSidebar__wrap">
+        <div className="dashBoardSidebar__wrap"
+             style={
+                 props.openSidebar
+                     ?
+                     openSideBarStyle
+                     :
+                     closeSideBarStyle}>
             <div className="dashBoardSidebar">
                 <DashBoardSidebarElms/>
                 <DashBoardSidebarElms/>
