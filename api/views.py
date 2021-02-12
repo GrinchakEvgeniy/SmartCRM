@@ -1,5 +1,3 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status, viewsets
@@ -8,15 +6,16 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from .models import *
 
+
 # ================================================
-class SystemPermissionsControl():
+class SystemPermissionsControl:
 
     def __init__(self, user, perms):
         profile = Profile.objects.get(user_id=user.id)
         self.user_role_class = profile.role_id.value
         self.perms = perms
 
-    def _permission(self):
+    def permission(self):
         for item in self.perms:
             if item == 'all':
                 return True
@@ -29,6 +28,21 @@ class SystemPermissionsControl():
 def get_token(request):
     return Token.objects.get(key=request.COOKIES['userToken'])
 
+class DeleteClientView(viewsets.ModelViewSet):
+    """Update client"""
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    perms = ['all']
+
+    def delete(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = Client.objects.get(pk=int(request.data["id"]))
+        instance.delete()
+        return Response({'message': "Client has been deleted"})
+
 
 class PutClientsView(viewsets.ModelViewSet):
     """Update client"""
@@ -38,15 +52,14 @@ class PutClientsView(viewsets.ModelViewSet):
 
     def put(self, request):
         token = get_token(request)
-        SPC = SystemPermissionsControl(token.user, self.perms)
-        if not SPC._permission():
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
             return Response({'message': "You don't have permissions"})
         serializer = ClientSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'message': "Client has been updated"})
         return Response({'message': "Error, not valid fields"})
-
 
 
 class PostClientsView(viewsets.ModelViewSet):
@@ -57,8 +70,8 @@ class PostClientsView(viewsets.ModelViewSet):
 
     def post(self, request):
         token = get_token(request)
-        SPC = SystemPermissionsControl(token.user, self.perms)
-        if not SPC._permission():
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
             return Response({'message': "You don't have permissions"})
         serializer = ClientSerializer(data=request.data)
         if serializer.is_valid():
@@ -75,12 +88,27 @@ class GetClientsView(viewsets.ModelViewSet):
 
     def get(self, request):
         token = get_token(request)
-        SPC = SystemPermissionsControl(token.user, self.perms)
-        if not SPC._permission():
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
             return Response({'message': "You don't have permissions"})
         serializer = ClientSerializer(self.queryset, many=True)
         return Response(serializer.data)
 
+
+class GetClientView(viewsets.ModelViewSet):
+    """Get one client"""
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    perms = ['all']
+
+    def get(self, request, pk):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = Client.objects.get(pk=pk)
+        serializer = ClientSerializer(instance)
+        return Response(serializer.data)
 
 
 class PostProjectsSimpleView(viewsets.ModelViewSet):
@@ -91,15 +119,14 @@ class PostProjectsSimpleView(viewsets.ModelViewSet):
 
     def post(self, request):
         token = get_token(request)
-        SPC = SystemPermissionsControl(token.user, self.perms)
-        if not SPC._permission():
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
             return Response({'message': "You don't have permissions"})
         serializer = ProjectSimpleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'message': "Project has been created"})
         return Response({'message': "Error, not valid fields"})
-
 
 
 class GetProjectsSimpleView(viewsets.ModelViewSet):
@@ -110,19 +137,15 @@ class GetProjectsSimpleView(viewsets.ModelViewSet):
 
     def get(self, request):
         token = get_token(request)
-        SPC = SystemPermissionsControl(token.user, self.perms)
-        if not SPC._permission():
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
             return Response({'message': "You don't have permissions"})
         serializer = ProjectSimpleSerializer(self.queryset, many=True)
         return Response(serializer.data)
 
 
-
-
 class GetUserView(viewsets.ModelViewSet):
-
     """ Class get user information for render into dashboard """
-
     # permission_classes = (IsAuthenticated,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -130,18 +153,15 @@ class GetUserView(viewsets.ModelViewSet):
 
     def get(self, request):
         token = get_token(request)
-        SPC = SystemPermissionsControl(token.user, self.perms)
-        if not SPC._permission():
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
             return Response({'message': "You don't have permissions"})
         serializer = UserSerializer(token.user)
         return Response(serializer.data)
 
 
-
 class GetUsersView(viewsets.ModelViewSet):
-
     """ Class get users """
-
     # permission_classes = (IsAuthenticated,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -149,8 +169,8 @@ class GetUsersView(viewsets.ModelViewSet):
 
     def get(self, request):
         token = get_token(request)
-        SPC = SystemPermissionsControl(token.user, self.perms)
-        if not SPC._permission():
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
             return Response({'message': "You don't have permissions"})
         serializer = UserSerializer(self.queryset, many=True)
         return Response(serializer.data)
@@ -165,8 +185,8 @@ class PutUserView(viewsets.ModelViewSet):
 
     def put(self, request):
         token = get_token(request)
-        SPC = SystemPermissionsControl(token.user, self.perms)
-        if not SPC._permission():
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
             return Response({'message': "You don't have permissions"})
         user_instance = User.objects.get(pk=int(request.data["id"]))
         user_instance.first_name = request.data.get("first_name", user_instance.first_name)
@@ -182,4 +202,37 @@ class PutUserView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class PostUserView(viewsets.ModelViewSet):
+    """Create user"""
+    # permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSimpleSerializer
+    perms = ['S']
 
+    def post(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        serializer = UserSimpleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': "User has been created"})
+        return Response({'message': "Error, not valid fields"})
+
+
+class DeleteUsersView(viewsets.ModelViewSet):
+    """ Delete user """
+    # permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSimpleSerializer
+    perms = ['S']
+
+    def delete(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = User.objects.get(pk=token.user.id)
+        instance.delete()
+        return Response({'message': "User has been deleted"})
