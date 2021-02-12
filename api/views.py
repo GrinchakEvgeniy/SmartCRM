@@ -123,7 +123,7 @@ class GetUserView(viewsets.ModelViewSet):
 
     """ Class get user information for render into dashboard """
 
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     queryset = User.objects.all()
     serializer_class = UserSerializer
     perms = ['all']
@@ -154,3 +154,32 @@ class GetUsersView(viewsets.ModelViewSet):
             return Response({'message': "You don't have permissions"})
         serializer = UserSerializer(self.queryset, many=True)
         return Response(serializer.data)
+
+
+class PutUserView(viewsets.ModelViewSet):
+    """Update user data"""
+    # permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    perms = ['all']
+
+    def put(self, request):
+        token = get_token(request)
+        SPC = SystemPermissionsControl(token.user, self.perms)
+        if not SPC._permission():
+            return Response({'message': "You don't have permissions"})
+        user_instance = User.objects.get(pk=int(request.data["id"]))
+        user_instance.first_name = request.data.get("first_name", user_instance.first_name)
+        user_instance.last_name = request.data.get("last_name", user_instance.last_name)
+        user_instance.email = request.data.get("email", user_instance.email)
+        user_instance.save()
+
+        profile_instance = Profile.objects.get(pk=int(request.data["profile"].id))
+        profile_instance.birthday = request.data["profile"].get("birthday",  profile_instance.birthday)
+        profile_instance.save()
+
+        serializer = UserSerializer(token.user)
+        return Response(serializer.data)
+
+
+

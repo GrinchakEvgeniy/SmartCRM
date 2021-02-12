@@ -21,7 +21,7 @@ class RoleSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    avatar = AvatarSerializer(many=True)
+    avatar = AvatarSerializer()
     role_id = RoleSerializer()
     children = ChildrenSerializer(many=True)
 

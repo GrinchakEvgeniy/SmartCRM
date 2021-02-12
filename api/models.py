@@ -30,7 +30,7 @@ class Profile(models.Model):
 
 class Avatar(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
-    profile_id = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="avatar", blank=True, null=True)
+    profile_id = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name="avatar", blank=True, null=True)
     image = models.ImageField(upload_to='avatars/', blank=True, null=True)
 
     def save(self, *args, **kwargs):

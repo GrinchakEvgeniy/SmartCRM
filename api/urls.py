@@ -7,6 +7,7 @@ urlpatterns = [
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
     path('get-user', views.GetUserView.as_view({'get': 'get'}), name='get-user'),
+    path('put-user', views.PutUserView.as_view({'put': 'put'}), name='put-user'),
     path('get-users', views.GetUsersView.as_view({'get': 'get'}), name='get-users'),
 
     path('get-projects-simple', views.GetProjectsSimpleView.as_view({'get':'get'}), name="get-projects-simple"),
