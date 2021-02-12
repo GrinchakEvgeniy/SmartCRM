@@ -1,10 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './DashBoardHead.scss'
+import {connect} from 'react-redux';
+import {getUser} from "../../redux/actions/actions";
+import {getUserFetch} from "../../requests";
 import DashBoardHeadUserMenu from "../DashBoardHeadUserMenu/DashBoardHeadUserMenu";
 
-const DashBoardHead = () => {
+const DashBoardHead = (props) => {
 
-    const [showMenu, setShowMenu] = useState(false)
+    useEffect(() => {
+        getUserFetch().then(data => {
+            props.updateUserData(data)
+        })
+    }, [])
+
+    useEffect(()=>{
+        console.log(props.user_data)
+    })
+
+    const [showMenu, setShowMenu] = useState(props.openMenu)
     const [headWidth, setHeadWidth] = useState(0)
     const selectWidth = () => {
         showMenu
@@ -21,6 +34,7 @@ const DashBoardHead = () => {
                 <div className="burgerMenu"
                      onClick={() => {
                          setShowMenu(!showMenu)
+                         props.update(!showMenu)
                          selectWidth()
                      }}>
                     <span/>
@@ -36,4 +50,14 @@ const DashBoardHead = () => {
     );
 };
 
-export default DashBoardHead;
+const putState = (state) => {
+    return {
+        user_data: state.user_data
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+    }
+}
+export default connect(putState, putDispatch)(DashBoardHead);

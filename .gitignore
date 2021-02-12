@@ -7,8 +7,8 @@ smartCRM/__pycache__
 
 db.sqlite3
 
-api/migrations
-dashboard/migrations
+api/migrations/
+dashboard/migrations/
 
 !api/migrations/__init__.py
 !dashboard/migrations/__init__.py

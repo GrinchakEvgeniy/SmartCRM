@@ -26,3 +26,16 @@ export async function getToken(data){
     const result = await response.json();
     return result;
 }
+
+export async function getUserFetch(){
+    const options = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' +  getCookie('userToken'),
+        }
+    }
+    const response = await fetch('api/get-user', options);
+    const result = await response.json();
+    return result;
+}
