@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {getUser} from "../../redux/actions/actions";
 import {connect} from "react-redux";
 import "./FamilyInfoProfile.scss"
 import {TextField} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 const FamilyInfoProfile = (props) => {
+
+    const [] = useState()
 
     return (
         <div className="info">
@@ -36,6 +39,24 @@ const FamilyInfoProfile = (props) => {
                 <TextField className="editField"
                            variant="outlined"
                            placeholder={"+3809876543"}/></div>
+            <div className="popUpBtns">
+                <Button variant="contained"
+                        color="secondary"
+                        onClick={() => {
+                            props.setShowPopUp(false)
+                        }}>
+                    CANCEL
+                </Button>
+                <Button variant="contained"
+                        color="primary"
+                        onClick={() => {
+                            // udateState()
+                            console.log(props)
+                            props.setShowPopUp(false)
+                        }}>
+                    DONE
+                </Button>
+            </div>
         </div>
     );
 };

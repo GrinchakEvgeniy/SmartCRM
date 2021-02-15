@@ -13,12 +13,20 @@
       width: 150px;
     }
   }
-  .infoItem.edit{
+
+  .infoItem.edit {
     display: none;
-    .MuiOutlinedInput-input{
+
+    .MuiOutlinedInput-input {
       padding: 7px 15px;
       width: 150px;
     }
   }
 
+  .popUpBtns {
+    width: 100%;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

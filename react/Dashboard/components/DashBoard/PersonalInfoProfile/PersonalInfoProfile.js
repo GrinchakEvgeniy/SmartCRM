@@ -28,20 +28,16 @@ const PersonalInfoProfile = (props) => {
         newState.profile.birthday = birthday;
         newState.email = email;
         updateUserFetch(newState).then(data => {
-            console.log(data)
             props.updateUserData(data)
         })
     }
-
-    console.log('birthday123', birthday)
 
     return (
         <div className="info">
             <div className="infoItem"><h3>FirstName</h3><p>{props.user_data.first_name}</p></div>
             <div className="infoItem"><h3>LastName</h3><p>{props.user_data.last_name}</p></div>
-            <div className="infoItem"><h3>Birthday</h3><p>{birthday}</p></div>
+            <div className="infoItem"><h3>Birthday</h3><p> <time>{birthday}</time></p></div>
             <div className="infoItem"><h3>Email</h3><p>{props.user_data.email}</p></div>
-            <div className="infoItem"><h3>Tel</h3><p>+3801234567</p></div>
 
             <div className="infoItem edit"><h3>FirstName</h3>
                 <TextField id="firstName"
@@ -63,7 +59,7 @@ const PersonalInfoProfile = (props) => {
                            onChange={(event) => {
                                setBirthDay(event.target.value)
                            }}
-                           defaultValue={birthday}
+                           placeholder={birthday}
                            variant="outlined"
                            className="editField"/></div>
             <div className="infoItem edit"><h3>Email</h3>
