@@ -29,7 +29,7 @@ urlpatterns = [
     path('delete-files-project', views.DeleteFilesProjectView.as_view({'delete':'delete'}), name="delete-files-project"),
 
     path('get-roles', views.GetRolesView.as_view({'get':'get'}), name="get-roles"),
-    # path('post-roles', views.PostRolesView.as_view({'post':'post'}), name="post-roles"),
-    # path('put-roles', views.PutRolesView.as_view({'put':'put'}), name="put-roles"),
-    # path('delete-roles', views.DeleteRolesView.as_view({'delete':'delete'}), name="delete-roles"),
+    path('post-roles', views.PostRolesView.as_view({'post':'post'}), name="post-roles"),
+
+    path('put-avatar', views.PutAvatarView.as_view({'put':'put'}), name="put-avatar"),
 ]

@@ -31,6 +31,39 @@ def get_token(request):
 # ==============================================
 
 
+class PutAvatarView(viewsets.ModelViewSet):
+    queryset = Avatar.objects.all()
+    serializer_class = AvatarSerializer
+    perms = ['all']
+
+    def put(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = Avatar.objects.get(pk=int(request.data['id']))
+        instance.image = request.FILES.get('image', instance.image)
+        instance.save()
+        return Response({'message': "Avatar has been updated"})
+
+
+class PostRolesView(viewsets.ModelViewSet):
+    queryset = Role.objects.all()
+    serializer_class = RoleSerializer
+    perms = ['S']
+
+    def post(self,request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        serializer = RoleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message':"Role has been created"})
+
 
 class GetRolesView(viewsets.ModelViewSet):
     queryset = Role.objects.all()
@@ -311,7 +344,7 @@ class PutUserView(viewsets.ModelViewSet):
         user_instance.email = request.data.get("email", user_instance.email)
         user_instance.save()
 
-        profile_instance = Profile.objects.get(pk=int(request.data["profile"].id))
+        profile_instance = Profile.objects.get(pk=int(request.data["profile"]['id']))
         profile_instance.birthday = request.data["profile"].get("birthday",  profile_instance.birthday)
         profile_instance.save()
 
