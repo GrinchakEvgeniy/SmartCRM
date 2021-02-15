@@ -13,11 +13,23 @@ urlpatterns = [
     path('delete-user', views.DeleteUsersView.as_view({'delete': 'delete'}), name='delete-users'),
 
     path('get-projects-simple', views.GetProjectsSimpleView.as_view({'get': 'get'}), name="get-projects-simple"),
+    path('get-project/<int:pk>', views.GetProjectView.as_view({'get': 'get'}), name="get-project"),
     path('post-projects-simple', views.PostProjectsSimpleView.as_view({'post': 'post'}), name="post-projects-post"),
+    path('delete-projects-simple', views.DeleteProjectsSimpleView.as_view({'delete': 'delete'}), name="delete-projects-post"),
+    path('put-projects-simple', views.PutProjectsSimpleView.as_view({'put': 'put'}), name="put-projects-post"),
+    path('get-project-simple/<int:pk>', views.GetProjectSimpleView.as_view({'get': 'get'}), name="get-projects-post"),
 
     path('get-clients', views.GetClientsView.as_view({'get': 'get'}), name="get-clients"),
     path('get-client/<int:pk>', views.GetClientView.as_view({'get': 'get'}), name="get-client"),
     path('post-clients', views.PostClientsView.as_view({'post': 'post'}), name="post-clients"),
     path('put-clients', views.PutClientsView.as_view({'put': 'put'}), name="put-clients"),
     path('delete-client', views.DeleteClientView.as_view({'delete': 'delete'}), name="delete-client"),
+
+    path('post-files-project', views.PostFilesProjectView.as_view({'post':'post'}), name="post-files-project"),
+    path('delete-files-project', views.DeleteFilesProjectView.as_view({'delete':'delete'}), name="delete-files-project"),
+
+    path('get-roles', views.GetRolesView.as_view({'get':'get'}), name="get-roles"),
+    # path('post-roles', views.PostRolesView.as_view({'post':'post'}), name="post-roles"),
+    # path('put-roles', views.PutRolesView.as_view({'put':'put'}), name="put-roles"),
+    # path('delete-roles', views.DeleteRolesView.as_view({'delete':'delete'}), name="delete-roles"),
 ]

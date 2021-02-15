@@ -20,7 +20,7 @@ class Role(models.Model):
 class Profile(models.Model):
     timestamps = models.CharField(blank=True,null=True, max_length=100)
     user_id = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile",blank=True,null=True)
-    birthday = models.DateTimeField(blank=True,null=True)
+    birthday = models.CharField(blank=True,null=True, max_length=100)
     role_id = models.OneToOneField(Role, on_delete=models.CASCADE, related_name="profile", blank=True, null=True)
 
     def save(self, *args, **kwargs):

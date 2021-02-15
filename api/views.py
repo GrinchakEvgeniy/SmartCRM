@@ -28,6 +28,57 @@ class SystemPermissionsControl:
 def get_token(request):
     return Token.objects.get(key=request.COOKIES['userToken'])
 
+# ==============================================
+
+
+
+class GetRolesView(viewsets.ModelViewSet):
+    queryset = Role.objects.all()
+    serializer_class = RoleSerializer
+    perms = ['S']
+
+    def get(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        serializer = RoleSerializer(self.queryset, many=True)
+        return Response(serializer.data)
+
+
+class PostFilesProjectView(viewsets.ModelViewSet):
+    queryset = ProjectFile.objects.all()
+    serializer_class = ProjectFileSerializer
+    perms = ['all']
+
+    def post(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        for value in request.FILES:
+            serializer = ProjectFileSerializer(
+                data={'project_id': int(request.data['project_id']), 'file': request.FILES[value]})
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Files is downloaded'}, status=status.HTTP_201_CREATED)
+
+
+class DeleteFilesProjectView(viewsets.ModelViewSet):
+    queryset = ProjectFile.objects.all()
+    serializer_class = ProjectFileSerializer
+    perms = ['all']
+
+    def delete(self, request, format=None):
+        for id in request.data['ids']:
+            ProjectFile.objects.get(pk=int(id)).delete()
+        return Response({'message': 'Files is deleted'}, status=status.HTTP_201_CREATED)
+
+
+
+
 class DeleteClientView(viewsets.ModelViewSet):
     """Update client"""
     queryset = Client.objects.all()
@@ -55,11 +106,12 @@ class PutClientsView(viewsets.ModelViewSet):
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
-        serializer = ClientSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message': "Client has been updated"})
-        return Response({'message': "Error, not valid fields"})
+        instance = Client.objects.get(pk=int(request.data['id']))
+        instance.name = request.data.get('name', instance.name)
+        instance.contact_data = request.data.get('contact_data', instance.contact_data)
+        instance.save()
+        serializer = ClientSerializer(instance)
+        return Response(serializer.data)
 
 
 class PostClientsView(viewsets.ModelViewSet):
@@ -129,6 +181,42 @@ class PostProjectsSimpleView(viewsets.ModelViewSet):
         return Response({'message': "Error, not valid fields"})
 
 
+class DeleteProjectsSimpleView(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSimpleSerializer
+    perms = ['PM', 'S']
+
+    def delete(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = Project.objects.get(pk=int(request.data['id']))
+        instance.delete()
+        return Response({'message': "Project has been delete"})
+
+
+class PutProjectsSimpleView(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSimpleSerializer
+    perms = ['PM', 'S']
+
+    def put(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = Project.objects.get(pk=int(request.data['id']))
+        instance.users_list = request.data.get('users_list', instance.users_list)
+        instance.name = request.data.get('name', instance.name)
+        instance.description = request.data.get('description', instance.description)
+        instance.accesses = request.data.get('accesses', instance.accesses)
+        instance.status = request.data.get('status', instance.status)
+        instance.save()
+        serializer = ProjectSimpleSerializer(instance)
+        return Response(serializer.data)
+
+
 class GetProjectsSimpleView(viewsets.ModelViewSet):
     """Get projects without full information"""
     queryset = Project.objects.all()
@@ -141,6 +229,35 @@ class GetProjectsSimpleView(viewsets.ModelViewSet):
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
         serializer = ProjectSimpleSerializer(self.queryset, many=True)
+        return Response(serializer.data)
+
+class GetProjectSimpleView(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSimpleSerializer
+    perms = ['PM', 'D', 'S', 'L']
+
+    def get(self, request, pk):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = Project.objects.get(pk=pk)
+        serializer = ProjectSimpleSerializer(instance)
+        return Response(serializer.data)
+
+
+class GetProjectView(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    perms = ['PM', 'D', 'S', 'L']
+
+    def get(self, request, pk):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = Project.objects.get(pk=pk)
+        serializer = ProjectSerializer(instance)
         return Response(serializer.data)
 
 
