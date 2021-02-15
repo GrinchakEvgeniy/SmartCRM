@@ -22,7 +22,7 @@ export async function getToken(data){
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         body: formData
     }
-    const response = await fetch('api/api-token-auth/', options);
+    const response = await fetch('/api/api-token-auth/', options);
     const result = await response.json();
     return result;
 }
@@ -35,7 +35,7 @@ export async function getUserFetch(){
             'Authorization': 'Token ' +  getCookie('userToken'),
         }
     }
-    const response = await fetch('api/get-user', options);
+    const response = await fetch('/api/get-user', options);
     const result = await response.json();
     return result;
 }
@@ -50,7 +50,7 @@ export async function updateUserFetch(data) {
             'Authorization': 'Token ' + getCookie('userToken'),
         }
     }
-    const response = await fetch('api/put-user', options);
+    const response = await fetch('/api/put-user', options);
     const result = await response.json();
     return result;
 }

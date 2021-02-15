@@ -18,7 +18,7 @@ class App extends Component {
             <Provider store={store}>
                 <Switch>
                     <Route exact path='/login' component={LogIn}/>
-                    <Route exact path='/dashboard' component={DashBoard}/>
+                    <Route path='/dashboard' component={DashBoard}/>
                     {/*<Route exact path='/dashboard/profile' component={Profile}/>*/}
                 </Switch>
             </Provider>

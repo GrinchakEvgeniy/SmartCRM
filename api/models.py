@@ -21,6 +21,12 @@ class Profile(models.Model):
     timestamps = models.CharField(blank=True,null=True, max_length=100)
     user_id = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile",blank=True,null=True)
     birthday = models.CharField(blank=True,null=True, max_length=100)
+    tel_1 = models.CharField(blank=True,null=True, max_length=100)
+    tel_2 = models.CharField(blank=True,null=True, max_length=100)
+    linkedin = models.CharField(blank=True,null=True, max_length=100)
+    github = models.CharField(blank=True,null=True, max_length=100)
+    position = models.CharField(blank=True,null=True, max_length=100)
+    experience = models.CharField(blank=True,null=True, max_length=100)
     role_id = models.OneToOneField(Role, on_delete=models.CASCADE, related_name="profile", blank=True, null=True)
 
     def save(self, *args, **kwargs):
