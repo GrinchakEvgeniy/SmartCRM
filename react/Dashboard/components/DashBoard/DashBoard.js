@@ -1,23 +1,26 @@
 import React, {useState} from 'react';
-import './DashBoard.scss'
 import DashBoardHead from "./DashBoardHead/DashBoardHead";
 import DashBoardSidebar from "./DashBoardSidebar/DashBoardSidebar";
 import Profile from "./Profile/Profile";
+import PopUp from "./PopUp/PopUp";
+import './DashBoard.scss'
 
 const DashBoard = () => {
 
+    const [showPopUp, setShowPopUp] = useState(false)
+    const [popUpOptions, setPopUpOptions] = useState('')
     const [openSideBar, setOpenSideBar] = useState(false)
-    const updateOpenMenu = (val) => {
-        setOpenSideBar(val)
-    }
-
 
     return (
         <div>
             <div className={openSideBar ? "dashboard__wrap active" : "dashboard__wrap"}>
-                <DashBoardHead openMenu={openSideBar} update={updateOpenMenu} />
+                <DashBoardHead openMenu={openSideBar} setOpenSideBar={setOpenSideBar}/>
                 <DashBoardSidebar openSidebar={openSideBar}/>
-                <Profile/>
+                <Profile showPopUp={showPopUp} setShowPopUp={setShowPopUp}
+                         setPopUpOptions={setPopUpOptions}/>
+                <PopUp showPopUp={showPopUp}
+                       setShowPopUp={setShowPopUp}
+                       popUpOptions={popUpOptions}/>
             </div>
         </div>
     );

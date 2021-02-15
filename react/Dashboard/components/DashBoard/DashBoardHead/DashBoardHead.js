@@ -13,7 +13,7 @@ const DashBoardHead = (props) => {
         })
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(props.user_data)
     })
 
@@ -34,7 +34,7 @@ const DashBoardHead = (props) => {
                 <div className="burgerMenu"
                      onClick={() => {
                          setShowMenu(!showMenu)
-                         props.update(!showMenu)
+                         props.setOpenSideBar(!showMenu)
                          selectWidth()
                      }}>
                     <span/>

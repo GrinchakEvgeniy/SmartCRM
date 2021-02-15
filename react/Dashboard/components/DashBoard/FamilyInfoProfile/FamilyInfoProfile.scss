@@ -1,0 +1,24 @@
+.info {
+  .infoItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #757575;
+
+    h3 {
+      width: 150px;
+    }
+
+    p {
+      width: 150px;
+    }
+  }
+  .infoItem.edit{
+    display: none;
+    .MuiOutlinedInput-input{
+      padding: 7px 15px;
+      width: 150px;
+    }
+  }
+
+}

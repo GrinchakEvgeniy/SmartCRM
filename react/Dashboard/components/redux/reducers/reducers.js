@@ -1,7 +1,7 @@
 import * as types from "../constants/constants";
 
 const initialState = {
-    user_data: "",
+    user_data: {},
 }
 
 const rootReducer = (state= initialState, action) => {
