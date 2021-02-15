@@ -346,6 +346,12 @@ class PutUserView(viewsets.ModelViewSet):
 
         profile_instance = Profile.objects.get(pk=int(request.data["profile"]['id']))
         profile_instance.birthday = request.data["profile"].get("birthday",  profile_instance.birthday)
+        profile_instance.tel_1 = request.data["profile"].get("tel_1",  profile_instance.tel_1)
+        profile_instance.tel_2 = request.data["profile"].get("tel_2",  profile_instance.tel_2)
+        profile_instance.linkedin = request.data["profile"].get("linkedin",  profile_instance.linkedin)
+        profile_instance.github = request.data["profile"].get("github",  profile_instance.github)
+        profile_instance.position = request.data["profile"].get("position",  profile_instance.position)
+        profile_instance.experience = request.data["profile"].get("experience",  profile_instance.experience)
         profile_instance.save()
 
         new_instance = User.objects.get(pk=int(request.data["id"]))
