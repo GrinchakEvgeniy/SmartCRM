@@ -1,0 +1,71 @@
+.clients {
+  .container {
+    .actions {
+      display: flex;
+      justify-content: flex-start;
+    }
+    .navigation {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      .headers {
+        display: flex;
+        justify-content: space-between;
+        div {
+          background: #cacaca;
+          border: #1976d2 1px solid;
+          width: 100%;
+        }
+        .check_all {
+          width: min-content;
+        }
+      }
+      .result{
+        .row {
+          display: flex;
+          justify-content: space-between;
+          div {
+            border: black 1px solid;
+            width: 100%;
+          }
+          .check {
+            width: min-content;
+          }
+        }
+        .grey{
+          background: #757575;
+        }
+        .white{
+          background: #f3f3f3;
+        }
+      }
+
+    }
+
+  }
+
+  .popup_add_wrap {
+    display: none;
+    position: fixed;
+    padding: 50px;
+    background: #f3f3f3;
+    z-index: 10;
+
+    .fields {
+      display: flex;
+      flex-direction: column;
+    }
+    .button_group {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+  .popup_add_wrap.active {
+    display: block;
+  }
+
+}
