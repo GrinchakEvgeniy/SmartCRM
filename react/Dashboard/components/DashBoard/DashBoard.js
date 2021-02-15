@@ -4,6 +4,9 @@ import DashBoardSidebar from "./DashBoardSidebar/DashBoardSidebar";
 import Profile from "./Profile/Profile";
 import PopUp from "./PopUp/PopUp";
 import './DashBoard.scss'
+import {Switch, Route} from 'react-router-dom'
+import LogIn from "../LogIn/LogIn";
+import Clients from "./Clients/Clients";
 
 const DashBoard = () => {
 
@@ -16,8 +19,11 @@ const DashBoard = () => {
             <div className={openSideBar ? "dashboard__wrap active" : "dashboard__wrap"}>
                 <DashBoardHead openMenu={openSideBar} setOpenSideBar={setOpenSideBar}/>
                 <DashBoardSidebar openSidebar={openSideBar}/>
-                <Profile showPopUp={showPopUp} setShowPopUp={setShowPopUp}
-                         setPopUpOptions={setPopUpOptions}/>
+                <Switch>
+                    <Route path='/dashboard/clients' component={()=>{return <Clients/>}}/>
+                    <Route path='/dashboard/profile' component={()=>{return <Profile showPopUp={showPopUp} setShowPopUp={setShowPopUp}
+                         setPopUpOptions={setPopUpOptions}/>}}/>
+                </Switch>
                 <PopUp showPopUp={showPopUp}
                        setShowPopUp={setShowPopUp}
                        popUpOptions={popUpOptions}/>
