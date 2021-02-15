@@ -347,8 +347,8 @@ class PutUserView(viewsets.ModelViewSet):
         profile_instance = Profile.objects.get(pk=int(request.data["profile"]['id']))
         profile_instance.birthday = request.data["profile"].get("birthday",  profile_instance.birthday)
         profile_instance.save()
-
-        serializer = UserSerializer(user_instance)
+        new_instance = User.objects.get(pk=int(request.data["id"]))
+        serializer = UserSerializer(new_instance)
         return Response(serializer.data)
 
 
