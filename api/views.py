@@ -339,10 +339,10 @@ class PutUserView(viewsets.ModelViewSet):
     perms = ['all']
 
     def put(self, request):
-        # token = get_token(request)
-        # spc = SystemPermissionsControl(token.user, self.perms)
-        # if not spc.permission():
-        #     return Response({'message': "You don't have permissions"})
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
         user_instance = User.objects.get(pk=int(request.data["id"]))
         user_instance.first_name = request.data.get("first_name", user_instance.first_name)
         user_instance.last_name = request.data.get("last_name", user_instance.last_name)
@@ -421,3 +421,22 @@ class DeleteUsersView(viewsets.ModelViewSet):
         instance = User.objects.get(pk=token.user.id)
         instance.delete()
         return Response({'message': "User has been deleted"})
+
+
+class ChangeUserRoleView(viewsets.ModelViewSet):
+    """ Change Role user """
+    # permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+    serializer_class = UserSimpleSerializer
+    perms = ['S']
+
+    def put(self, request):
+        # token = get_token(request)
+        # spc = SystemPermissionsControl(token.user, self.perms)
+        # if not spc.permission():
+        #     return Response({'message': "You don't have permissions"})
+        profile = Profile.objects.get(pk=int(request.data['profile_id']))
+        role = Role.objects.get(pk=int(request.data['role_id']))
+        profile.role_id = role
+        profile.save()
+        return Response({'message': "Role has been chenged"})

@@ -32,4 +32,6 @@ urlpatterns = [
     path('post-roles', views.PostRolesView.as_view({'post':'post'}), name="post-roles"),
 
     path('put-avatar', views.PutAvatarView.as_view({'put':'put'}), name="put-avatar"),
+
+    path('change-user-role', views.ChangeUserRoleView.as_view({'put':'put'}), name="change-user-role"),
 ]
