@@ -19,20 +19,49 @@
     flex-wrap: wrap;
 
     .MuiOutlinedInput-input {
-      padding: 7px 15px;
+      padding: 12px 15px;
       width: 150px;
     }
-    .MuiTextField-root{
+
+    .MuiTextField-root {
       margin-bottom: 10px;
     }
-    .MuiTextField-root:nth-child(3){
+
+    .MuiTextField-root:nth-child(3) {
       margin-left: 150px;
     }
-    .MuiTextField-root:nth-child(4){
+
+    .MuiTextField-root:nth-child(4) {
       margin-left: 150px;
     }
-    &.child{
+
+    &.child {
       width: 335px;
+      align-items: center;
+      justify-content: center;
+
+      h3 {
+        text-align: center
+      }
+
+      div {
+        text-align: center;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+
+        .addRemoveChild {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          .childBtn{
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
 

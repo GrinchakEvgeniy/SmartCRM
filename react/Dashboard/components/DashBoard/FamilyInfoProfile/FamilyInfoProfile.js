@@ -6,6 +6,8 @@ import {TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {isEmpty} from "../../helper";
 import {updateUserFetch} from "../../requests";
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 
 const FamilyInfoProfile = (props) => {
 
@@ -37,9 +39,9 @@ const FamilyInfoProfile = (props) => {
         newState.profile.github = gitHub;
         newState.profile.tel_1 = telNumber1;
         newState.profile.tel_2 = telNumber2;
-        newState.profile.children[0] = children[0];
-        newState.profile.children[1] = children[1];
-        newState.profile.children[2] = children[2];
+        // newState.profile.children[0] = children[0];
+        // newState.profile.children[1] = children[1];
+        // newState.profile.children[2] = children[2];
         updateUserFetch(newState).then(data => {
             props.updateUserData(data)
         })
@@ -55,6 +57,8 @@ const FamilyInfoProfile = (props) => {
         return <p>{year + ' years, ' + months + ' months'}</p>
     }
 
+    console.log('children', children)
+
     return (
         <div className="info">
             <div className="infoItem"><h3>Position</h3>{position}</div>
@@ -66,7 +70,7 @@ const FamilyInfoProfile = (props) => {
             <div className="infoItem">
                 <h3>Children</h3>
                 {children.map((el, index) => {
-                    return <p key={index}>{el}</p>
+                    return <p key={index}>{el.name + ', ' + el.birthday}</p>
                 })}
             </div>
 
@@ -113,34 +117,53 @@ const FamilyInfoProfile = (props) => {
                            }}
                            variant="outlined"
                            value={telNumber2}/></div>
-            <div className="infoItem edit child"><h3>Children</h3>
-                <TextField className="editField"
-                           id="child1"
-                           onBlur={(event) => {
-                               let newArr = children
-                               newArr[0] = event.target.value
-                               setChildren(newArr)
-                           }}
-                           variant="outlined"
-                           defaultValue={children[0]}/>
-                <TextField className="editField"
-                           id="child2"
-                           onBlur={(event) => {
-                               let newArr = children
-                               newArr[1] = event.target.value
-                               setChildren(newArr)
-                           }}
-                           variant="outlined"
-                           defaultValue={children[1]}/>
-                <TextField className="editField"
-                           id="child3"
-                           onBlur={(event) => {
-                               let newArr = children
-                               newArr[2] = event.target.value
-                               setChildren(newArr)
-                           }}
-                           variant="outlined"
-                           defaultValue={children[2]}/></div>
+            <div className="infoItem edit child">
+                <h3>Children</h3>
+                {children.length > 0
+                    ?
+                    children.map((el, index) => {
+                        return <div key={index}>
+                            <TextField className="editField"
+                                       placeholder="name"
+                                       defaultValue={el.name}
+                                       variant="outlined"
+                                       onBlur={(event
+                                       ) => {
+                                           const newArr = children.slice();
+                                           newArr[index].name = event.target.value;
+                                           setChildren(newArr)
+                                       }}/>
+                            <TextField className="editField"
+                                       placeholder="birthday"
+                                       value={el.birthday}
+                                       variant="outlined"/>
+                            <div className="addRemoveChild">
+                                <AddCircleIcon color={"primary"}
+                                        className="childBtn"/>
+                                <RemoveCircleIcon color={"secondary"}
+                                        className="childBtn"/>
+                            </div>
+                        </div>
+                    })
+                    :
+                    <div>
+                        <TextField className="editField"
+                                   placeholder="name"
+                                   variant="outlined"/>
+                        <TextField className="editField"
+                                   type="date"
+                                   placeholder="birthday"
+                                   variant="outlined"/>
+                        <div className="addRemoveChild">
+                            <AddCircleIcon color={"primary"}
+                                    className="childBtn"/>
+                            <RemoveCircleIcon color={"secondary"}
+                                    className="childBtn"/>
+                        </div>
+                    </div>
+                }
+
+            </div>
 
             <div className="popUpBtns">
                 <Button variant="contained"
