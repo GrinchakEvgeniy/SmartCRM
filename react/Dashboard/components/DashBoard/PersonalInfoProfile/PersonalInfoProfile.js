@@ -21,7 +21,7 @@ const PersonalInfoProfile = (props) => {
         }
     }, [props.user_data]);
 
-    const udateState = () => {
+    const updateState = () => {
         const newState = JSON.parse(JSON.stringify(props.user_data))
         newState.first_name = firstName;
         newState.last_name = lastName;
@@ -80,7 +80,7 @@ const PersonalInfoProfile = (props) => {
                 <Button variant="contained"
                         color="primary"
                         onClick={() => {
-                            udateState()
+                            updateState()
                             props.setShowPopUp(false)
                         }}>
                     DONE

@@ -54,3 +54,4 @@ export async function updateUserFetch(data) {
     const result = await response.json();
     return result;
 }
+

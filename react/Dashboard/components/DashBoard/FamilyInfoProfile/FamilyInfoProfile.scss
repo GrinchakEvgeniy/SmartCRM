@@ -16,10 +16,23 @@
 
   .infoItem.edit {
     display: none;
+    flex-wrap: wrap;
 
     .MuiOutlinedInput-input {
       padding: 7px 15px;
       width: 150px;
+    }
+    .MuiTextField-root{
+      margin-bottom: 10px;
+    }
+    .MuiTextField-root:nth-child(3){
+      margin-left: 150px;
+    }
+    .MuiTextField-root:nth-child(4){
+      margin-left: 150px;
+    }
+    &.child{
+      width: 335px;
     }
   }
 
