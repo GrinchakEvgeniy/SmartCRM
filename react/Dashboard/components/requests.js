@@ -82,3 +82,18 @@ export async function postClientFetch(data) {
     const result = await response.json();
     return result;
 }
+
+export async function deleteClientFetch(data) {
+    const options = {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/delete-client', options);
+    const result = await response.json();
+    return result;
+}
