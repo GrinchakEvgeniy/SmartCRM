@@ -123,9 +123,11 @@ class DeleteClientView(viewsets.ModelViewSet):
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
-        instance = Client.objects.get(pk=int(request.data["id"]))
-        instance.delete()
-        return Response({'message': "Client has been deleted"})
+        for i in request.data["id"]:
+            instance = Client.objects.get(pk=int(i))
+            instance.delete()
+        serializer = ClientSerializer(Client.objects.all()[::-1], many=True)
+        return Response(serializer.data)
 
 
 class PutClientsView(viewsets.ModelViewSet):
@@ -161,7 +163,7 @@ class PostClientsView(viewsets.ModelViewSet):
         serializer = ClientSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            queryset = Client.objects.all()
+            queryset = Client.objects.all()[::-1]
             serializer = ClientSerializer(queryset, many=True)
             return Response(serializer.data)
         return Response({'message': "Error, not valid fields"})
@@ -178,7 +180,7 @@ class GetClientsView(viewsets.ModelViewSet):
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
-        queryset = Client.objects.all()
+        queryset = Client.objects.all()[::-1]
         serializer = ClientSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -356,6 +358,17 @@ class PutUserView(viewsets.ModelViewSet):
         profile_instance.position = request.data["profile"].get("position",  profile_instance.position)
         profile_instance.experience = request.data["profile"].get("experience",  profile_instance.experience)
         profile_instance.save()
+
+        for child in request.data["profile"]["children"]:
+            if 'id' in child:
+                children_instance = Children.objects.get(pk=int(child["id"]))
+                children_instance.name = request.data["profile"]["children"].get("name", children_instance.name)
+                children_instance.birthday = request.data["profile"]["children"].get("birthday", children_instance.birthday)
+                children_instance.save()
+            else:
+                serializer = ChildrenSerializer(data=child)
+                if serializer.is_valid():
+                    serializer.save()
 
         new_instance = User.objects.get(pk=int(request.data["id"]))
         serializer = UserSerializer(new_instance)

@@ -46,6 +46,7 @@ class Avatar(models.Model):
 
 class Children(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
+    name = models.CharField(blank=True, null=True, max_length=100)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="children", blank=True, null=True)
     birthday = models.CharField(blank=True, null=True, max_length=100)
 

@@ -15,6 +15,9 @@
       .headers {
         display: flex;
         justify-content: space-between;
+        .id {
+          width: 40px;
+        }
         div {
           background: #cacaca;
           border: #1976d2 1px solid;
@@ -31,6 +34,9 @@
           div {
             border: black 1px solid;
             width: 100%;
+          }
+          .id_result {
+            width: 40px;
           }
           .check {
             width: min-content;
