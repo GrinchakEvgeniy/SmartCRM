@@ -161,7 +161,9 @@ class PostClientsView(viewsets.ModelViewSet):
         serializer = ClientSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'message': "Client has been created"})
+            queryset = Client.objects.all()
+            serializer = ClientSerializer(queryset, many=True)
+            return Response(serializer.data)
         return Response({'message': "Error, not valid fields"})
 
 
@@ -176,7 +178,8 @@ class GetClientsView(viewsets.ModelViewSet):
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
-        serializer = ClientSerializer(self.queryset, many=True)
+        queryset = Client.objects.all()
+        serializer = ClientSerializer(queryset, many=True)
         return Response(serializer.data)
 
 

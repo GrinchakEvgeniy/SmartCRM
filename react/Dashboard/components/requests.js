@@ -55,3 +55,33 @@ export async function updateUserFetch(data) {
     return result;
 }
 
+<<<<<<< HEAD
+=======
+export async function getClientsFetch(){
+    const options = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' +  getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/get-clients', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function postClientFetch(data) {
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/post-clients', options);
+    const result = await response.json();
+    return result;
+}
+>>>>>>> aa1216a67c875caa977cf03162ad6c735129cd35
