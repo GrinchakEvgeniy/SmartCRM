@@ -359,6 +359,17 @@ class PutUserView(viewsets.ModelViewSet):
         profile_instance.experience = request.data["profile"].get("experience",  profile_instance.experience)
         profile_instance.save()
 
+        for child in request.data["profile"]["children"]:
+            if 'id' in child:
+                children_instance = Children.objects.get(pk=int(child["id"]))
+                children_instance.name = request.data["profile"]["children"].get("name", children_instance.name)
+                children_instance.birthday = request.data["profile"]["children"].get("birthday", children_instance.birthday)
+                children_instance.save()
+            else:
+                serializer = ChildrenSerializer(data=child)
+                if serializer.is_valid():
+                    serializer.save()
+
         new_instance = User.objects.get(pk=int(request.data["id"]))
         serializer = UserSerializer(new_instance)
         return Response(serializer.data)
