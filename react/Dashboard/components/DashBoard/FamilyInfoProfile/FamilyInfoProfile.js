@@ -45,10 +45,20 @@ const FamilyInfoProfile = (props) => {
         })
     }
 
+
+    const experienceInSmartPipl = (startDate) => {
+        let current = new Date()
+        let old = new Date(startDate);
+        let days = Math.ceil(Math.abs(old.getTime() - current.getTime()) / (1000 * 3600 * 24))
+        let year = Math.floor(days / 365)
+        let months = Math.floor((days - (year * 365)) / 30)
+        return <p>{year + ' years, ' + months + ' months'}</p>
+    }
+
     return (
         <div className="info">
-            <div className="infoItem"><h3>Position</h3><p>{position}</p></div>
-            <div className="infoItem"><h3>Experience</h3><p>{experience}</p></div>
+            <div className="infoItem"><h3>Position</h3>{position}</div>
+            <div className="infoItem"><h3>Experience</h3>{experienceInSmartPipl(experience)}</div>
             <div className="infoItem"><h3>LinkedIn</h3><p>{linkedIn}</p></div>
             <div className="infoItem"><h3>GitHub</h3><p>https://github.com</p></div>
             <div className="infoItem"><h3>TelNumber1</h3><p>+380987654321</p></div>
@@ -60,81 +70,77 @@ const FamilyInfoProfile = (props) => {
                 })}
             </div>
 
-
             <div className="infoItem edit"><h3>Position</h3>
                 <TextField className="editField"
                            onChange={(event) => {
                                setPosition(event.target.value)
                            }}
                            variant="outlined"
-                           placeholder={position}/></div>
+                           value={position}/></div>
             <div className="infoItem edit"><h3>Experience</h3>
                 <TextField className="editField"
+                           type="date"
                            onChange={(event) => {
                                setExperience(event.target.value)
                            }}
                            variant="outlined"
-                           placeholder={experience}/></div>
+                           value={experience}/></div>
             <div className="infoItem edit"><h3>LinkedIn</h3>
                 <TextField className="editField"
                            onChange={(event) => {
                                setLinkedIn(event.target.value)
                            }}
                            variant="outlined"
-                           pl={linkedIn}/></div>
+                           value={linkedIn}/></div>
             <div className="infoItem edit"><h3>GitHub</h3>
                 <TextField className="editField"
                            onChange={(event) => {
                                setGitHub(event.target.value)
                            }}
                            variant="outlined"
-                           defaultValue={gitHub}/></div>
+                           value={gitHub}/></div>
             <div className="infoItem edit"><h3>TelNumber</h3>
                 <TextField className="editField"
                            onChange={(event) => {
                                setTelNumber1(event.target.value)
                            }}
                            variant="outlined"
-                           defaultValue={telNumber1}/></div>
+                           value={telNumber1}/></div>
             <div className="infoItem edit"><h3>TelNumber</h3>
                 <TextField className="editField"
                            onChange={(event) => {
                                setTelNumber2(event.target.value)
                            }}
                            variant="outlined"
-                           defaultValue={telNumber2}/></div>
+                           value={telNumber2}/></div>
             <div className="infoItem edit child"><h3>Children</h3>
                 <TextField className="editField"
                            id="child1"
                            onBlur={(event) => {
                                let newArr = children
-                               newArr[0]=event.target.value
+                               newArr[0] = event.target.value
                                setChildren(newArr)
                            }}
                            variant="outlined"
-                           defaultValue=""
-                           placeholder="name, birthday"/>
+                           defaultValue={children[0]}/>
                 <TextField className="editField"
                            id="child2"
                            onBlur={(event) => {
                                let newArr = children
-                               newArr[1]=event.target.value
+                               newArr[1] = event.target.value
                                setChildren(newArr)
                            }}
                            variant="outlined"
-                           defaultValue=""
-                           placeholder="name, birthday"/>
+                           defaultValue={children[1]}/>
                 <TextField className="editField"
                            id="child3"
                            onBlur={(event) => {
                                let newArr = children
-                               newArr[2]=event.target.value
+                               newArr[2] = event.target.value
                                setChildren(newArr)
                            }}
                            variant="outlined"
-                           defaultValue=""
-                           placeholder="name, birthday"/></div>
-
+                           defaultValue={children[2]}/></div>
 
             <div className="popUpBtns">
                 <Button variant="contained"

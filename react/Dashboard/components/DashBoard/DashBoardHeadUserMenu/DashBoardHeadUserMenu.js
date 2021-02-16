@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {getUser} from "../../redux/actions/actions";
 import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
@@ -6,13 +6,24 @@ import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded';
 import "./DashBoardHeadUserMenu.scss"
+import {Link} from "react-router-dom";
+import {isEmpty} from "../../helper";
 
 const DashBoardHeadUserMenu = (props) => {
 
     const [openMenu, setOpenMenu] = useState(false)
+    const [avatar, setAvatar] = useState('')
+    const defaultAva = '/static/images/userIcon.svg';
+
+    useEffect(() => {
+        if (!isEmpty(props.user_data)) {
+            if (props.user_data.profile.avatar.length === 0) return;
+            setAvatar(props.user_data.profile.avatar.image)
+        }
+    }, [props.user_data]);
 
     function delete_cookie(name) {
-        document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     }
 
     return (
@@ -28,30 +39,40 @@ const DashBoardHeadUserMenu = (props) => {
                      onClick={() => {
                          setOpenMenu(!openMenu)
                      }}>
-                    <img src="/static/images/userIcon.svg" alt="ava"/>
+
+                    <div className='imgWrap'>
+                        <img src={avatar ? avatar : defaultAva} alt="ava"/>
+                    </div>
 
                     <div className="userMenu">
                         <div className="userMenuItems">
-                            <div className="userMenuItem">
-                                <FaceRoundedIcon className="userMenuIcon"/>
-                                <h4 className="userMenuIconLabel">Profile</h4>
-                            </div>
-                            <div className="userMenuItem">
-                                <NotificationsRoundedIcon className="userMenuIcon"/>
-                                <h4 className="userMenuIconLabel">Notifications</h4>
-                            </div>
-                            <div className="userMenuItem">
-                                <HelpRoundedIcon className="userMenuIcon"/>
-                                <h4 className="userMenuIconLabel">Help</h4>
-                            </div>
-                            <div className="userMenuItem"
-                                onClick={()=>{
-                                    delete_cookie("userToken")
-                                    window.location.reload()
-                                }}>
-                                <MeetingRoomRoundedIcon className="userMenuIcon"/>
-                                <h4 className="userMenuIconLabel">LogOut</h4>
-                            </div>
+                            <Link to={'/dashboard/profile'} className="link">
+                                <div className="userMenuItem">
+                                    <FaceRoundedIcon className="userMenuIcon"/>
+                                    <h4 className="userMenuIconLabel">Profile</h4>
+                                </div>
+                            </Link>
+                            <Link to={'/dashboard'} className="link">
+                                <div className="userMenuItem">
+                                    <NotificationsRoundedIcon className="userMenuIcon"/>
+                                    <h4 className="userMenuIconLabel">Notifications</h4>
+                                </div>
+                            </Link>
+                            <Link to={'/dashboard'} className="link">
+                                <div className="userMenuItem">
+                                    <HelpRoundedIcon className="userMenuIcon"/>
+                                    <h4 className="userMenuIconLabel">Help</h4>
+                                </div>
+                            </Link>
+                            <Link to={'/login'} className="link">
+                                <div className="userMenuItem"
+                                     onClick={() => {
+                                         delete_cookie("userToken")
+                                     }}>
+                                    <MeetingRoomRoundedIcon className="userMenuIcon"/>
+                                    <h4 className="userMenuIconLabel">LogOut</h4>
+                                </div>
+                            </Link>
                         </div>
                     </div>
 

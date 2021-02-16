@@ -15,6 +15,15 @@
     height: 30px;
     cursor: pointer;
     position: relative;
+    .imgWrap{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      overflow: hidden;
+      img{
+        width: 100%;
+      }
+    }
 
     &:after {
       position: absolute;
@@ -46,18 +55,20 @@
         padding: 10px 20px;
         cursor: initial;
 
-        .userMenuItem {
-          display: flex;
-          align-items: center;
-          cursor: pointer;
+        .link {
+          text-decoration: none;
+          color: #757575;
 
-          &:not(:last-child) {
-            margin-bottom: 12px;
-          }
+          .userMenuItem {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 20px;
 
-          .userMenuIcon {
-            color: #757575;
-            margin-right: 10px;
+            .userMenuIcon {
+              color: #757575;
+              margin-right: 10px;
+            }
           }
         }
       }

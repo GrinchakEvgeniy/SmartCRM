@@ -36,7 +36,7 @@ const PersonalInfoProfile = (props) => {
         <div className="info">
             <div className="infoItem"><h3>FirstName</h3><p>{props.user_data.first_name}</p></div>
             <div className="infoItem"><h3>LastName</h3><p>{props.user_data.last_name}</p></div>
-            <div className="infoItem"><h3>Birthday</h3><p> <time>{birthday}</time></p></div>
+            <div className="infoItem"><h3>Birthday</h3><p><time>{birthday}</time></p></div>
             <div className="infoItem"><h3>Email</h3><p>{props.user_data.email}</p></div>
 
             <div className="infoItem edit"><h3>FirstName</h3>
@@ -59,7 +59,7 @@ const PersonalInfoProfile = (props) => {
                            onChange={(event) => {
                                setBirthDay(event.target.value)
                            }}
-                           placeholder={birthday}
+                           defaultValue={birthday}
                            variant="outlined"
                            className="editField"/></div>
             <div className="infoItem edit"><h3>Email</h3>
