@@ -339,10 +339,10 @@ class PutUserView(viewsets.ModelViewSet):
     perms = ['all']
 
     def put(self, request):
-        token = get_token(request)
-        spc = SystemPermissionsControl(token.user, self.perms)
-        if not spc.permission():
-            return Response({'message': "You don't have permissions"})
+        # token = get_token(request)
+        # spc = SystemPermissionsControl(token.user, self.perms)
+        # if not spc.permission():
+        #     return Response({'message': "You don't have permissions"})
         user_instance = User.objects.get(pk=int(request.data["id"]))
         user_instance.first_name = request.data.get("first_name", user_instance.first_name)
         user_instance.last_name = request.data.get("last_name", user_instance.last_name)
@@ -359,16 +359,28 @@ class PutUserView(viewsets.ModelViewSet):
         profile_instance.experience = request.data["profile"].get("experience",  profile_instance.experience)
         profile_instance.save()
 
+        child_keys = []
         for child in request.data["profile"]["children"]:
             if 'id' in child:
                 children_instance = Children.objects.get(pk=int(child["id"]))
-                children_instance.name = request.data["profile"]["children"].get("name", children_instance.name)
-                children_instance.birthday = request.data["profile"]["children"].get("birthday", children_instance.birthday)
+                children_instance.name = child.get("name", children_instance.name)
+                children_instance.birthday = child.get("birthday", children_instance.birthday)
                 children_instance.save()
+                child_keys.append(children_instance.id)
             else:
-                serializer = ChildrenSerializer(data=child)
-                if serializer.is_valid():
-                    serializer.save()
+                new_child = Children(name=child["name"], birthday=child["birthday"], profile=profile_instance)
+                new_child.save()
+                child_keys.append(new_child.id)
+
+        children_all = Children.objects.filter(profile=profile_instance.id)
+        for item_child in children_all:
+            founded = False
+            for id in child_keys:
+                if id == item_child.id:
+                    founded = True
+                    break
+            if not founded:
+                item_child.delete()
 
         new_instance = User.objects.get(pk=int(request.data["id"]))
         serializer = UserSerializer(new_instance)
