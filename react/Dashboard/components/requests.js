@@ -55,6 +55,7 @@ export async function updateUserFetch(data) {
     return result;
 }
 
+
 export async function getClientsFetch(){
     const options = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.

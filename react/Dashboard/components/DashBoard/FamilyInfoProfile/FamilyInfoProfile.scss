@@ -13,12 +13,33 @@
       width: 150px;
     }
   }
-  .infoItem.edit{
+
+  .infoItem.edit {
     display: none;
-    .MuiOutlinedInput-input{
+    flex-wrap: wrap;
+
+    .MuiOutlinedInput-input {
       padding: 7px 15px;
       width: 150px;
     }
+    .MuiTextField-root{
+      margin-bottom: 10px;
+    }
+    .MuiTextField-root:nth-child(3){
+      margin-left: 150px;
+    }
+    .MuiTextField-root:nth-child(4){
+      margin-left: 150px;
+    }
+    &.child{
+      width: 335px;
+    }
   }
 
+  .popUpBtns {
+    width: 100%;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
