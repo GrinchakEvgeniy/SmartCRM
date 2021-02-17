@@ -28,12 +28,24 @@
           background: lightgray;
           border-radius: 50%;
           margin: 0 30px;
+          position: relative;
 
           img {
             width: 100%;
             object-fit: cover;
           }
         }
+
+        .changeAva{
+          cursor: pointer;
+          position: absolute;
+          right: 50px;
+          bottom: 50px;
+          width: 30px;
+          height: 30px;
+          background: #1A01CC;
+        }
+
         .editBtn{
           position: absolute;
           top: 20px;

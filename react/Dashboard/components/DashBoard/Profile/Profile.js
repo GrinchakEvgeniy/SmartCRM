@@ -7,6 +7,7 @@ import "./Profile.scss";
 import {isEmpty} from "../../helper";
 import PersonalInfoProfile from "../PersonalInfoProfile/PersonalInfoProfile";
 import FamilyInfoProfile from "../FamilyInfoProfile/FamilyInfoProfile";
+import {getUserFetch, putAvatarFetch} from "../../requests";
 
 const Profile = (props) => {
 
@@ -37,6 +38,14 @@ const Profile = (props) => {
                         <PersonalInfoProfile/>
                         <div className="Ava">
                             <img src={avatar ? avatar : defaultAva} alt="ava"/>
+                            <input type="file"
+                                   className="changeAva"
+                                   onChange={(event) => {
+                                       putAvatarFetch(props.user_data.profile.avatar.id, event.target.files).then((data)=>{
+                                           console.log(data)
+                                       }).then(()=>{getUserFetch().then(data => props.updateUserData(data))})
+
+                                   }}/>
                         </div>
                     </div>
                     <div className="familyInfo">

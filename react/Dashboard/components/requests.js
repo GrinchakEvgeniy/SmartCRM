@@ -123,3 +123,16 @@ export async function deleteClientFetch(data) {
     const result = await response.json();
     return result;
 }
+
+export async function putAvatarFetch(id, files){
+    let formData = new FormData();
+    formData.append("id", id);
+    formData.append("image", files[0], files[0].name);
+    const options = {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: formData
+    }
+    const response = await fetch('/api/put-avatar', options);
+    const result = await response.json();
+    return result;
+}
