@@ -39,9 +39,7 @@ const FamilyInfoProfile = (props) => {
         newState.profile.github = gitHub;
         newState.profile.tel_1 = telNumber1;
         newState.profile.tel_2 = telNumber2;
-        // newState.profile.children[0] = children[0];
-        // newState.profile.children[1] = children[1];
-        // newState.profile.children[2] = children[2];
+        newState.profile.children = children.filter(el => JSON.stringify(el) !== '{}');
         updateUserFetch(newState).then(data => {
             props.updateUserData(data)
         })
@@ -57,21 +55,21 @@ const FamilyInfoProfile = (props) => {
         return <p>{year + ' years, ' + months + ' months'}</p>
     }
 
-    console.log('children', children)
-
     return (
         <div className="info">
             <div className="infoItem"><h3>Position</h3>{position}</div>
             <div className="infoItem"><h3>Experience</h3>{experienceInSmartPipl(experience)}</div>
             <div className="infoItem"><h3>LinkedIn</h3><p>{linkedIn}</p></div>
-            <div className="infoItem"><h3>GitHub</h3><p>https://github.com</p></div>
-            <div className="infoItem"><h3>TelNumber1</h3><p>+380987654321</p></div>
-            <div className="infoItem"><h3>TelNumber2</h3><p>+380123456789</p></div>
-            <div className="infoItem">
+            <div className="infoItem"><h3>GitHub</h3><p>{gitHub}</p></div>
+            <div className="infoItem"><h3>TelNumber1</h3><p>{telNumber1}</p></div>
+            <div className="infoItem"><h3>TelNumber2</h3><p>{telNumber2}</p></div>
+            <div className="infoItem children">
                 <h3>Children</h3>
-                {children.map((el, index) => {
-                    return <p key={index}>{el.name + ', ' + el.birthday}</p>
-                })}
+                <div className="childrenWrap">
+                    {children.map((el, index) => {
+                        return <p key={index}>{el.name + ', ' + el.birthday}</p>
+                    })}
+                </div>
             </div>
 
             <div className="infoItem edit"><h3>Position</h3>
@@ -83,6 +81,7 @@ const FamilyInfoProfile = (props) => {
                            value={position}/></div>
             <div className="infoItem edit"><h3>Experience</h3>
                 <TextField className="editField"
+                           label="SmartPIPL career start"
                            type="date"
                            onChange={(event) => {
                                setExperience(event.target.value)
@@ -122,7 +121,7 @@ const FamilyInfoProfile = (props) => {
                 {children.length > 0
                     ?
                     children.map((el, index) => {
-                        return <div key={index}>
+                        return <div key={index} className="childWrap">
                             <TextField className="editField"
                                        placeholder="name"
                                        defaultValue={el.name}
@@ -130,45 +129,62 @@ const FamilyInfoProfile = (props) => {
                                        onBlur={(event
                                        ) => {
                                            const newArr = children.slice();
-                                           newArr[index].name = event.target.value;
-                                           setChildren(newArr)
+                                           event.target.value !== '' ? (
+                                                       newArr[index].name = event.target.value,
+                                                       setChildren(newArr))
+                                               :
+                                               console.log('break')
                                        }}/>
                             <TextField className="editField"
+                                       type="date"
                                        placeholder="birthday"
-                                       value={el.birthday}
-                                       variant="outlined"/>
-                            <div className="addRemoveChild">
-                                <AddCircleIcon color={"primary"}
-                                        className="childBtn"/>
+                                       defaultValue={el.birthday}
+                                       variant="outlined"
+                                       onBlur={(event
+                                       ) => {
+                                           const newArr = children.slice();
+                                           event.target.value !== '' ? (
+                                                       newArr[index].birthday = event.target.value,
+                                                       setChildren(newArr))
+                                               :
+                                               (console.log('nothing'),
+                                                   newArr[index].birthday = '',
+                                                   setChildren(newArr))
+                                           console.log('break')
+                                       }}/>
+                            <div className="addChild">
                                 <RemoveCircleIcon color={"secondary"}
-                                        className="childBtn"/>
+                                                  className="childBtn"
+                                                  onClick={() => {
+                                                      const readyArr = children.slice()
+                                                      readyArr.splice(index, 1)
+                                                      setChildren(readyArr)
+                                                  }}
+                                />
                             </div>
                         </div>
                     })
                     :
-                    <div>
-                        <TextField className="editField"
-                                   placeholder="name"
-                                   variant="outlined"/>
-                        <TextField className="editField"
-                                   type="date"
-                                   placeholder="birthday"
-                                   variant="outlined"/>
-                        <div className="addRemoveChild">
-                            <AddCircleIcon color={"primary"}
-                                    className="childBtn"/>
-                            <RemoveCircleIcon color={"secondary"}
-                                    className="childBtn"/>
-                        </div>
-                    </div>
+                    <div className="childWrap"></div>
                 }
 
             </div>
-
+            <div className="addChildren">
+                <AddCircleIcon color={"primary"}
+                               className="childBtn"
+                               onClick={() => {
+                                   const newArr = children.slice();
+                                   newArr.push({});
+                                   setChildren(newArr)
+                               }}/>
+            </div>
             <div className="popUpBtns">
                 <Button variant="contained"
                         color="secondary"
                         onClick={() => {
+                            //checking for the absence of empty objects
+                            const newArr = children.filter(el => JSON.stringify(el) !== "{}");
+                            setChildren(newArr)
                             props.setShowPopUp(false)
                         }}>
                     CANCEL
@@ -176,9 +192,17 @@ const FamilyInfoProfile = (props) => {
                 <Button variant="contained"
                         color="primary"
                         onClick={() => {
-                            updateState()
-                            console.log(props)
+
+                            //checking for the absence of empty objects
+                            const newArr = children.filter(el => JSON.stringify(el) !== "{}");
+                            for(let elem of newArr){
+                                (typeof elem['birthday'] === "undefined")
+                                    ? elem['birthday'] = ''
+                                    : ''
+                            }
+                            setChildren(newArr)
                             props.setShowPopUp(false)
+                            updateState()
                         }}>
                     DONE
                 </Button>

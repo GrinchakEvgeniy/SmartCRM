@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './DashBoardSidebar.scss'
 import DashBoardSidebarElms from "../DashBoardSidebarElms/DashBoardSidebarElms";
+import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
 
 const DashBoardSidebar = (props) => {
 
@@ -20,19 +21,19 @@ const DashBoardSidebar = (props) => {
                      :
                      closeSideBarStyle}>
             <div className="dashBoardSidebar">
-                <DashBoardSidebarElms/>
-                <DashBoardSidebarElms/>
-                <DashBoardSidebarElms/>
-                <DashBoardSidebarElms/>
-                <DashBoardSidebarElms/>
-                <DashBoardSidebarElms/>
-                <DashBoardSidebarElms/>
-                <DashBoardSidebarElms/>
-                <DashBoardSidebarElms/>
-                <DashBoardSidebarElms/>
+                <DashBoardSidebarElms
+                    label={"Contacts"}
+                    link={'/dashboard/clients'}
+                    icon={<CodeRoundedIcon/>}/>
+                <DashBoardSidebarElms
+                    label={"Projects"}
+                    link={'/dashboard/projects'}
+                    icon={<CodeRoundedIcon/>}/>
             </div>
         </div>
     );
 };
 
 export default DashBoardSidebar;
+
+'https://material-ui.com/ru/components/material-icons/'

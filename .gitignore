@@ -12,3 +12,5 @@ dashboard/migrations/
 
 !api/migrations/__init__.py
 !dashboard/migrations/__init__.py
+
+dashboard/static/js/index.js

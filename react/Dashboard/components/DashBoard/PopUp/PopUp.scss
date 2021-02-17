@@ -36,16 +36,15 @@
         .infoItem.edit{
           display: flex;
         }
+        .addChildren{
+          text-align: center;
+          display: block;
+          cursor: pointer;
+        }
         .popUpBtns{
           display: flex;
         }
       }
     }
-    //.popUpBtns{
-    //  width: 100%;
-    //  display: flex;
-    //  align-items: center;
-    //  justify-content: space-between;
-    //}
   }
 }

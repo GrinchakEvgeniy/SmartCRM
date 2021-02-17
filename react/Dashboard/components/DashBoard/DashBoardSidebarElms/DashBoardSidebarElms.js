@@ -1,17 +1,21 @@
 import React from 'react';
 import CodeRoundedIcon from '@material-ui/icons/CodeRounded';
 import "./DashBoardSidebarElms.scss";
+import {Link} from "react-router-dom";
 
-const DashBoardSidebarElms = () => {
+const DashBoardSidebarElms = (props) => {
     return (
-        <div className="elemWrap">
-            <div className="icon">
-                <CodeRoundedIcon/>
+        <Link to={props.link} className="elem">
+            <div className="elemWrap">
+                <div className="icon">
+                    {props.icon}
+                    {/*<CodeRoundedIcon/>*/}
+                </div>
+                <div className="label">
+                    <h4>{props.label}</h4>
+                </div>
             </div>
-            <div className="label">
-                <h4>Menu Item</h4>
-            </div>
-        </div>
+        </Link>
     );
 };
 
