@@ -7,6 +7,7 @@ import './DashBoard.scss'
 import {Switch, Route} from 'react-router-dom'
 import LogIn from "../LogIn/LogIn";
 import Clients from "./Clients/Clients";
+import Projects from "./Projects/Projects";
 
 const DashBoard = () => {
 
@@ -21,6 +22,7 @@ const DashBoard = () => {
                 <DashBoardSidebar openSidebar={openSideBar}/>
                 <Switch>
                     <Route path='/dashboard/clients' component={()=>{return <Clients/>}}/>
+                    <Route path='/dashboard/projects' component={()=>{return <Projects/>}}/>
                     <Route path='/dashboard/profile' component={()=>{return <Profile showPopUp={showPopUp} setShowPopUp={setShowPopUp}
                          setPopUpOptions={setPopUpOptions}/>}}/>
                 </Switch>

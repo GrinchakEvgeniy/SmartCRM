@@ -266,7 +266,8 @@ class GetProjectsSimpleView(viewsets.ModelViewSet):
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
-        serializer = ProjectSimpleSerializer(self.queryset, many=True)
+        queryset = Project.objects.all()
+        serializer = ProjectSimpleSerializer(queryset, many=True)
         return Response(serializer.data)
 
 class GetProjectSimpleView(viewsets.ModelViewSet):
@@ -327,7 +328,8 @@ class GetUsersView(viewsets.ModelViewSet):
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
-        serializer = UserSerializer(self.queryset, many=True)
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
