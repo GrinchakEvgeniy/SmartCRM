@@ -215,7 +215,9 @@ class PostProjectsSimpleView(viewsets.ModelViewSet):
         serializer = ProjectSimpleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'message': "Project has been created"})
+            queryset = Project.objects.all()[::-1]
+            serializer_ = ProjectSimpleSerializer(queryset, many=True)
+            return Response(serializer_.data)
         return Response({'message': "Error, not valid fields"})
 
 
@@ -266,7 +268,7 @@ class GetProjectsSimpleView(viewsets.ModelViewSet):
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
-        queryset = Project.objects.all()
+        queryset = Project.objects.all()[::-1]
         serializer = ProjectSimpleSerializer(queryset, many=True)
         return Response(serializer.data)
 

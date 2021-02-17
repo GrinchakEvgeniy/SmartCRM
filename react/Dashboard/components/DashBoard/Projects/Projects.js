@@ -60,6 +60,7 @@ const Projects = () => {
                 newProjectLayout ? <NewProject
                     closeLayout={setNewProjectLayout}
                     users={users}
+                    setProjectsSimple={setProjectsSimple}
                     clients={clients}/> : ""
             }
         </div>
