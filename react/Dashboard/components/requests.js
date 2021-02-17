@@ -40,6 +40,32 @@ export async function getUserFetch(){
     return result;
 }
 
+export async function getProjectsSimpleFetch(){
+    const options = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' +  getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/get-projects-simple', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function getUsersFetch(){
+    const options = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' +  getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/get-users', options);
+    const result = await response.json();
+    return result;
+}
+
 export async function updateUserFetch(data) {
     const options = {
         method: 'PUT', // *GET, POST, PUT, DELETE, etc.

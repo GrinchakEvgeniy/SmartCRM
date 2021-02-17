@@ -9,6 +9,7 @@ db.sqlite3
 
 api/migrations/
 dashboard/migrations/
+dashboard/static/js/index.js
 
 !api/migrations/__init__.py
 !dashboard/migrations/__init__.py
