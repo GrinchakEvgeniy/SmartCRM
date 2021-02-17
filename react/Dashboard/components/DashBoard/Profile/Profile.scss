@@ -19,34 +19,38 @@
         padding: 30px;
         box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
 
-        .Ava {
-          width: 300px;
-          height: 300px;
-          min-width: 300px;
-          min-height: 300px;
-          overflow: hidden;
-          background: lightgray;
-          border-radius: 50%;
+        .AvaWrap {
           margin: 0 30px;
           position: relative;
+          .Ava {
+            width: 300px;
+            height: 300px;
+            min-width: 300px;
+            min-height: 300px;
+            overflow: hidden;
+            background: lightgray;
+            border-radius: 50%;
 
-          img {
-            width: 100%;
-            object-fit: cover;
+            img {
+              width: 100%;
+              object-fit: cover;
+            }
+          }
+          .changeAva {
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            width: 87px;
+            height: 30px;
+            background: #1A01CC;
+            background: none;
+            border: none;
           }
         }
 
-        .changeAva{
-          cursor: pointer;
-          position: absolute;
-          right: 50px;
-          bottom: 50px;
-          width: 30px;
-          height: 30px;
-          background: #1A01CC;
-        }
 
-        .editBtn{
+        .editBtn {
           position: absolute;
           top: 20px;
           right: 20px;
@@ -67,7 +71,8 @@
         margin: 10px;
         padding: 30px;
         box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
-        .editBtn{
+
+        .editBtn {
           position: absolute;
           top: 20px;
           right: 20px;
@@ -84,6 +89,7 @@
     .container {
       .profileWrap {
         flex-wrap: wrap;
+
         .personalInfo {
           max-width: 100%;
           width: 100%;

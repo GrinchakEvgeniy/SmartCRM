@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import "./Clients.scss";
 import {getClientsFetch, postClientFetch, deleteClientFetch} from "../../requests";
+import Button from "@material-ui/core/Button";
+import {FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 
 const Clients = (props) => {
     const [clients, setClients] = useState([]);
@@ -50,6 +52,7 @@ const Clients = (props) => {
 
     const Action = () => {
         if(action == "delete"){
+
             deleteClientFetch({'id': clientsId})
                 .then(data=>{
                     setClients(data);
@@ -94,24 +97,44 @@ const Clients = (props) => {
         <div className="clients">
             <div className="container">
                 <div className="actions">
-                    <button className="btn add-btn"
-                    onClick={()=>{
-                        setPopup(!popup);
-                    }}
-                    >Add new client</button>
+                    <Button className="btn add-btn"
+                            variant="contained"
+                            color="primary"
+                            onClick={()=>{
+                                setPopup(!popup);
+                            }}>Add client
+                    </Button>
                 </div>
                 <div className="navigation">
                     <div className="action_wrap">
-                        <select value={action} onChange={(event => setAction(event.target.value))}>
-                            <option value="nothing">Nothing</option>
-                            <option value="delete">Delete Chosed</option>
-                        </select>
-                        <button className="btn select-btn" onClick={Action}>Select</button>
+                        <FormControl variant="outlined" className="action_wrap">
+                            <InputLabel id="demo-simple-select-outlined-label">Action</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-outlined-label"
+                                id="demo-simple-select-outlined"
+                                value={action}
+                                onChange={(event => setAction(event.target.value))}
+                                label="Action">
+                                <MenuItem value="nothing">Nothing</MenuItem>
+                                <MenuItem value="delete">Delete Chased</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Button className="btn select-btn"
+                                variant="contained"
+                                color="primary"
+                                disabled={action === 'nothing'}
+                                onClick={Action}
+                        >Done
+                        </Button>
                     </div>
                     <div className="search_wrap">
-                        <input type="text" className="search"
-                               placeholder="Search"
-                               onChange={(event)=>Search(event.target.value)}/>
+                        <TextField
+                            className="search"
+                            type="text"
+                            id="outlined-basic"
+                            label="Search"
+                            variant="outlined"
+                            onChange={(event)=>Search(event.target.value)}/>
                     </div>
                 </div>
                 <div className="content">

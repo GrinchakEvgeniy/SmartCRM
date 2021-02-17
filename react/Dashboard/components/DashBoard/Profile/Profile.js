@@ -36,16 +36,21 @@ const Profile = (props) => {
                             <EditIcon/>
                         </Fab>
                         <PersonalInfoProfile/>
-                        <div className="Ava">
-                            <img src={avatar ? avatar : defaultAva} alt="ava"/>
+                        <div className="AvaWrap">
+                            <div className="Ava">
+                                <img src={avatar ? avatar : defaultAva} alt="ava"/>
+                            </div>
                             <input type="file"
                                    className="changeAva"
                                    onChange={(event) => {
-                                       putAvatarFetch(props.user_data.profile.avatar.id, event.target.files).then((data)=>{
+                                       putAvatarFetch(props.user_data.profile.avatar.id, event.target.files).then((data) => {
                                            console.log(data)
-                                       }).then(()=>{getUserFetch().then(data => props.updateUserData(data))})
+                                       }).then(() => {
+                                           getUserFetch().then(data => props.updateUserData(data))
+                                       })
 
                                    }}/>
+
                         </div>
                     </div>
                     <div className="familyInfo">
