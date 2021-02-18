@@ -1,27 +1,68 @@
 .clients {
+  background: white;
+  color: #757575;
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
+
   .container {
     padding: 20px;
+
     .actions {
       display: flex;
-      justify-content: flex-start;
+      align-items: center;
+      justify-content: space-between;
       margin-bottom: 20px;
+      .createNewClient {
+        opacity: 0;
+        transform: scaleX(0.2);
+        transform-origin: right;
+        transition: .4s;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        .createNewClientFields {
+          display: flex;
+          margin-right: 20px;
+          div{
+            margin: 5px;
+          }
+        }
+
+        .button_group {
+          display: flex;
+          justify-content: space-around;
+          button:first-child{
+            margin-right: 10px;
+          }
+        }
+
+        &.active {
+          transform: scaleX(1);
+          opacity: 1;
+        }
+      }
     }
+
     .navigation {
       display: flex;
       justify-content: space-between;
       margin-bottom: 10px;
-      .action_wrap{
+
+      .action_wrap {
         display: flex;
         align-items: center;
-        .MuiFormControl-root{
+
+        .MuiFormControl-root {
           margin-right: 20px;
         }
-        .MuiInputBase-root{
+
+        .MuiInputBase-root {
           height: 46px;
         }
       }
-      .search_wrap{
-        .MuiInputBase-root{
+
+      .search_wrap {
+        .MuiInputBase-root {
           height: 46px;
         }
       }
@@ -30,66 +71,81 @@
     .content {
       display: flex;
       flex-direction: column;
+
       .headers {
+        background: #bae8ff;
+        height: 40px;
         display: flex;
-        justify-content: space-between;
-        .id {
-          width: 40px;
-        }
+        border: 1px solid grey;
+        border-radius: 5px;
+
         div {
-          background: #cacaca;
-          border: #1976d2 1px solid;
-          width: 100%;
-        }
-        .check_all {
-          width: min-content;
-        }
-      }
-      .result{
-        .row {
           display: flex;
-          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          padding: 10px;
+
+          &:not(:last-child) {
+            border-right: 1px solid #b1b1b1;
+          }
+        }
+
+        .id {
+          width: 100px;
+          justify-content: center;
+        }
+
+        .check_all {
+          width: 80px;
+          justify-content: center;
+        }
+      }
+
+      .result {
+        .row {
+          height: 40px;
+          display: flex;
+          border: 1px solid grey;
+          border-radius: 5px;
+          border-top: white;
+          transition: .4s;
+
+          &:hover {
+            background: #c7c7c7;
+          }
+
           div {
-            border: black 1px solid;
+            display: flex;
+            align-items: center;
             width: 100%;
+            padding: 10px;
+
+            &:not(:last-child) {
+              border-right: 1px solid #b1b1b1;
+            }
           }
+
           .id_result {
-            width: 40px;
+            width: 100px;
+            justify-content: flex-end;
           }
+
           .check {
-            width: min-content;
+            width: 80px;
+            justify-content: center;
           }
         }
-        .grey{
-          background: #757575;
+
+        .grey {
+          background: #f5f5f5;
         }
-        .white{
-          background: #f3f3f3;
+
+        .white {
+          background: white;
         }
       }
 
     }
 
   }
-
-  .popup_add_wrap {
-    display: none;
-    position: fixed;
-    padding: 50px;
-    background: #f3f3f3;
-    z-index: 10;
-
-    .fields {
-      display: flex;
-      flex-direction: column;
-    }
-    .button_group {
-      display: flex;
-      justify-content: space-around;
-    }
-  }
-  .popup_add_wrap.active {
-    display: block;
-  }
-
 }

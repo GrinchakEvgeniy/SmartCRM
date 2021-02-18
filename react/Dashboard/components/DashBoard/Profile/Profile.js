@@ -48,9 +48,7 @@ const Profile = (props) => {
                                        }).then(() => {
                                            getUserFetch().then(data => props.updateUserData(data))
                                        })
-
                                    }}/>
-
                         </div>
                     </div>
                     <div className="familyInfo">

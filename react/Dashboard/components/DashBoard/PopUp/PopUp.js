@@ -29,16 +29,6 @@ const PopUp = (props) => {
                 <div className="content">
                     {component}
                 </div>
-                {/*<div className="popUpBtns">*/}
-                {/*    <Button variant="contained"*/}
-                {/*            color="secondary"*/}
-                {/*            onClick={() => {*/}
-                {/*                props.setShowPopUp(false)*/}
-                {/*            }}>*/}
-                {/*        CANCEL*/}
-                {/*    </Button>*/}
-                {/*    <Button>DONE</Button>*/}
-                {/*</div>*/}
             </div>
         </div>
     );

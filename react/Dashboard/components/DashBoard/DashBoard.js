@@ -5,7 +5,6 @@ import Profile from "./Profile/Profile";
 import PopUp from "./PopUp/PopUp";
 import './DashBoard.scss'
 import {Switch, Route} from 'react-router-dom'
-import LogIn from "../LogIn/LogIn";
 import Clients from "./Clients/Clients";
 import Projects from "./Projects/Projects";
 

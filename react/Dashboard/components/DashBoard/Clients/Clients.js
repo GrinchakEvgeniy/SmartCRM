@@ -11,16 +11,15 @@ const Clients = (props) => {
         name: '',
         contact_data: ''
     })
-
     const [renderClients, setRenderClients] = useState([]);
-
     const [action, setAction] = useState('nothing');
-
     const [clientsId, setClientsId] = useState([]);
+    const [clientName, setClientName] = useState('')
+    const [clientInfo, setClientInfo] = useState('')
 
-    useEffect(()=>{
+    useEffect(() => {
         getClientsFetch()
-            .then(data=>{
+            .then(data => {
                 setRenderClients(data);
                 setClients(data);
             })
@@ -28,7 +27,7 @@ const Clients = (props) => {
 
     const Save = () => {
         postClientFetch(newClientData)
-            .then(data=>{
+            .then(data => {
                 setRenderClients(data)
                 setClients(data)
                 setPopup(false);
@@ -36,8 +35,8 @@ const Clients = (props) => {
     }
 
     const CheckAll = (event) => {
-        if(event.target.checked){
-            const arr = renderClients.map((value, index)=>{
+        if (event.target.checked) {
+            const arr = renderClients.map((value, index) => {
                 return value.id;
             });
             setClientsId(arr);
@@ -45,21 +44,21 @@ const Clients = (props) => {
             setClientsId([])
         }
         const checkboxes = document.getElementsByClassName('input_check');
-        for(let i = 0; i < checkboxes.length; i++) {
+        for (let i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = event.target.checked;
         }
     }
 
     const Action = () => {
-        if(action == "delete"){
+        if (action === "delete") {
 
             deleteClientFetch({'id': clientsId})
-                .then(data=>{
+                .then(data => {
                     setClients(data);
                     setRenderClients(data);
                     setClientsId([]);
                     const checkboxes = document.getElementsByClassName('input_check');
-                    for(let i = 0; i < checkboxes.length; i++) {
+                    for (let i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].checked = false;
                     }
                 })
@@ -67,10 +66,10 @@ const Clients = (props) => {
     }
 
     const Search = (string) => {
-        if(string === ''){
+        if (string === '') {
             setRenderClients(clients);
         } else {
-            const searchArr = clients.filter(el=>{
+            const searchArr = clients.filter(el => {
                 return el.name.toLowerCase().indexOf(string.toLowerCase()) > -1;
             })
             setRenderClients(searchArr);
@@ -81,11 +80,15 @@ const Clients = (props) => {
         let finded = false;
         let index = 0;
         const arr = clientsId.slice();
-        for(let i = 0; i < arr.length; i++){
-            if(id == arr[i]){index=i;finded = true;break}
-            index=i;
+        for (let i = 0; i < arr.length; i++) {
+            if (id === arr[i]) {
+                index = i;
+                finded = true;
+                break
+            }
+            index = i;
         }
-        if(finded){
+        if (finded) {
             arr.splice(index, 1);
             setClientsId(arr);
         } else {
@@ -97,13 +100,56 @@ const Clients = (props) => {
         <div className="clients">
             <div className="container">
                 <div className="actions">
-                    <Button className="btn add-btn"
-                            variant="contained"
-                            color="primary"
-                            onClick={()=>{
-                                setPopup(!popup);
-                            }}>Add client
-                    </Button>
+                    <div className="btnWrap">
+                        <Button className="btn add-btn"
+                                variant="contained"
+                                color="primary"
+                                onClick={() => {
+                                    setPopup(!popup);
+                                }}>Add client
+                        </Button>
+                    </div>
+                    <div className={popup ? "createNewClient active" : "createNewClient"}>
+                        <div className="createNewClientFields">
+                            <TextField id="name"
+                                       label="Client Name"
+                                       variant="outlined"
+                                       value={clientName}
+                                       onChange={(event) => {
+                                           setClientName(event.target.value)
+                                           setNewClientData({...newClientData, name: event.target.value})
+                                       }}/>
+                            <TextField id="contact_data"
+                                       label="Contact Data"
+                                       variant="outlined"
+                                       value={clientInfo}
+                                       onChange={(event) => {
+                                           setClientInfo(event.target.value)
+                                           setNewClientData({...newClientData, contact_data: event.target.value})
+                                       }}/>
+                        </div>
+                        <div className="button_group">
+                            <Button variant="contained"
+                                    color="secondary"
+                                    onClick={() => {
+                                        setClientName('')
+                                        setClientInfo('')
+                                        setPopup(false);
+                                    }}>
+                                Cancel
+                            </Button>
+                            <Button variant="contained"
+                                    color="primary"
+                                    disabled={!(clientName && clientInfo)}
+                                    onClick={() => {
+                                        Save()
+                                        setClientName('')
+                                        setClientInfo('')
+                                    }}>
+                                Save
+                            </Button>
+                        </div>
+                    </div>
                 </div>
                 <div className="navigation">
                     <div className="action_wrap">
@@ -134,14 +180,14 @@ const Clients = (props) => {
                             id="outlined-basic"
                             label="Search"
                             variant="outlined"
-                            onChange={(event)=>Search(event.target.value)}/>
+                            onChange={(event) => Search(event.target.value)}/>
                     </div>
                 </div>
                 <div className="content">
                     <div className="headers">
                         <div className="check_all">
                             <input type="checkbox"
-                                   onChange={(event)=>CheckAll(event)}/>
+                                   onChange={(event) => CheckAll(event)}/>
                         </div>
                         <div className="id"><p>id</p></div>
                         <div className="name"><p>name</p></div>
@@ -149,10 +195,12 @@ const Clients = (props) => {
                     </div>
                     <div className="result">
                         {
-                            renderClients.map((value, index)=>{
-                                return <div key={index}  className={index%2==0 ? "row white" : "row grey"}>
+                            renderClients.map((value, index) => {
+                                return <div key={index} className={index % 2 === 0 ? "row white" : "row grey"}>
                                     <div className="check">
-                                        <input type="checkbox" className="input_check" onChange={()=>{Check(value.id)}}/>
+                                        <input type="checkbox" className="input_check" onChange={() => {
+                                            Check(value.id)
+                                        }}/>
                                     </div>
                                     <div className="id_result">
                                         <p>{value.id}</p>
@@ -167,26 +215,6 @@ const Clients = (props) => {
                             })
                         }
                     </div>
-                </div>
-            </div>
-
-            <div className={popup ? "popup_add_wrap active" : "popup_add_wrap"}>
-                <div className="fields">
-                    <label htmlFor="name">Name</label>
-                    <input type="text" id="name" onChange={(event)=>{
-                        setNewClientData({...newClientData, name: event.target.value})
-                    }}/>
-                    <label htmlFor="contact_data">Contact Data</label>
-                    <input type="text" id="contact_data"onChange={(event)=>{
-                        setNewClientData({...newClientData, contact_data: event.target.value})
-                    }}/>
-                </div>
-                <div className="button_group">
-                    <button className="btn cancel-btn" onClick={()=>{
-                        setPopup(false);
-
-                    }}>Cancel</button>
-                    <button className="btn save-btn" onClick={Save}>Save</button>
                 </div>
             </div>
         </div>

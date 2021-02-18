@@ -18,7 +18,7 @@ const NewProject = (props) => {
         if(event.target.checked){
             result.push(event.target.value)
         } else {
-            result = userIds.filter(el=>el != event.target.value);
+            result = userIds.filter(el=>el !== event.target.value);
         }
         setUserIds(result);
         setNewProject({...newProject, users_list: result.join()});
