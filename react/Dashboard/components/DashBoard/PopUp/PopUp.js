@@ -19,7 +19,7 @@ const PopUp = (props) => {
                 setComponent(<FamilyInfoProfile  setShowPopUp={props.setShowPopUp}/>)
                 break
             default:
-                setComponent(<h2>Hello world!</h2>)
+                setComponent(<h2>ЧЕ?</h2>)
         }
     }, [props.popUpOptions])
 

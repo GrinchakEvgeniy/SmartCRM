@@ -21,9 +21,12 @@ const DashBoard = () => {
                 <DashBoardSidebar openSidebar={openSideBar}/>
                 <Switch>
                     <Route path='/dashboard/clients' component={()=>{return <Clients/>}}/>
-                    <Route path='/dashboard/projects' component={()=>{return <Projects/>}}/>
-                    <Route path='/dashboard/profile' component={()=>{return <Profile showPopUp={showPopUp} setShowPopUp={setShowPopUp}
-                         setPopUpOptions={setPopUpOptions}/>}}/>
+                    <Route path='/dashboard/projects' component={()=>{return <Projects showPopUp={showPopUp}
+                                                                                       setShowPopUp={setShowPopUp}
+                                                                                       setPopUpOptions={setPopUpOptions}/>}}/>
+                    <Route path='/dashboard/profile' component={()=>{return <Profile showPopUp={showPopUp}
+                                                                                     setShowPopUp={setShowPopUp}
+                                                                                     setPopUpOptions={setPopUpOptions}/>}}/>
                 </Switch>
                 <PopUp showPopUp={showPopUp}
                        setShowPopUp={setShowPopUp}
