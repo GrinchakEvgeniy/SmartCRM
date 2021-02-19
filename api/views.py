@@ -11,16 +11,22 @@ from .models import *
 class SystemPermissionsControl:
 
     def __init__(self, user, perms):
-        profile = Profile.objects.get(user_id=user.id)
-        self.user_role_class = profile.role_id.value
-        self.perms = perms
+        self.profile_founded = False
+        try:
+            profile = Profile.objects.get(user_id=user.id)
+            self.user_role_class = profile.role_id.value
+            self.perms = perms
+            self.profile_founded = True
+        except:
+            pass
 
     def permission(self):
-        for item in self.perms:
-            if item == 'all':
-                return True
-            if item == self.user_role_class:
-                return True
+        if self.profile_founded:
+            for item in self.perms:
+                if item == 'all':
+                    return True
+                if item == self.user_role_class:
+                    return True
         return False
 # ===============================================
 
@@ -261,7 +267,7 @@ class GetProjectsSimpleView(viewsets.ModelViewSet):
     """Get projects without full information"""
     queryset = Project.objects.all()
     serializer_class = ProjectSimpleSerializer
-    perms = ['PM', 'D', 'S', 'L']
+    perms = ['all']
 
     def get(self, request):
         token = get_token(request)

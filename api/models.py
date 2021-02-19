@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 
 
 class Role(models.Model):
-    timestamps = models.CharField(blank=True,null=True, max_length=100)
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=100)
 
@@ -27,7 +27,7 @@ class Profile(models.Model):
     github = models.CharField(blank=True,null=True, max_length=100)
     position = models.CharField(blank=True,null=True, max_length=100)
     experience = models.CharField(blank=True,null=True, max_length=100)
-    role_id = models.OneToOneField(Role, on_delete=models.CASCADE, related_name="profile", blank=True, null=True)
+    role_id = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="profile", blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
@@ -53,7 +53,6 @@ class Children(models.Model):
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
         super(Children, self).save(*args, **kwargs)
-
 
 
 class Client(models.Model):

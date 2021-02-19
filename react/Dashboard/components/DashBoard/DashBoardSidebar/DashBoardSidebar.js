@@ -4,6 +4,7 @@ import DashBoardSidebarElms from "../DashBoardSidebarElms/DashBoardSidebarElms";
 import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
 
 const DashBoardSidebar = (props) => {
 
@@ -26,11 +27,15 @@ const DashBoardSidebar = (props) => {
                 <DashBoardSidebarElms
                     label={"Clients"}
                     link={'/dashboard/clients'}
-                    icon={<PeopleAltIcon/>}/>
+                    icon={<ContactMailIcon/>}/>
                 <DashBoardSidebarElms
                     label={"Projects"}
                     link={'/dashboard/projects'}
                     icon={<AccountTreeIcon/>}/>
+                <DashBoardSidebarElms
+                    label={"Users"}
+                    link={'/dashboard/users'}
+                    icon={<PeopleAltIcon/>}/>
             </div>
         </div>
     );
