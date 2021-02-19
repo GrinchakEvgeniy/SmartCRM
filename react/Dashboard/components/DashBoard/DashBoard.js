@@ -22,10 +22,19 @@ const DashBoard = () => {
                 <DashBoardSidebar openSidebar={openSideBar}/>
                 <Switch>
                     <Route path='/dashboard/clients' component={()=>{return <Clients/>}}/>
+<<<<<<< HEAD
                     <Route path='/dashboard/projects' component={()=>{return <Projects/>}}/>
                     <Route path='/dashboard/users' component={()=>{return <Users/>}}/>
                     <Route path='/dashboard/profile' component={()=>{return <Profile showPopUp={showPopUp} setShowPopUp={setShowPopUp}
                          setPopUpOptions={setPopUpOptions}/>}}/>
+=======
+                    <Route path='/dashboard/projects' component={()=>{return <Projects showPopUp={showPopUp}
+                                                                                       setShowPopUp={setShowPopUp}
+                                                                                       setPopUpOptions={setPopUpOptions}/>}}/>
+                    <Route path='/dashboard/profile' component={()=>{return <Profile showPopUp={showPopUp}
+                                                                                     setShowPopUp={setShowPopUp}
+                                                                                     setPopUpOptions={setPopUpOptions}/>}}/>
+>>>>>>> f0c68f43a3da09407ef27e5aad664895b7068060
                 </Switch>
                 <PopUp showPopUp={showPopUp}
                        setShowPopUp={setShowPopUp}

@@ -43,7 +43,9 @@ const Projects = (props) => {
                             className="btn btn-new"
                             disabled={roleId}
                             color="primary"
-                            onClick={() => setNewProjectLayout(true)}>
+                            onClick={() => {
+                                setNewProjectLayout(true)
+                            }}>
                         Add new
                     </Button>
                 </div>
@@ -62,9 +64,12 @@ const Projects = (props) => {
                                                 for (let i = 0; i < users_id.length; i++) {
                                                     if (value2.id === parseInt(users_id[i])) {
                                                         return (
-                                                            <div className="user" key={index}>
-                                                                <img src={value2.profile.avatar.image}
-                                                                     alt={value2.first_name}/>
+                                                            <div className="userWrap" key={index}>
+                                                                <div className="user">
+                                                                    <img src={value2.profile.avatar.image}
+                                                                         alt={value2.first_name}/>
+                                                                </div>
+                                                                <p className="userName">{value2.first_name}</p>
                                                             </div>
                                                         )
                                                     }

@@ -8,6 +8,8 @@ import {isEmpty} from "../../helper";
 import PersonalInfoProfile from "../PersonalInfoProfile/PersonalInfoProfile";
 import FamilyInfoProfile from "../FamilyInfoProfile/FamilyInfoProfile";
 import {getUserFetch, putAvatarFetch} from "../../requests";
+import Button from "@material-ui/core/Button";
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const Profile = (props) => {
 
@@ -40,15 +42,20 @@ const Profile = (props) => {
                             <div className="Ava">
                                 <img src={avatar ? avatar : defaultAva} alt="ava"/>
                             </div>
-                            <input type="file"
-                                   className="changeAva"
-                                   onChange={(event) => {
-                                       putAvatarFetch(props.user_data.profile.avatar.id, event.target.files).then((data) => {
-                                           console.log(data)
-                                       }).then(() => {
-                                           getUserFetch().then(data => props.updateUserData(data))
-                                       })
-                                   }}/>
+                            <Button className="changeAva"
+                                    color='secondary'
+                                    variant="contained"
+                                    onChange={(event) => {
+                                        putAvatarFetch(props.user_data.profile.avatar.id, event.target.files)
+                                            .then(() => {
+                                                getUserFetch()
+                                                    .then(data => props.updateUserData(data))
+                                            })
+                                    }}
+                                    component="label">
+                                <AutorenewIcon/>
+                                <input type="file" hidden/>
+                            </Button>
                         </div>
                     </div>
                     <div className="familyInfo">
