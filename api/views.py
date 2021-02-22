@@ -409,12 +409,12 @@ class PostUserView(viewsets.ModelViewSet):
         token = get_token(request)
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
-            return Response({'message': "You don't have permissions"})
+            return Response({'message': "You don't have permissions", "type": "warning"})
         serializer = UserSimpleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'message': "User has been created"})
-        return Response({'message': "Error, not valid fields"})
+            return Response({'message': "User has been created", "type": "success"})
+        return Response({'message': "Error, not valid fields", "type": "error"})
 
 
 class DeleteUsersView(viewsets.ModelViewSet):
@@ -429,7 +429,7 @@ class DeleteUsersView(viewsets.ModelViewSet):
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
-        instance = User.objects.get(pk=token.user.id)
+        instance = User.objects.get(pk=int(request.data['id']))
         instance.delete()
         return Response({'message': "User has been deleted"})
 

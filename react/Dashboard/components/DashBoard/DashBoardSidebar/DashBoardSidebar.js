@@ -4,7 +4,9 @@ import DashBoardSidebarElms from "../DashBoardSidebarElms/DashBoardSidebarElms";
 import CodeRoundedIcon from "@material-ui/icons/CodeRounded";
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
+import EventIcon from '@material-ui/icons/Event';
 
 const DashBoardSidebar = (props) => {
 
@@ -24,6 +26,14 @@ const DashBoardSidebar = (props) => {
                      :
                      closeSideBarStyle}>
             <div className="dashBoardSidebar">
+                <DashBoardSidebarElms
+                    label={"Notifications"}
+                    link={'/dashboard/notifications'}
+                    icon={<NotificationsIcon/>}/>
+                <DashBoardSidebarElms
+                    label={"Events"}
+                    link={'/dashboard/events'}
+                    icon={<EventIcon/>}/>
                 <DashBoardSidebarElms
                     label={"Clients"}
                     link={'/dashboard/clients'}

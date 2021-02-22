@@ -152,6 +152,21 @@ export async function postProjectSimpleFetch(data) {
     return result;
 }
 
+export async function createUserFetch(data) {
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/post-user', options);
+    const result = await response.json();
+    return result;
+}
+
 export async function deleteClientFetch(data) {
     const options = {
         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
@@ -163,6 +178,21 @@ export async function deleteClientFetch(data) {
         }
     }
     const response = await fetch('/api/delete-client', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function deleteUserFetch(data) {
+    const options = {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/delete-user', options);
     const result = await response.json();
     return result;
 }

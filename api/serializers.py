@@ -2,6 +2,13 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import *
 
+
+class EventsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Events
+        fields = '__all__'
+
+
 class ChildrenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Children
@@ -12,6 +19,7 @@ class AvatarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Avatar
         fields = '__all__'
+
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:

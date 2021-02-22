@@ -134,6 +134,20 @@ class ProjectTaskFile(models.Model):
 
 # ================================PROJECT END========================================
 
+
+class Events(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="events")
+    title = models.CharField(blank=True, null=True, max_length=100)
+    url = models.CharField(blank=True, null=True, max_length=300)
+    backgroundColor = models.CharField(blank=True, null=True, max_length=10)
+    for_events = models.CharField(blank=True, null=True, max_length=20)
+
+    def save(self, *args, **kwargs):
+        self.timestamps = datetime.now()
+        super(Events, self).save(*args, **kwargs)
+
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
@@ -143,6 +157,9 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, *args, **kwargs):
     if created:
-        profile = Profile.objects.create(user_id=instance)
+        role = Role.objects.get(value="G")
+        profile = Profile.objects.create(user_id=instance, role_id=role, position="Guest")
         Avatar.objects.create(profile_id=profile)
+        instance.first_name = "New User"
+        instance.save()
     instance.profile.save()

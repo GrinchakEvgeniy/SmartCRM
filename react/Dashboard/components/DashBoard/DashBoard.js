@@ -9,6 +9,8 @@ import Clients from "./Clients/Clients";
 import Projects from "./Projects/Projects";
 import Users from "./Users/Users";
 import ProjectControl from "./ProjectControl/ProjectControl";
+import Notifications from "./Notifications/Notifications";
+import Events from "./Events/Events";
 
 const DashBoard = () => {
 
@@ -23,6 +25,8 @@ const DashBoard = () => {
                 <DashBoardSidebar openSidebar={openSideBar}/>
                 <Switch>
                     <Route path='/dashboard/clients' component={()=>{return <Clients/>}}/>
+                    <Route path='/dashboard/notifications' component={()=>{return <Notifications/>}}/>
+                    <Route path='/dashboard/events' component={()=>{return <Events/>}}/>
                     <Route path='/dashboard/users' component={()=>{return <Users/>}}/>
                     <Route path='/dashboard/projects' component={()=>{return <Projects showPopUp={showPopUp}
                                                                                        setShowPopUp={setShowPopUp}

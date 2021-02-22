@@ -1,0 +1,25 @@
+.new_event {
+      position: fixed;
+    bottom: 0%;
+    left: 50%;
+    transform: translate(-50%, -25%);
+    background: white;
+    z-index: 123;
+    padding: 40px;
+    box-shadow: 0 0 5px black;
+    .circle-picker {
+        box-shadow: 0 0 4px grey;
+    }
+    .fields {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .title, .url, .sel, .circle-picker {
+            margin-bottom: 10px !important;
+        }
+    }
+    .actions {
+        display: flex;
+        justify-content: space-around;
+    }
+}

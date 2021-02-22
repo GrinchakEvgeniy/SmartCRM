@@ -1,5 +1,30 @@
 .container{
-
+  .alerts {
+    display: none;
+    padding: 10px 22px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 3px black;
+  }
+  .navigation{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .alerts.success{
+    background: #68e362;
+    display: block;
+    transition: 1s;
+  }
+  .alerts.error{
+    background: #ff4a4e;
+    display: block;
+    transition: 1s;
+  }
+  .alerts.warning{
+    background: #efce3f;
+    display: block;
+    transition: 1s;
+  }
   .content{
     .items{
       display: flex;
