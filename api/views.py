@@ -81,7 +81,8 @@ class GetRolesView(viewsets.ModelViewSet):
         spc = SystemPermissionsControl(token.user, self.perms)
         if not spc.permission():
             return Response({'message': "You don't have permissions"})
-        serializer = RoleSerializer(self.queryset, many=True)
+        queryset = Role.objects.all()
+        serializer = RoleSerializer(queryset, many=True)
         return Response(serializer.data)
 
 

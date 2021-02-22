@@ -40,6 +40,19 @@ export async function getUserFetch(){
     return result;
 }
 
+export async function getRolesFetch(){
+    const options = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' +  getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/get-roles', options);
+    const result = await response.json();
+    return result;
+}
+
 export async function getProjectsSimpleFetch(){
     const options = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -77,6 +90,21 @@ export async function updateUserFetch(data) {
         }
     }
     const response = await fetch('/api/put-user', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function changeUserRoleFetch(data) {
+    const options = {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/change-user-role', options);
     const result = await response.json();
     return result;
 }

@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import './Users.scss';
-import {getUsersFetch} from "../../requests";
+import {getRolesFetch, getUsersFetch} from "../../requests";
 import User from "./User";
 
 const Users = () => {
     const [users, setUsers] = useState([]);
+    const [roles, setRoles] = useState([]);
     const [renderUser, setRenderUser] = useState([]);
 
     useEffect(()=>{
@@ -13,10 +14,15 @@ const Users = () => {
                 setUsers(data);
                 setRenderUser(data);
             })
+        getRolesFetch()
+            .then(data=>{
+                setRoles(data);
+            })
     }, []);
 
     return (
         <div className="container users-wrap">
+            <div className="alerts"></div>
             <div className="navigation">
                 <div className="action">
                     <button className="btn btn-create">New user</button>
@@ -30,7 +36,7 @@ const Users = () => {
                 <div className="items">
                     {
                         renderUser.map((value, index)=>{
-                            return <User value={value} key={index}/>
+                            return <User value={value} roles={roles} key={index}/>
                         })
                     }
 
