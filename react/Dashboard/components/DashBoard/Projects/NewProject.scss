@@ -28,7 +28,7 @@
 
     .new_project_fields {
       .field {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
 
         .user_check_wrap {
           .img_user {
@@ -63,6 +63,7 @@
             flex-wrap: wrap;
 
             .user_check_wrap {
+              background: #f7f7f7;
               width: 120px;
               padding: 10px;
               display: flex;
@@ -70,20 +71,26 @@
               align-items: center;
               justify-content: center;
               border-radius: 10px;
+              box-shadow: 1px 1px 5px #e2e2e2;
               transition: 0.4s;
               cursor: pointer;
-              //input{
-                //display: none;
-              //}
 
-              &:hover{
+              &:hover {
                 box-shadow: 1px 1px 5px grey;
               }
 
               &:not(:last-child) {
-                margin-right: 20px;
+                margin-right: 7px;
               }
             }
+          }
+        }
+
+        &.name {
+          .MuiInputBase-input.MuiOutlinedInput-input{
+            font-size: 22px;
+            font-weight: 600;
+            color: #757575;
           }
         }
 
@@ -99,6 +106,20 @@
           }
         }
       }
+    }
+
+    .newProjectFootnote {
+      margin-bottom: 20px;
+
+      p {
+        color: red;
+      }
+    }
+
+    .new_project_buttons {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 }

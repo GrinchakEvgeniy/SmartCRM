@@ -43,7 +43,8 @@ const NewProject = (props) => {
                 </div>
                 <div className="new_project_fields">
                     <div className="field name">
-                        <TextField label="Title"
+                        <TextField label="Title *"
+                                   error={!newProject.name}
                                    fullWidth
                                    margin="normal"
                                    variant="outlined"
@@ -87,7 +88,7 @@ const NewProject = (props) => {
                                                  let elem = event.target.closest('.user_check_wrap')
                                                  elem.dataset.check === 'false'
                                                      ?
-                                                     (elem.dataset.check = "true", elem.style.background = "#5d5d5d")
+                                                     (elem.dataset.check = "true", elem.style.background = "#b0d6ff")
                                                      :
                                                      (elem.dataset.check = "false", elem.style.background = "white")
                                                  userCheck(event)
@@ -101,67 +102,71 @@ const NewProject = (props) => {
                                         </div>
                                     )
                                 })
-                                }
-                                </div>
-                                </div>
+                            }
+                        </div>
+                    </div>
 
 
-                                <div className="field client">
-                                <FormControl variant="outlined">
-                                <InputLabel>Clients</InputLabel>
-                                <Select
+                    <div className="field client">
+                        <FormControl variant="outlined">
+                            <InputLabel>Clients</InputLabel>
+                            <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="987"
                                 label="Clients"
                                 defaultValue=""
                                 onChange={(event) => {
-                                setNewProject({...newProject, client_id: event.target.value})
-                            }}>
+                                    setNewProject({...newProject, client_id: event.target.value})
+                                }}>
                                 <MenuItem value=""><em>None</em></MenuItem>
-                            {
-                                props.clients.map((value, index) => {
-                                return (
-                                <MenuItem key={index} value={value.id}>{value.name}</MenuItem>
-                                )
-                            })
-                            }
-                                </Select>
-                                </FormControl>
-                                </div>
-                                <div className="field status">
-                                <FormControl variant="outlined">
-                                <InputLabel>Status</InputLabel>
-                                <Select
+                                {
+                                    props.clients.map((value, index) => {
+                                        return (
+                                            <MenuItem key={index} value={value.id}>{value.name}</MenuItem>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <div className="field status">
+                        <FormControl variant="outlined">
+                            <InputLabel>Status</InputLabel>
+                            <Select
                                 labelId="demo-simple-select-outlined-label"
                                 id="987"
                                 label="Status"
                                 defaultValue=""
                                 onChange={(event) => {
-                                setNewProject({...newProject, status: event.target.value})
-                            }}>
+                                    setNewProject({...newProject, status: event.target.value})
+                                }}>
                                 <MenuItem value="Active">Active</MenuItem>
                                 <MenuItem value="Not Active">Not Active</MenuItem>
-                                </Select>
-                                </FormControl>
-                                </div>
-                                </div>
-                                <div className="new_project_buttons">
-                                <Button variant="contained"
-                                className="btn-cancel"
-                                color="secondary"
-                                onClick={() => props.closeLayout(false)}>
-                                Cancel
-                                </Button>
-                                <Button variant="contained"
-                                className="btn-create"
-                                color="primary"
-                                onClick={Create}>
-                                Create
-                                </Button>
-                                </div>
-                                </div>
-                                </div>
-                                );
-                            };
+                            </Select>
+                        </FormControl>
+                    </div>
+                </div>
+                <div className="newProjectFootnote">
+                    <p>* - required fields</p>
+                </div>
+                <div className="new_project_buttons">
+                    <Button variant="contained"
+                            className="btn-cancel"
+                            color="secondary"
+                            onClick={() => props.closeLayout(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="contained"
+                            disabled={!newProject.name}
+                            className="btn-create"
+                            color="primary"
+                            onClick={Create}>
+                        Create
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
+};
 
-                            export default NewProject;
+export default NewProject;

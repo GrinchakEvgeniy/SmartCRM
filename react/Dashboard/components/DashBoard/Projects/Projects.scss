@@ -2,12 +2,17 @@
 
   .container {
 
+    .navigation {
+      margin-bottom: 20px;
+    }
+
     .projects_wrap {
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;
 
       .project {
+        position: relative;
         color: #757575;
         width: 325px;
         height: 200px;
@@ -40,7 +45,8 @@
               overflow: hidden;
               margin-right: -7px;
               transition: 0.4s;
-              &:hover{
+
+              &:hover {
                 transform: scale(1.2);
               }
 
@@ -67,8 +73,9 @@
               transform-origin: left top;
               transform: scale(0.1);
             }
-            &:hover{
-              .userName{
+
+            &:hover {
+              .userName {
                 transform: scale(1);
                 opacity: 1;
               }

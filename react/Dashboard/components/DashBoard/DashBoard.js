@@ -8,6 +8,7 @@ import {Switch, Route} from 'react-router-dom'
 import Clients from "./Clients/Clients";
 import Projects from "./Projects/Projects";
 import Users from "./Users/Users";
+import ProjectControl from "./ProjectControl/ProjectControl";
 
 const DashBoard = () => {
 
@@ -29,6 +30,7 @@ const DashBoard = () => {
                     <Route path='/dashboard/profile' component={()=>{return <Profile showPopUp={showPopUp}
                                                                                      setShowPopUp={setShowPopUp}
                                                                                      setPopUpOptions={setPopUpOptions}/>}}/>
+                    <Route path='/dashboard/projectControl' component={()=>{return <ProjectControl/>}}/>
                 </Switch>
                 <PopUp showPopUp={showPopUp}
                        setShowPopUp={setShowPopUp}
