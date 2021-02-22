@@ -6,6 +6,7 @@ import {getUser} from "../../redux/actions/actions";
 import {connect} from "react-redux";
 import {isEmpty} from "../../helper";
 import Button from "@material-ui/core/Button";
+import {Link} from "react-router-dom";
 
 const Projects = (props) => {
     const [projectsSimple, setProjectsSimple] = useState([]);
@@ -54,30 +55,32 @@ const Projects = (props) => {
                         projectsSimple.map((value, index) => {
                             const users_id = value.users_list.split(',');
                             return (
-                                <div className="project"
-                                     key={index}>
-                                    <div className="title"><h3>{value.name}</h3></div>
-                                    <div className="status"><p>{value.status}</p></div>
-                                    <div className="users">
-                                        {
-                                            users.map((value2, index) => {
-                                                for (let i = 0; i < users_id.length; i++) {
-                                                    if (value2.id === parseInt(users_id[i])) {
-                                                        return (
-                                                            <div className="userWrap" key={index}>
-                                                                <div className="user">
-                                                                    <img src={value2.profile.avatar.image}
-                                                                         alt={value2.first_name}/>
+                                <Link to="/dashboard/projectControl">
+                                    <div className="project"
+                                         key={index}>
+                                        <div className="title"><h3>{value.name}</h3></div>
+                                        <div className="status"><p>{value.status}</p></div>
+                                        <div className="users">
+                                            {
+                                                users.map((value2, index) => {
+                                                    for (let i = 0; i < users_id.length; i++) {
+                                                        if (value2.id === parseInt(users_id[i])) {
+                                                            return (
+                                                                <div className="userWrap" key={index}>
+                                                                    <div className="user">
+                                                                        <img src={value2.profile.avatar.image}
+                                                                             alt={value2.first_name}/>
+                                                                    </div>
+                                                                    <p className="userName">{value2.first_name}</p>
                                                                 </div>
-                                                                <p className="userName">{value2.first_name}</p>
-                                                            </div>
-                                                        )
+                                                            )
+                                                        }
                                                     }
-                                                }
-                                            })
-                                        }
+                                                })
+                                            }
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             )
                         })
                     }

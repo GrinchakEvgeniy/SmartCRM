@@ -1,0 +1,129 @@
+.projectControl {
+  min-height: calc(100vh - 90px);
+  background: white;
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
+
+  .container {
+    .tabs {
+      color: white;
+      background: #1976d2;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      .tab {
+        width: 160px;
+        transition: .4s;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: 600;
+        color: #afd9ee;
+      }
+
+      .activeTab {
+        position: absolute;
+        bottom: 0;
+        height: 3px;
+        width: 160px;
+        background: red;
+        transition: 0.6s cubic-bezier(0.45, -0.67, 0.53, 1.63);
+      }
+
+      &.first {
+        .tab.project {
+          color: white;
+        }
+
+        .activeTab {
+          left: 0;
+        }
+      }
+
+      &.second {
+        .tab.tasks {
+          color: white;
+        }
+
+        .activeTab {
+          left: 160px;
+        }
+      }
+    }
+
+    .tabValue {
+      .project {
+        .projectWrap {
+          color: #757575;
+          padding: 20px;
+
+          .projectTitle {
+            width: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+
+            .MuiOutlinedInput-input {
+              font-size: 24px;
+              font-weight: 600;
+              color: #757575;
+            }
+
+            .menuBtn{
+              position: absolute;
+              width: 18px;
+              height: 18px;
+              top: 7px;
+              right: 5px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              cursor: pointer;
+              span{
+                width: 5px;
+                height: 5px;
+                background: #757575;
+                border-radius: 50%;
+                margin: 1px;
+              }
+            }
+
+            .actions {
+              position: absolute;
+              top: 0;
+              left: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+
+              .action {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                transition: 0.4s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                  background: #e5e5e5;
+                }
+
+                &:active {
+                  background: #bababa;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
