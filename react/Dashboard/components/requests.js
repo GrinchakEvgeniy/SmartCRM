@@ -14,7 +14,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-export async function getToken(data){
+export async function getToken(data) {
     let formData = new FormData();
     formData.append("username", data.username);
     formData.append("password", data.password);
@@ -27,12 +27,12 @@ export async function getToken(data){
     return result;
 }
 
-export async function getUserFetch(){
+export async function getUserFetch() {
     const options = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Token ' +  getCookie('userToken'),
+            'Authorization': 'Token ' + getCookie('userToken'),
         }
     }
     const response = await fetch('/api/get-user', options);
@@ -40,12 +40,12 @@ export async function getUserFetch(){
     return result;
 }
 
-export async function getRolesFetch(){
+export async function getRolesFetch() {
     const options = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Token ' +  getCookie('userToken'),
+            'Authorization': 'Token ' + getCookie('userToken'),
         }
     }
     const response = await fetch('/api/get-roles', options);
@@ -53,12 +53,12 @@ export async function getRolesFetch(){
     return result;
 }
 
-export async function getProjectsSimpleFetch(){
+export async function getProjectsSimpleFetch() {
     const options = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Token ' +  getCookie('userToken'),
+            'Authorization': 'Token ' + getCookie('userToken'),
         }
     }
     const response = await fetch('/api/get-projects-simple', options);
@@ -66,12 +66,12 @@ export async function getProjectsSimpleFetch(){
     return result;
 }
 
-export async function getUsersFetch(){
+export async function getUsersFetch() {
     const options = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Token ' +  getCookie('userToken'),
+            'Authorization': 'Token ' + getCookie('userToken'),
         }
     }
     const response = await fetch('/api/get-users', options);
@@ -109,12 +109,12 @@ export async function changeUserRoleFetch(data) {
     return result;
 }
 
-export async function getClientsFetch(){
+export async function getClientsFetch() {
     const options = {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Token ' +  getCookie('userToken'),
+            'Authorization': 'Token ' + getCookie('userToken'),
         }
     }
     const response = await fetch('/api/get-clients', options);
@@ -197,7 +197,7 @@ export async function deleteUserFetch(data) {
     return result;
 }
 
-export async function putAvatarFetch(id, files){
+export async function putAvatarFetch(id, files) {
     let formData = new FormData();
     formData.append("id", id);
     formData.append("image", files[0], files[0].name);
@@ -206,6 +206,19 @@ export async function putAvatarFetch(id, files){
         body: formData
     }
     const response = await fetch('/api/put-avatar', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function getProjectFetch(id) {
+    const options = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/get-project/' + id, options);
     const result = await response.json();
     return result;
 }

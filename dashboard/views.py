@@ -15,7 +15,7 @@ def login(request):
         return render(request, 'dashboard/index.html')
 
 
-def dashboard(request):
+def dashboard(request, pk=None):
     if 'userToken' in request.COOKIES:
         return render(request, 'dashboard/index.html')
     else:

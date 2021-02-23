@@ -55,7 +55,7 @@ const Projects = (props) => {
                         projectsSimple.map((value, index) => {
                             const users_id = value.users_list.split(',');
                             return (
-                                <Link to="/dashboard/projectControl">
+                                <Link to={'/dashboard/project/'+value.id} key={index}>
                                     <div className="project"
                                          key={index}>
                                         <div className="title"><h3>{value.name}</h3></div>

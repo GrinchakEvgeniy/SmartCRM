@@ -34,7 +34,7 @@ const DashBoard = () => {
                     <Route path='/dashboard/profile' component={()=>{return <Profile showPopUp={showPopUp}
                                                                                      setShowPopUp={setShowPopUp}
                                                                                      setPopUpOptions={setPopUpOptions}/>}}/>
-                    <Route path='/dashboard/projectControl' component={()=>{return <ProjectControl/>}}/>
+                    <Route path='/dashboard/project/:id' component={()=>{return <ProjectControl/>}}/>
                 </Switch>
                 <PopUp showPopUp={showPopUp}
                        setShowPopUp={setShowPopUp}

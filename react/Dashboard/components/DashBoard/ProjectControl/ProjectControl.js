@@ -3,15 +3,20 @@ import './ProjectControl.scss';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import {TextField} from "@material-ui/core";
+import {getProjectFetch} from "../../requests";
+import ProjectField from "./ProjectField";
 
 const ProjectControl = () => {
 
     const [tabValue, setTabValue] = useState('Project')
-    const [editTitle, setEditTitle] = useState(false)
+    // const [editField, setEditField] = useState(false)
+    // const [showMenuField, setShowMenuField] = useState(false)
+
+    const [project, setProject] = useState({})
 
     useEffect(() => {
-        document.getElementById('projectTitleId').focus()
-    }, [editTitle === true])
+        getProjectFetch(window.location.href.split('/').pop()).then(data => setProject(data));
+    }, [])
 
     return (
         <div className="projectControl">
@@ -37,32 +42,7 @@ const ProjectControl = () => {
                             ?
                             <div className="project">
                                 <div className="projectWrap">
-                                    <div className="projectTitle">
-                                        <TextField id="projectTitleId"
-                                                   className='editTitle'
-                                                   disabled={!editTitle}
-                                                   defaultValue='Project Title'
-                                                   variant="outlined"/>
-                                        <div className="menuBtn">
-                                            <span></span>
-                                            <span></span>
-                                            <span></span>
-                                        </div>
-                                        <div className="actions">
-                                            <div className="action edit"
-                                                 onClick={() => {
-                                                     setEditTitle(true)
-                                                 }}>
-                                                <EditIcon/>
-                                            </div>
-                                            <div className="action save"
-                                                 onClick={() => {
-                                                     setEditTitle(false)
-                                                 }}>
-                                                <SaveIcon/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <ProjectField value={'Project Title New'}/>
                                 </div>
                             </div>
                             :
