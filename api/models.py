@@ -140,6 +140,8 @@ class Events(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="events")
     title = models.CharField(blank=True, null=True, max_length=100)
     url = models.CharField(blank=True, null=True, max_length=300)
+    start = models.CharField(blank=True, null=True, max_length=300)
+    end = models.CharField(blank=True, null=True, max_length=300)
     backgroundColor = models.CharField(blank=True, null=True, max_length=10)
     for_events = models.CharField(blank=True, null=True, max_length=20)
 

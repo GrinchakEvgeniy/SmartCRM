@@ -74,7 +74,7 @@ class PostRolesView(viewsets.ModelViewSet):
 class GetRolesView(viewsets.ModelViewSet):
     queryset = Role.objects.all()
     serializer_class = RoleSerializer
-    perms = ['S']
+    perms = ['all']
 
     def get(self, request):
         token = get_token(request)
@@ -439,15 +439,95 @@ class ChangeUserRoleView(viewsets.ModelViewSet):
     # permission_classes = (IsAuthenticated,)
     queryset = User.objects.all()
     serializer_class = UserSimpleSerializer
-    perms = ['S']
+    perms = ['all']
 
     def put(self, request):
-        # token = get_token(request)
-        # spc = SystemPermissionsControl(token.user, self.perms)
-        # if not spc.permission():
-        #     return Response({'message': "You don't have permissions"})
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
         profile = Profile.objects.get(pk=int(request.data['profile_id']))
         role = Role.objects.get(pk=int(request.data['role_id']))
         profile.role_id = role
         profile.save()
         return Response({'message': "Role has been chenged"})
+
+
+class GetEventsView(viewsets.ModelViewSet):
+    """Get events"""
+    # permission_classes = (IsAuthenticated,)
+    queryset = Events.objects.all()
+    serializer_class = EventsSerializer
+    perms = ['all']
+
+    def get(self, request):
+        from itertools import chain
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        myself = Events.objects.filter(user_id=token.user.id, for_events="myself")
+        creater = Events.objects.filter(user_id=token.user.id)
+        all = Events.objects.filter(for_events="all")
+        group = Events.objects.filter(for_events=token.user.profile.role_id.value)
+        result_list = list(chain(myself, all, group, creater))
+        res = []
+        [res.append(x) for x in result_list if x not in res]
+        serializer = EventsSerializer(res, many=True)
+        return Response(serializer.data)
+
+class DeleteEventsView(viewsets.ModelViewSet):
+    """Get events"""
+    # permission_classes = (IsAuthenticated,)
+    queryset = Events.objects.all()
+    serializer_class = EventsSerializer
+    perms = ['all']
+
+    def delete(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = Events.objects.filter(user_id=token.user.id, pk=int(request.data['id'])).first()
+        instance.delete()
+        return Response({'message':"Event has been deleted", 'type':"success"})
+
+
+class PostEventsView(viewsets.ModelViewSet):
+    """Get events"""
+    # permission_classes = (IsAuthenticated,)
+    queryset = Events.objects.all()
+    serializer_class = EventsSerializer
+    perms = ['all']
+
+    def post(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        serializer = EventsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':"Event has been created", 'type':"success"})
+        return Response({'message':"Invalid fields", 'type':"error"})
+
+
+class PutEventsView(viewsets.ModelViewSet):
+    """Get events"""
+    # permission_classes = (IsAuthenticated,)
+    queryset = Events.objects.all()
+    serializer_class = EventsSerializer
+    perms = ['all']
+
+    def put(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        instance = Events.objects.get(pk=int(request.data['id']))
+        instance.title = request.data.get("title", instance.title)
+        instance.url = request.data.get("url", instance.url)
+        instance.backgroundColor = request.data.get("backgroundColor", instance.backgroundColor)
+        instance.for_events = request.data.get("for_events", instance.for_events)
+        instance.save()
+        return Response({'message': "Event has been updated", 'type':"success"})

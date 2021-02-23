@@ -35,8 +35,8 @@ urlpatterns = [
 
     path('change-user-role', views.ChangeUserRoleView.as_view({'put':'put'}), name="change-user-role"),
 
-    # path('get-events', views.GetEventsView.as_view({'get':'get'}), name="get-events"),
-    # path('post-events', views.PostEventsView.as_view({'post':'post'}), name="post-events"),
-    # path('delete-events', views.DeleteEventsView.as_view({'delete':'delete'}), name="delete-events"),
-    # path('put-events', views.PutEventsView.as_view({'put':'put'}), name="put-events"),
+    path('get-events', views.GetEventsView.as_view({'get':'get'}), name="get-events"),
+    path('post-events', views.PostEventsView.as_view({'post':'post'}), name="post-events"),
+    path('delete-events', views.DeleteEventsView.as_view({'delete':'delete'}), name="delete-events"),
+    path('put-events', views.PutEventsView.as_view({'put':'put'}), name="put-events"),
 ]
