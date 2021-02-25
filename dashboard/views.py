@@ -20,3 +20,4 @@ def dashboard(request, pk=None):
         return render(request, 'dashboard/index.html')
     else:
         return redirect('login-page')
+

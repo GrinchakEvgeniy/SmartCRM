@@ -149,11 +149,48 @@ class Events(models.Model):
         self.timestamps = datetime.now()
         super(Events, self).save(*args, **kwargs)
 
+class Notification(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    message = models.CharField(blank=True, null=True, max_length=300)
+    type_notification = models.CharField(blank=True, null=True, max_length=300)
+    from_notification = models.CharField(blank=True, null=True, max_length=300)
+    for_notification = models.CharField(blank=True, null=True, max_length=300)
+
+    def save(self, *args, **kwargs):
+        self.timestamps = datetime.now()
+        super(Notification, self).save(*args, **kwargs)
+
+class NotificationRead(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notification_read')
+    notification_id = models.ForeignKey(Notification, on_delete=models.CASCADE, related_name='notification_read')
+    on_read = models.BooleanField(default=False, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.timestamps = datetime.now()
+        super(NotificationRead, self).save(*args, **kwargs)
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+@receiver(post_save, sender=Notification)
+def create_notion_read(sender, instance, created, **kwargs):
+    if created:
+        users = User.objects.all()
+        if instance.type_notification == "all":
+            for user in users:
+                NotificationRead.objects.create(user_id=user, notification_id=instance)
+        elif instance.type_notification == "group":
+            for user in users:
+                if user.profile.role_id.value == instance.for_notification:
+                    NotificationRead.objects.create(user_id=user, notification_id=instance)
+        elif instance.type_notification == "user":
+            user = User.objects.get(pk=int(instance.for_notification))
+            NotificationRead.objects.create(user_id=user, notification_id=instance)
+    instance.save()
 
 
 @receiver(post_save, sender=User)

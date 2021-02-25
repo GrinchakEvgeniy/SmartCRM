@@ -7,3 +7,10 @@ export function getUser(data){
         data
     }
 }
+
+export function setSocket(data){
+    return {
+        type: types.SOCKET,
+        data
+    }
+}

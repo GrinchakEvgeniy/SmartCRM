@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './DashBoardHead.scss'
 import {connect} from 'react-redux';
-import {getUser} from "../../redux/actions/actions";
+import {getUser, setSocket} from "../../redux/actions/actions";
 import {getUserFetch} from "../../requests";
 import DashBoardHeadUserMenu from "../DashBoardHeadUserMenu/DashBoardHeadUserMenu";
 
@@ -10,6 +10,26 @@ const DashBoardHead = (props) => {
     useEffect(() => {
         getUserFetch().then(data => {
             props.updateUserData(data)
+            props.setSocket(new WebSocket(
+                'ws://'
+                + window.location.host
+                + '/ws/notification/'
+                + data.id
+                + '/'
+            ))
+
+            // chatSocket.onmessage = function(e) {
+            //     const data = JSON.parse(e.data);
+            //     console.log(data)
+            // };
+            //
+            // chatSocket.onclose = function(e) {
+            //     console.error('Chat socket closed unexpectedly');
+            // };
+
+            // chatSocket.send(JSON.stringify({
+            //     'message': message
+            // }));
         })
     }, [])
 
@@ -52,12 +72,14 @@ const DashBoardHead = (props) => {
 
 const putState = (state) => {
     return {
-        user_data: state.user_data
+        user_data: state.user_data,
+        web_socket: state.web_socket
     }
 }
 const putDispatch = (dispatch) => {
     return {
         updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data))
     }
 }
 export default connect(putState, putDispatch)(DashBoardHead);
