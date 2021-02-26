@@ -1,0 +1,22 @@
+.container {
+  .wrap_notifications {
+    display: flex;
+    flex-direction: column;
+    .notification {
+      display: flex;
+      justify-content: space-between;
+      box-shadow: 0 0 4px black;
+      padding: 5px;
+      margin: 5px;
+      transform: scale(1);
+      cursor: pointer;
+    }
+    .notification:hover {
+      transition: 0.5s;
+      transform: scale(1.009);
+    }
+    .notification.not_readed {
+      box-shadow: 0 0 4px red;
+    }
+  }
+}
