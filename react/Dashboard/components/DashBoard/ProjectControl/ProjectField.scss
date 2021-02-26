@@ -1,17 +1,18 @@
 .projectField {
-  width: fit-content;
+  width: 400px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
+  margin-bottom: 10px;
 
 
   .editField{
+    width: 100%;
     background: white;
     z-index: 1;
     .MuiOutlinedInput-input {
-      font-size: 24px;
-      font-weight: 600;
+      font-size: 20px;
       color: #757575;
     }
   }

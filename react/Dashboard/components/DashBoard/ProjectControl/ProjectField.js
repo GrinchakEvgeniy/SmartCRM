@@ -8,23 +8,29 @@ const ProjectField = (props) => {
 
     const [editField, setEditField] = useState(false)
     const [showMenuField, setShowMenuField] = useState(false)
+    // const [valueField, setValueField] = useState()
 
     useEffect(() => {
-        document.getElementById('projectTitleId').focus()
+        document.getElementById(props.uniqId).focus()
     }, [editField === true])
 
     return (
         <div className="projectField">
             <TextField className='editField'
-                       id='projectTitleId'
+                       id={props.uniqId}
+                       rows={props.rows ? props.rows : 1}
+                       rowsMax={10}
+                       multiline
                        disabled={!editField}
                        defaultValue={props.value}
+                       onChange={(e) => {
+                           props.edit(e.target.value)
+                       }}
                        variant="outlined"/>
             <div className="menuBtn"
                  onClick={() => {
                      setShowMenuField(!showMenuField)
-                 }
-                 }>
+                 }}>
                 <span></span>
                 <span></span>
                 <span></span>
@@ -40,6 +46,7 @@ const ProjectField = (props) => {
                      onClick={() => {
                          setEditField(false)
                          setShowMenuField(!showMenuField)
+                         props.update()
                      }}>
                     <SaveIcon/>
                 </div>

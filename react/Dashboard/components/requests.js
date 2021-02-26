@@ -222,3 +222,18 @@ export async function getProjectFetch(id) {
     const result = await response.json();
     return result;
 }
+
+export async function updateProjectFetch(data) {
+    const options = {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/put-projects-simple', options);
+    const result = await response.json();
+    return result;
+}

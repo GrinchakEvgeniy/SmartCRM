@@ -8,6 +8,8 @@ import {connect} from "react-redux";
 const User = (props) => {
     const [nowUser, setNowUser] = useState(false);
 
+    console.log(props)
+
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
