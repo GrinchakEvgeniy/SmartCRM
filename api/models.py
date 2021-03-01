@@ -190,7 +190,6 @@ def create_notion_read(sender, instance, created, **kwargs):
         elif instance.type_notification == "user":
             user = User.objects.get(pk=int(instance.for_notification))
             NotificationRead.objects.create(user_id=user, notification_id=instance)
-    instance.save()
 
 
 @receiver(post_save, sender=User)

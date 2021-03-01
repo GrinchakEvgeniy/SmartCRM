@@ -3,6 +3,18 @@ from django.contrib.auth.models import User
 from .models import *
 
 
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = '__all__'
+
+
+class NotificationReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NotificationRead
+        fields = '__all__'
+
+
 class EventsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Events
@@ -25,7 +37,6 @@ class RoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Role
         fields = '__all__'
-
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -97,6 +108,7 @@ class ProjectSimpleSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
+    notification_read = NotificationReadSerializer(many=True)
 
     class Meta:
         model = User

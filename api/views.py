@@ -36,6 +36,34 @@ def get_token(request):
 
 # ==============================================
 
+class GetNotificationView(viewsets.ModelViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+    perms = ['all']
+
+    def post(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        queryset = Notification.objects.filter(pk__in=request.data['ids'])[::-1]
+        serializer = NotificationSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class PutNotificationReadView(viewsets.ModelViewSet):
+    queryset = NotificationRead.objects.all()
+    serializer_class = NotificationReadSerializer
+    perms = ['all']
+
+    def put(self, request):
+        for id in request.data["ids"]:
+            instance = NotificationRead.objects.get(pk=int(id))
+            if request.data['action'] == "readed":
+                instance.on_read = True
+                instance.save()
+        return Response({'message': "Notifications has been readed", 'type':"success"})
+
+
 
 class PutAvatarView(viewsets.ModelViewSet):
     queryset = Avatar.objects.all()

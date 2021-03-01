@@ -2,11 +2,15 @@ import * as types from "../constants/constants";
 
 const initialState = {
     user_data: {},
-    web_socket: null
+    web_socket: null,
+    notification: false,
 }
 
 const rootReducer = (state= initialState, action) => {
     switch (action.type) {
+        case types.NOTIFICATION:
+            return { ...state, notification: action.data };
+            break;
         case types.GET_USER:
             return { ...state, user_data: action.data };
             break;

@@ -41,16 +41,16 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
 
-        await self.channel_layer.group_send(
-            "all",
-            {
-                'type': 'chat_message',
-                'message': "hello",
-                'type_notification': "1",
-                'from_notification': '1',
-                'for_notification': '1'
-            }
-        )
+        # await self.channel_layer.group_send(
+        #     "all",
+        #     {
+        #         'type': 'chat_message',
+        #         'message': "hello",
+        #         'type_notification': "1",
+        #         'from_notification': '1',
+        #         'for_notification': '1'
+        #     }
+        # )
 
     async def disconnect(self, close_code):
         # Leave room group
