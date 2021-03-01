@@ -295,3 +295,32 @@ export async function changeEventFetch(data) {
     const result = await response.json();
     return result;
 }
+
+export async function postProjectFilesFetch(file, projectId) {
+    let formData = new FormData();
+    formData.append("file", file[0], file[0].name);
+    formData.append("project_id", projectId);
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: formData
+    }
+    const response = await fetch('/api/post-files-project', options);
+    const result = await response.json();
+    return result;
+}
+
+
+export async function deleteProjectFilesFetch(data) {
+    const options = {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/delete-files-project', options);
+    const result = await response.json();
+    return result;
+}

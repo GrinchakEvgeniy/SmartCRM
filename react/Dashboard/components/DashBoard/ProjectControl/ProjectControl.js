@@ -1,14 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import './ProjectControl.scss';
-import {getProjectFetch, getUsersFetch, updateProjectFetch} from "../../requests";
+import {
+    getProjectFetch,
+    getUserFetch,
+    getUsersFetch,
+    postProjectFilesFetch,
+    putAvatarFetch,
+    updateProjectFetch,
+    deleteProjectFilesFetch
+} from "../../requests";
 import ProjectField from "./ProjectField";
 import DescriptionIcon from '@material-ui/icons/Description';
-import LinkIcon from '@material-ui/icons/Link';
 import Talk from "../Talk/Talk";
 import UsersAll from "../UsersAll/UsersAll";
 import Button from "@material-ui/core/Button";
+import AutorenewIcon from "@material-ui/icons/Autorenew";
 
 const ProjectControl = () => {
+
+    const audio = new Audio('/static/images/Goat.mp3')
 
     const [tabValue, setTabValue] = useState('Project')
     const [project, setProject] = useState({})
@@ -19,6 +29,8 @@ const ProjectControl = () => {
     const [users, setUsers] = useState([]);
     const [addUserActive, setAddUserActive] = useState(false)
     const [checkedUsers, setCheckedUsers] = useState([])
+    const [imgs, setImages] = useState(['png', 'jpeg', 'jpg', 'gif', 'webp'])
+
 
     const update = () => {
         getProjectFetch(window.location.href.split('/').pop())
@@ -71,6 +83,14 @@ const ProjectControl = () => {
         })
     }
 
+    const delProjectFile = (fileId) => {
+        const deletedFile = [fileId]
+        const obj = {"ids": deletedFile}
+        deleteProjectFilesFetch(obj).then(() => {
+            update()
+        })
+    }
+
     return (
         <div className="projectControl">
             <div className="container">
@@ -95,9 +115,24 @@ const ProjectControl = () => {
                             ?
                             <div className="project">
                                 <div className="projectWrap">
-
+                                    <ProjectField value={project.name}
+                                                  edit={setProjectName}
+                                                  update={updateProjectName}
+                                                  uniqId={'asd0'}
+                                                  rows={1}/>
+                                    <ProjectField value={project.description}
+                                                  edit={setProjectDescription}
+                                                  update={updateProjectName}
+                                                  uniqId={'asd1'}
+                                                  rows={6}/>
+                                    <ProjectField value={project.accesses}
+                                                  edit={setProjectAccesses}
+                                                  update={updateProjectName}
+                                                  uniqId={'asd3'}
+                                                  rows={6}/>
+                                </div>
+                                <div className="usersAndFiles">
                                     <div className="users">
-
                                         {
                                             users.map((arr, index) => {
                                                 const users_id = project.users_list.split(',')
@@ -130,59 +165,54 @@ const ProjectControl = () => {
                                             <span>+</span>
                                         </div>
                                     </div>
-                                    <ProjectField value={project.name}
-                                                  edit={setProjectName}
-                                                  update={updateProjectName}
-                                                  uniqId={'asd0'}
-                                                  rows={1}/>
-                                    <ProjectField value={project.description}
-                                                  edit={setProjectDescription}
-                                                  update={updateProjectName}
-                                                  uniqId={'asd1'}
-                                                  rows={6}/>
-                                    <ProjectField value={project.accesses}
-                                                  edit={setProjectAccesses}
-                                                  update={updateProjectName}
-                                                  uniqId={'asd3'}
-                                                  rows={6}/>
                                     <div className="projectFiles">
                                         <div className="filesWrap">
-
-
                                             {
                                                 files.length
                                                     ?
-                                                    files.map((el, index)=>{
-                                                        return(
-                                                            <div className="file" key={index}>
-                                                                <LinkIcon className="fileIcon"/>
-                                                                <h4 className="fileName">{el.file}</h4>
-                                                            </div>
+                                                    files.map((el, index) => {
+                                                        return (
+                                                            <a className="file"
+                                                               href={el.file}
+                                                               download
+                                                               key={index}>
+
+                                                                <div className="fileIcon">
+                                                                    {
+                                                                        imgs.indexOf(el.file.split('.').pop()) !== -1
+                                                                            ?
+                                                                            <img src={el.file} alt=""/>
+                                                                            :
+                                                                            <DescriptionIcon/>
+                                                                    }
+                                                                </div>
+                                                                <h4 className="fileName">{el.file.split('/').pop()}</h4>
+                                                                <span className="delBtn"
+                                                                      onClick={(e) => {
+                                                                          e.preventDefault()
+                                                                          delProjectFile(el.id)
+                                                                      }}
+                                                                      id="9">-</span>
+                                                            </a>
                                                         )
                                                     })
                                                     :
                                                     ''
                                             }
-
-
-                                            <div className="file">
-                                                <DescriptionIcon className="fileIcon"
-                                                                 onClick={() => {
-                                                                     console.log('file')
-                                                                 }}/>
-                                                <h4 className="fileName">File Name.png</h4>
-                                            </div>
-
-
-
-                                            <div className="file">
-                                                <LinkIcon className="fileIcon"/>
-                                                <h4 className="fileName">File Name.png</h4>
-                                            </div>
-
-
-
                                         </div>
+                                        <Button className="addFileBtn"
+                                                color='secondary'
+                                                variant="contained"
+                                                onChange={(event) => {
+                                                    postProjectFilesFetch(event.target.files, project.id)
+                                                        .then(() => {
+                                                            update()
+                                                        })
+                                                }}
+                                                component="label">
+                                            +
+                                            <input type="file" hidden/>
+                                        </Button>
                                     </div>
                                 </div>
                                 <div className="discussion">
@@ -230,10 +260,13 @@ const ProjectControl = () => {
                     :
                     ''
             }
-            <button onClick={() => {
-                console.log('click', project)
-            }}>564
-            </button>
+
+            <button
+                onClick={()=>{
+                    audio.play()
+                }}
+            >CLICK</button>
+
         </div>
     );
 };
