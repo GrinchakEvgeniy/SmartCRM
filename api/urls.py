@@ -41,5 +41,7 @@ urlpatterns = [
     path('put-events', views.PutEventsView.as_view({'put':'put'}), name="put-events"),
 
     path('get-notification', views.GetNotificationView.as_view({"post": "post"}), name="get-notification"),
-    path('put-notification-read', views.PutNotificationReadView.as_view({"put":"put"}), name="put-notification-read")
+    path('put-notification-read', views.PutNotificationReadView.as_view({"put":"put"}), name="put-notification-read"),
+
+    path('post-project-comments', views.PostProjectCommentView.as_view({"post":"post"}), name="post-project-comments")
 ]

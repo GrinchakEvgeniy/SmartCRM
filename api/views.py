@@ -36,6 +36,23 @@ def get_token(request):
 
 # ==============================================
 
+class PostProjectCommentView(viewsets.ModelViewSet):
+    queryset = ProjectComment.objects.all()
+    serializer_class = ProjectCommentSerializer
+    perms = ['all']
+
+    def post(self, request):
+        token = get_token(request)
+        spc = SystemPermissionsControl(token.user, self.perms)
+        if not spc.permission():
+            return Response({'message': "You don't have permissions"})
+        serializer = ProjectCommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Comment has been created", "type": "success"})
+        return Response({"message":"Invalid fields", "type":"error"})
+
+
 class GetNotificationView(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
