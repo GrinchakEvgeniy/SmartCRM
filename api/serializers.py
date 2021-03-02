@@ -73,14 +73,22 @@ class ProjectFileSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ProjectTaskFileSerializer(serializers.ModelSerializer):
+class ProjectNestedTaskFileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProjectTaskFile
+        model = ProjectNestedTaskFile
+        fields = "__all__"
+
+
+class ProjectNestedTaskSerializer(serializers.ModelSerializer):
+    project_nested_task_file = ProjectNestedTaskFileSerializer(many=True)
+
+    class Meta:
+        model = ProjectNestedTask
         fields = "__all__"
 
 
 class ProjectTaskSerializer(serializers.ModelSerializer):
-    project_task_file = ProjectTaskFileSerializer(many=True)
+    project_nested_task = ProjectNestedTaskSerializer(many=True)
 
     class Meta:
         model = ProjectTask

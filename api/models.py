@@ -113,24 +113,36 @@ class ProjectComment(models.Model):
 class ProjectTask(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
     name = models.CharField(blank=True, null=True, max_length=500)
-    description = models.CharField(max_length=1000)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_task")
-    user_work = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_task")
+    created_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_task")
 
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
         super(ProjectTask, self).save(*args, **kwargs)
 
 
-
-class ProjectTaskFile(models.Model):
+class ProjectNestedTask(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
-    project_task_id = models.ForeignKey(ProjectTask, on_delete=models.CASCADE, related_name="project_task_file")
+    name = models.CharField(blank=True, null=True, max_length=500)
+    description = models.CharField(blank=True, null=True, max_length=1000)
+    status = models.CharField(blank=True, null=True, max_length=20)
+    project_task_id = models.ForeignKey(ProjectTask, on_delete=models.CASCADE, related_name="project_nested_task")
+    created_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_nested_task_created")
+    worked_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_nested_task_worked")
+
+    def save(self, *args, **kwargs):
+        self.timestamps = datetime.now()
+        super(ProjectNestedTask, self).save(*args, **kwargs)
+
+
+class ProjectNestedTaskFile(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    project_nested_task_id = models.ForeignKey(ProjectNestedTask, on_delete=models.CASCADE, related_name="project_nested_task_file")
     file = models.FileField(upload_to='tasks_files/')
 
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
-        super(ProjectTaskFile, self).save(*args, **kwargs)
+        super(ProjectNestedTaskFile, self).save(*args, **kwargs)
 
 # ================================PROJECT END========================================
 

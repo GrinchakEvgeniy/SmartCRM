@@ -6,6 +6,17 @@ from rest_framework.authtoken.views import obtain_auth_token
 urlpatterns = [
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
+    path('post-task', views.PostTaskView.as_view({'post':'post'})),
+    path('put-task', views.PutTaskView.as_view({'put':'put'})),
+    path('delete-task', views.DeleteTaskView.as_view({'delete':'delete'})),
+
+    path('post-nested-task', views.PostNestedTask.as_view({'post':'post'})),
+    path('put-nested-task', views.PutNestedTask.as_view({'put':'put'})),
+    path('delete-nested-task', views.DeleteNestedTask.as_view({'delete':'delete'})),
+
+    path('post-nested-task-file', views.PostNestedTaskFile.as_view({'post':'post'})),
+    path('delete-nested-task-file', views.DeleteNestedTaskFile.as_view({'delete':'delete'})),
+
     path('get-user', views.GetUserView.as_view({'get': 'get'}), name='get-user'),
     path('put-user', views.PutUserView.as_view({'put': 'put'}), name='put-user'),
     path('post-user', views.PostUserView.as_view({'post': 'post'}), name='post-user'),

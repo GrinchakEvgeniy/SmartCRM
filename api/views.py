@@ -36,6 +36,113 @@ def get_token(request):
 
 # ==============================================
 
+
+class PostNestedTaskFile(viewsets.ModelViewSet):
+    queryset = ProjectNestedTaskFile.objects.all()
+    serializer_class = ProjectNestedTaskFileSerializer
+    perms = ['all']
+
+    def post(self, request):
+        for value in request.FILES:
+            serializer = ProjectNestedTaskFileSerializer(
+                data={'project_nested_task_id': int(request.data['project_nested_task_id']), 'file': request.FILES[value]})
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Files is downloaded'}, status=status.HTTP_201_CREATED)
+
+
+class DeleteNestedTaskFile(viewsets.ModelViewSet):
+    queryset = ProjectNestedTaskFile.objects.all()
+    serializer_class = ProjectNestedTaskFileSerializer
+    perms = ['all']
+
+    def delete(self, request):
+        instance = ProjectNestedTaskFile.objects.get(pk=int(request.data['id']))
+        instance.delete()
+        return Response({'message': 'File has been deleted', 'type': "success"})
+
+
+
+class PostNestedTask(viewsets.ModelViewSet):
+    queryset = ProjectNestedTask.objects.all()
+    serializer_class = ProjectNestedTaskSerializer
+    perms = ['all']
+
+    def post(self, request):
+        serializer = ProjectNestedTaskSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Task has been created', 'type': 'success'})
+        return Response({'message': 'Invalid values', 'type': 'error'})
+
+
+
+class PutNestedTask(viewsets.ModelViewSet):
+    queryset = ProjectNestedTask.objects.all()
+    serializer_class = ProjectNestedTaskSerializer
+    perms = ['all']
+
+    def put(self, request):
+        instance = ProjectNestedTask.objects.get(pk=int(request.data['id']))
+        instance.name = request.data.get('name', instance.name)
+        instance.description = request.data.get('description', instance.description)
+        instance.status = request.data.get('status', instance.status)
+        user_worker = User.objects.get(pk=int(request.data.get('worked_user_id', instance.worked_user_id.id)))
+        instance.worked_user_id = user_worker
+        instance.save()
+        return Response({'message': 'Nested task has been updated', 'type': 'success'})
+
+
+
+class DeleteNestedTask(viewsets.ModelViewSet):
+    queryset = ProjectNestedTask.objects.all()
+    serializer_class = ProjectNestedTaskSerializer
+    perms = ['all']
+
+    def delete(self, request):
+        instance = ProjectNestedTask.objects.get(pk=int(request.data['id']))
+        instance.delete()
+        return Response({'message': 'Nested task has been deleted', 'type': "success"})
+
+
+class PostTaskView(viewsets.ModelViewSet):
+    queryset = ProjectTask.objects.all()
+    serializer_class = ProjectTaskSerializer
+    perms = ['all']
+
+    def post(self, request):
+        serializer = ProjectTaskSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'Task has been created', 'type':'success'})
+        return Response({'message':'Invalid values', 'type':'error'})
+
+
+class PutTaskView(viewsets.ModelViewSet):
+    queryset = ProjectTask.objects.all()
+    serializer_class = ProjectTaskSerializer
+    perms = ['all']
+
+    def put(self, request):
+        instance = ProjectTask.objects.get(pk=int(request.data['id']))
+        instance.name = request.data.get('name', instance.name)
+        instance.save()
+        return Response({'message':'Task has been updated', 'type':'success'})
+
+
+class DeleteTaskView(viewsets.ModelViewSet):
+    queryset = ProjectTask.objects.all()
+    serializer_class = ProjectTaskSerializer
+    perms = ['all']
+
+    def delete(self, request):
+        instance = ProjectTask.objects.get(pk=int(request.data['id']))
+        instance.delete()
+        return Response({'message':'Task has been deleted', 'type':"success"})
+
+
 class PostProjectCommentView(viewsets.ModelViewSet):
     queryset = ProjectComment.objects.all()
     serializer_class = ProjectCommentSerializer
