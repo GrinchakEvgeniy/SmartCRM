@@ -1,44 +1,63 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {TextField} from "@material-ui/core";
 import SendIcon from '@material-ui/icons/Send';
 import './Talk.scss'
+import {createProjectMessageFetch} from "../../requests";
+import {isEmpty} from "../../helper";
 
-const Talk = () => {
+const Talk = (props) => {
+
+    const [projectId, setProjectId] = useState()
+    const [currentUserId, setCurrentUserId] = useState('')
+    const [currentUserName, setCurrentUserName] = useState('')
+    const [message, setMessage] = useState('')
+    const [projectComments, setProjectComments] = useState([])
+
+    useEffect(() => {
+        setCurrentUserId(props.userId)
+        setCurrentUserName(props.currentUserName)
+    }, [props])
+
+    useEffect(() => {
+        if (!isEmpty(props.project)) {
+            setProjectId(props.project.id)
+            setProjectComments(props.project.project_comment)
+        }
+    }, [props.project]);
+
+    const newMessage = () => {
+        let newMess = {}
+        newMess.project_id = projectId
+        newMess.user_id = currentUserId
+        newMess.description = message
+        createProjectMessageFetch(newMess).then(data => console.log(data))
+        props.update()
+    }
+
+
+    console.log(props)
+
     return (
         <div className="talk">
             <div className="tweets">
                 <div className="tweetsWrap">
-                    <div className="message">
-                        <h4 className="authorName">Name author</h4>
-                        <p>Bla-bla-bla</p>
-                    </div>
-                    <div className="message my">
-                        <h4 className="authorName">Name author</h4>
-                        <p>Bla-bla-bla</p>
-                    </div>
-                    <div className="message">
-                        <h4 className="authorName">Name author</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias aperiam architecto aut
-                            consectetur delectus deleniti distinctio dolorem ea esse ex exercitationem facilis fugiat
-                            illo illum incidunt ipsam itaque magni minus molestias natus nisi odio officia officiis
-                            omnis optio possimus quas repellat repellendus soluta ullam ut, veritatis voluptas
-                            voluptates? Aspernatur corporis deleniti deserunt dolorem esse laborum maxime, mollitia
-                            necessitatibus neque, officiis, optio porro repellat tenetur velit voluptatibus? A beatae
-                            dolorem libero modi mollitia, officia omnis perspiciatis quasi voluptatem! Asperiores magni
-                            nam nemo, numquam officiis perferendis quaerat quidem voluptatum? Consequatur, corporis
-                            dignissimos distinctio harum necessitatibus obcaecati quod sed ut velit veritatis.
-                            Blanditiis?</p>
-                    </div>
-                    <div className="message my">
-                        <h4 className="authorName">Name author</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda cum debitis deserunt
-                            dignissimos ea explicabo harum iste, magnam odit rerum!</p>
-                    </div>
+
+                    {
+                        projectComments.map((el, index) => {
+                            return (
+                                <div className={el.user_id === currentUserId ? 'message my' : "message"} key={index}>
+                                    <h4 className="authorName">{currentUserName}</h4>
+                                    <p>{el.description}</p>
+                                </div>
+                            )
+                        })
+                    }
+
                 </div>
             </div>
             <div className="createTweet">
                 <TextField className='inputField'
-                           id="outlined-multiline-static"
+                           id="message"
                            label="Message"
                            fullWidth
                            multiline
@@ -46,9 +65,21 @@ const Talk = () => {
                            rowsMax={5}
                            defaultValue=""
                            variant="outlined"
+                           onChange={() => {
+                               setMessage(document.getElementById('message').value)
+                           }}
                 />
                 <div className="sendIcon">
-                    <div className='sendIconWrap'>
+                    <div className='sendIconWrap'
+                         onClick={() => {
+                             console.log('id', currentUserId)
+                             console.log('message', message)
+                             console.log('project', props.project)
+                             console.log('project id', props.project.id)
+                             console.log('project mess from props', projectComments)
+                             newMessage()
+                             document.getElementById('message').value = ''
+                         }}>
                         <SendIcon className='icon'/>
                     </div>
                 </div>

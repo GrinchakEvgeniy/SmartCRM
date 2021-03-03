@@ -16,14 +16,14 @@ const Users = () => {
     const [roles, setRoles] = useState([]);
     const [renderUser, setRenderUser] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         getUsersFetch()
-            .then((data)=>{
+            .then((data) => {
                 setUsers(data);
                 setRenderUser(data);
             })
         getRolesFetch()
-            .then(data=>{
+            .then(data => {
                 setRoles(data);
             })
     }, []);
@@ -33,47 +33,53 @@ const Users = () => {
             setRenderUser(users);
         } else {
             const searchArr = users.filter(el => {
-                return el.first_name.toLowerCase().indexOf(string.toLowerCase()) > -1 || el.last_name.toLowerCase().indexOf(string.toLowerCase()) > -1 ;
+                return el.first_name.toLowerCase().indexOf(string.toLowerCase()) > -1 || el.last_name.toLowerCase().indexOf(string.toLowerCase()) > -1;
             })
             setRenderUser(searchArr);
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getUsersFetch()
-            .then((data)=>{
+            .then((data) => {
                 setUsers(data);
                 setRenderUser(data);
             })
+        const timer = setTimeout(() => {
+            setAlerts({type: "", message: ""})
+        }, 2300);
+        return () => clearTimeout(timer);
     }, [alerts]);
 
     return (
         <div className="container users-wrap">
-            <div className={alerts.type + " alerts"}>{alerts.message}</div>
+            <div id='alert' className={alerts.type + " alerts"}>{alerts.message}</div>
             <div className="navigation">
                 <div className="action">
                     <Button className="btn add-btn"
-                                variant="contained"
-                                color="primary"
-                            onClick={()=>setAddUser(!addUser)}
-                                >Add user
-                        </Button>
+                            variant="contained"
+                            color="primary"
+                            onClick={() => setAddUser(!addUser)}
+                    >Add user
+                    </Button>
                 </div>
                 <div className="search">
                     <TextField
-                            className="search"
-                            type="text"
-                            id="outlined-basic"
-                            label="Search"
-                            onChange={(event)=>Search(event.target.value)}
-                            variant="outlined"/>
+                        className="search"
+                        type="text"
+                        id="outlined-basic"
+                        label="Search"
+                        onChange={(event) => Search(event.target.value)}
+                        variant="outlined"/>
                 </div>
             </div>
             <div className="content">
-                <div className="header"><h4>Users</h4></div>
+                {/*<div className="header">*/}
+                {/*    <h4>Users</h4>*/}
+                {/*</div>*/}
                 <div className="items">
                     {
-                        renderUser.map((value, index)=>{
+                        renderUser.map((value, index) => {
                             return <User value={value}
                                          roles={roles}
                                          setAlerts={setAlerts}

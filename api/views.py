@@ -157,7 +157,7 @@ class PostProjectCommentView(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response({"message": "Comment has been created", "type": "success"})
-        return Response({"message":"Invalid fields", "type":"error"})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetNotificationView(viewsets.ModelViewSet):
@@ -449,7 +449,7 @@ class GetProjectSimpleView(viewsets.ModelViewSet):
 class GetProjectView(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    perms = ['PM', 'D', 'S', 'L']
+    perms = ['all']
 
     def get(self, request, pk):
         token = get_token(request)

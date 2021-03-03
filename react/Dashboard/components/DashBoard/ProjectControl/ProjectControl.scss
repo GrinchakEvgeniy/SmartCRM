@@ -45,7 +45,7 @@
       }
 
       &.second {
-        .tab.tasks {
+        .tab.tabTasks {
           color: white;
         }
 
@@ -320,6 +320,9 @@
           min-height: 300px;
           padding: 10px;
         }
+      }
+      .projectTasks{
+        padding: 20px;
       }
     }
   }

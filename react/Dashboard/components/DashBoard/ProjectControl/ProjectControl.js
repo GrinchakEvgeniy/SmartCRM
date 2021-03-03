@@ -2,10 +2,8 @@ import React, {useEffect, useState} from 'react';
 import './ProjectControl.scss';
 import {
     getProjectFetch,
-    getUserFetch,
     getUsersFetch,
     postProjectFilesFetch,
-    putAvatarFetch,
     updateProjectFetch,
     deleteProjectFilesFetch
 } from "../../requests";
@@ -14,9 +12,12 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import Talk from "../Talk/Talk";
 import UsersAll from "../UsersAll/UsersAll";
 import Button from "@material-ui/core/Button";
-import AutorenewIcon from "@material-ui/icons/Autorenew";
+import Tasks from "../Tasks/Tasks";
+import {getUser} from "../../redux/actions/actions";
+import {connect} from "react-redux";
+import {isEmpty} from "../../helper";
 
-const ProjectControl = () => {
+const ProjectControl = (props) => {
 
     const audio = new Audio('/static/images/Goat.mp3')
 
@@ -30,6 +31,16 @@ const ProjectControl = () => {
     const [addUserActive, setAddUserActive] = useState(false)
     const [checkedUsers, setCheckedUsers] = useState([])
     const [imgs, setImages] = useState(['png', 'jpeg', 'jpg', 'gif', 'webp'])
+    const [currentUserId, setCurrentUserId] = useState('')
+    const [currentUserName, setCurrentUserName] = useState('')
+
+    useEffect(() => {
+        if (!isEmpty(props.user_data)) {
+            if (props.user_data.profile.id === 0) return;
+            setCurrentUserId(props.user_data.id)
+            setCurrentUserName(props.user_data.first_name)
+        }
+    }, [props.user_data]);
 
 
     const update = () => {
@@ -101,7 +112,7 @@ const ProjectControl = () => {
                          }}>
                         Project
                     </div>
-                    <div className="tab tasks"
+                    <div className="tab tabTasks"
                          onClick={() => {
                              setTabValue('Tasks')
                          }}>
@@ -216,16 +227,17 @@ const ProjectControl = () => {
                                     </div>
                                 </div>
                                 <div className="discussion">
-                                    <Talk/>
+                                    <Talk project={project}
+                                          userId={currentUserId}
+                                          currentUserName={currentUserName}
+                                          update={update}/>
                                 </div>
                             </div>
                             :
                             tabValue === 'Tasks'
                                 ?
                                 <div className="projectTasks">
-                                    <div className="projectTasksWrap">
-
-                                    </div>
+                                    <Tasks/>
                                 </div>
                                 :
                                 ''
@@ -262,13 +274,22 @@ const ProjectControl = () => {
             }
 
             <button
-                onClick={()=>{
+                onClick={() => {
                     audio.play()
+                    console.log(project.project_comment)
                 }}
-            >CLICK</button>
+            >CLICK
+            </button>
 
         </div>
     );
 };
 
-export default ProjectControl;
+
+const putState = (state) => {
+    return {user_data: state.user_data}
+}
+const putDispatch = (dispatch) => {
+    return {updateUserData: (data) => dispatch(getUser(data))}
+}
+export default connect(putState, putDispatch)(ProjectControl);

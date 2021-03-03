@@ -324,3 +324,18 @@ export async function deleteProjectFilesFetch(data) {
     const result = await response.json();
     return result;
 }
+
+export async function createProjectMessageFetch(data) {
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/post-project-comments', options);
+    const result = await response.json();
+    return result;
+}
