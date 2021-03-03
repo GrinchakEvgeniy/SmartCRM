@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {TextField} from "@material-ui/core";
 import SendIcon from '@material-ui/icons/Send';
 import './Talk.scss'
-import {createProjectMessageFetch} from "../../requests";
+import {createProjectMessageFetch, getUsersFetch} from "../../requests";
 import {isEmpty} from "../../helper";
 
 const Talk = (props) => {
@@ -12,6 +12,12 @@ const Talk = (props) => {
     const [currentUserName, setCurrentUserName] = useState('')
     const [message, setMessage] = useState('')
     const [projectComments, setProjectComments] = useState([])
+    const [users, setUsers] = useState([])
+
+    useEffect(() => {
+        getUsersFetch()
+            .then(data => setUsers(data));
+    }, [])
 
     useEffect(() => {
         setCurrentUserId(props.userId)
@@ -34,25 +40,24 @@ const Talk = (props) => {
         props.update()
     }
 
-
-    console.log(props)
-
     return (
         <div className="talk">
             <div className="tweets">
                 <div className="tweetsWrap">
-
                     {
                         projectComments.map((el, index) => {
+                            let searchUser = ''
+                            if (users.length !== 0) {
+                                searchUser = users.find(user => user.id === el.user_id).first_name
+                            }
                             return (
                                 <div className={el.user_id === currentUserId ? 'message my' : "message"} key={index}>
-                                    <h4 className="authorName">{currentUserName}</h4>
+                                    <h4 className="authorName">{searchUser}</h4>
                                     <p>{el.description}</p>
                                 </div>
                             )
                         })
                     }
-
                 </div>
             </div>
             <div className="createTweet">
@@ -72,11 +77,6 @@ const Talk = (props) => {
                 <div className="sendIcon">
                     <div className='sendIconWrap'
                          onClick={() => {
-                             console.log('id', currentUserId)
-                             console.log('message', message)
-                             console.log('project', props.project)
-                             console.log('project id', props.project.id)
-                             console.log('project mess from props', projectComments)
                              newMessage()
                              document.getElementById('message').value = ''
                          }}>

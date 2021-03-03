@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import './ProjectControl.scss';
 import {
     getProjectFetch,
+    getUserFetch,
     getUsersFetch,
     postProjectFilesFetch,
+    putAvatarFetch,
     updateProjectFetch,
     deleteProjectFilesFetch
 } from "../../requests";
@@ -21,7 +23,7 @@ const ProjectControl = (props) => {
 
     const audio = new Audio('/static/images/Goat.mp3')
 
-    const [tabValue, setTabValue] = useState('Project')
+    const [tabValue, setTabValue] = useState('Tasks')
     const [project, setProject] = useState({})
     const [projectName, setProjectName] = useState('')
     const [projectDescription, setProjectDescription] = useState('')
@@ -36,7 +38,7 @@ const ProjectControl = (props) => {
 
     useEffect(() => {
         if (!isEmpty(props.user_data)) {
-            if (props.user_data.profile.id === 0) return;
+            if (props.user_data.id === 0) return;
             setCurrentUserId(props.user_data.id)
             setCurrentUserName(props.user_data.first_name)
         }
@@ -73,8 +75,19 @@ const ProjectControl = (props) => {
     }
 
     const addUsers = () => {
+
+        const newUniq = (arr)=>{
+            let res = []
+            for(let str of arr){
+                if(!res.includes(str)){
+                    res.push(str)
+                }
+            }
+            return res
+        }
+
         const newProject = JSON.parse(JSON.stringify(project))
-        const allUsers = newProject.users_list.concat(checkedUsers)
+        const allUsers = newProject.users_list.concat(',' + checkedUsers).split(',')
         const uniqueUsers = new Set(allUsers)
         const usersToArray = [...uniqueUsers]
         const newUsers = usersToArray.map(el => parseFloat(el)).filter(el => !isNaN(el))
@@ -237,7 +250,22 @@ const ProjectControl = (props) => {
                             tabValue === 'Tasks'
                                 ?
                                 <div className="projectTasks">
-                                    <Tasks/>
+                                    <div className="tasksControl">
+                                        <Button className='addBtn'
+                                                variant="contained"
+                                                color="primary">
+                                            Add single task
+                                        </Button>
+                                        <Button className='addBtn'
+                                                variant="contained"
+                                                color="primary">
+                                            add task group
+                                        </Button>
+                                    </div>
+                                    <div className="allTasks">
+                                        <Tasks/>
+                                        <Tasks/>
+                                    </div>
                                 </div>
                                 :
                                 ''
@@ -263,7 +291,6 @@ const ProjectControl = (props) => {
                                         onClick={() => {
                                             addUsers()
                                             setAddUserActive(!addUserActive)
-
                                         }}
                                         color='primary'>Save</Button>
                             </div>
@@ -276,7 +303,6 @@ const ProjectControl = (props) => {
             <button
                 onClick={() => {
                     audio.play()
-                    console.log(project.project_comment)
                 }}
             >CLICK
             </button>

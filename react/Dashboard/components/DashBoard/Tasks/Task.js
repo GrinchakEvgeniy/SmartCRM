@@ -6,8 +6,9 @@ const Task = () => {
     return (
         <div className='task'>
             <div className='taskWrap'>
-                <h4>User</h4>
-                <p>Description</p>
+                <div className="taskHeader">
+                    
+                </div>
             </div>
         </div>
     );
