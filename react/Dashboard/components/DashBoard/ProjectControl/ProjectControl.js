@@ -264,7 +264,6 @@ const ProjectControl = (props) => {
                                     </div>
                                     <div className="allTasks">
                                         <Tasks/>
-                                        <Tasks/>
                                     </div>
                                 </div>
                                 :
