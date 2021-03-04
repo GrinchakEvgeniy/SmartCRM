@@ -183,6 +183,21 @@ class NotificationRead(models.Model):
         super(NotificationRead, self).save(*args, **kwargs)
 
 
+class WorkNow(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='work_now')
+    project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="work_now", blank=True, null=True)
+    start = models.CharField(blank=True, null=True, max_length=100)
+    finish = models.CharField(blank=True, null=True, max_length=100)
+    other = models.CharField(blank=True, null=True, max_length=100)
+    date = models.CharField(blank=True, null=True, max_length=100)
+
+    def save(self, *args, **kwargs):
+        now = datetime.now()
+        self.timestamps = now
+        self.date = now.strftime("%d:%m:%Y")
+        super(WorkNow, self).save(*args, **kwargs)
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:

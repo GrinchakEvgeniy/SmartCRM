@@ -68,6 +68,18 @@
         width: 100%;
       }
     }
+    .work_now{
+      position: relative;
+      button{
+        cursor: pointer;
+        padding: 5px;
+        font-size: 17px;
+        color: #f3f3f3;
+        border: none;
+        background: #336db7;
+        box-shadow: 0 0 2px black;
+      }
+    }
   }
 
   &.active {

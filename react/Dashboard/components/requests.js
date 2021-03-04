@@ -339,3 +339,63 @@ export async function createProjectMessageFetch(data) {
     const result = await response.json();
     return result;
 }
+
+export async function createWorkNowFetch(data) {
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/post-work-now', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function putWorkNowFetch(data) {
+    const options = {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/put-work-now', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function deleteWorkNowFetch(data) {
+    const options = {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/delete-work-now', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function getWorkNowByDateFetch(data) {
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/get-work-now-by-date', options);
+    const result = await response.json();
+    return result;
+}

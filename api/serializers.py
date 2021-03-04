@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 from .models import *
 
 
+class WorkNowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkNow
+        fields = '__all__'
+
+
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification

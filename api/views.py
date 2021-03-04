@@ -37,6 +37,56 @@ def get_token(request):
 # ==============================================
 
 
+class PutWorkNowView(viewsets.ModelViewSet):
+    queryset = WorkNow.objects.all()
+    serializer_class = WorkNowSerializer
+    perms = ['all']
+
+    def put(self, request):
+        instance = WorkNow.objects.get(pk=int(request.data['id']))
+        instance.start = request.data.get('start', instance.start)
+        instance.finish = request.data.get('finish', instance.finish)
+        instance.other = request.data.get('other', instance.other)
+        instance.date = request.data.get('date', instance.date)
+        instance.save()
+        return Response({'message':'Updated', 'type':'success'})
+
+
+class DeleteWorkNowView(viewsets.ModelViewSet):
+    queryset = WorkNow.objects.all()
+    serializer_class = WorkNowSerializer
+    perms = ['all']
+
+    def delete(self, request):
+        instance = WorkNow.objects.get(pk=int(request.data['id']))
+        instance.delete()
+        return Response({'message':'Work Now has been deleted', 'type':'success'})
+
+
+class PostWorkNowView(viewsets.ModelViewSet):
+    queryset = WorkNow.objects.all()
+    serializer_class = WorkNowSerializer
+    perms = ['all']
+
+    def post(self, request):
+        serializer = WorkNowSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response({'message': 'Invalid fields', 'type': 'error'})
+
+
+class GetWorkNowByDateView(viewsets.ModelViewSet):
+    queryset = WorkNow.objects.all()
+    serializer_class = WorkNowSerializer
+    perms = ['all']
+
+    def post(self, request):
+        queryset = WorkNow.objects.get(date=request.data['date'])
+        serializer = WorkNowSerializer(queryset)
+        return Response(serializer.data)
+
+
 class PostNestedTaskFile(viewsets.ModelViewSet):
     queryset = ProjectNestedTaskFile.objects.all()
     serializer_class = ProjectNestedTaskFileSerializer
@@ -76,7 +126,6 @@ class PostNestedTask(viewsets.ModelViewSet):
             serializer.save()
             return Response({'message': 'Task has been created', 'type': 'success'})
         return Response({'message': 'Invalid values', 'type': 'error'})
-
 
 
 class PutNestedTask(viewsets.ModelViewSet):

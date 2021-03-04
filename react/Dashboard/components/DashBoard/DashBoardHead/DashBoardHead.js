@@ -4,8 +4,48 @@ import {connect} from 'react-redux';
 import {getUser, setSocket} from "../../redux/actions/actions";
 import {getUserFetch} from "../../requests";
 import DashBoardHeadUserMenu from "../DashBoardHeadUserMenu/DashBoardHeadUserMenu";
+import WorkNow from "../WorkNow/WorkNow";
+import WorkIcon from '@material-ui/icons/Work';
 
 const DashBoardHead = (props) => {
+    const [workNowPopup, setWorkNowPopup] = useState(false);
+    const [second, setSecond] = useState('00');
+    const [minute, setMinute] = useState('00');
+    const [hour, setHour] = useState('00');
+    const [isActive, setIsActive] = useState(false);
+    const [counter, setCounter] = useState(0);
+
+    const [workNowObject, setWorkNowObject] = useState({});
+    const [selfEducation, setSelfEducation] = useState(false);
+
+    useEffect(() => {
+        let intervalId;
+
+        if (isActive) {
+            intervalId = setInterval(() => {
+                const secondCounter = counter % 60;
+                const minuteCounter = Math.floor(counter / 60);
+                const hourCounter = Math.floor(counter / 60 / 60);
+
+                const computedSecond = String(secondCounter).length === 1 ? `0${secondCounter}`: secondCounter;
+                const computedMinute = String(minuteCounter).length === 1 ? `0${minuteCounter}`: minuteCounter;
+                const computedHour = String(hourCounter).length === 1 ? `0${hourCounter}`: hourCounter;
+
+                setSecond(computedSecond);
+                if(computedMinute == '60'){setMinute('00');}else{setMinute(computedMinute);}
+                setHour(computedHour);
+
+                setCounter(counter => counter + 1);
+            }, 1000)
+        } else {
+            setSecond('00');
+            setMinute('00');
+            setHour('00');
+            setCounter(0);
+        }
+
+        return () => clearInterval(intervalId);
+    }, [isActive, counter])
 
     useEffect(() => {
         getUserFetch().then(data => {
@@ -63,6 +103,21 @@ const DashBoardHead = (props) => {
                 </div>
                 <div className="logo">
                     <img src="/static/images/logo.png" alt="logo"/>
+                </div>
+                <div className="work_now">
+                    <button onClick={()=>setWorkNowPopup(!workNowPopup)}><WorkIcon/></button>
+                    {
+                        workNowPopup ?
+                            <WorkNow time={{'hour':hour, 'minute':minute, 'second':second}}
+                                     setIsActive={setIsActive}
+                                     isActive={isActive}
+                                     workNowObject={workNowObject}
+                                     setWorkNowObject={setWorkNowObject}
+                                     selfEducation={selfEducation}
+                                     setSelfEducation={setSelfEducation}
+                            />
+                            : ""
+                    }
                 </div>
                 <DashBoardHeadUserMenu/>
             </div>
