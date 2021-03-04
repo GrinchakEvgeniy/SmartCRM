@@ -82,9 +82,13 @@ class GetWorkNowByDateView(viewsets.ModelViewSet):
     perms = ['all']
 
     def post(self, request):
-        queryset = WorkNow.objects.get(date=request.data['date'])
-        serializer = WorkNowSerializer(queryset)
-        return Response(serializer.data)
+        if request.data['action'] == 'user':
+            queryset = WorkNow.objects.filter(
+                date=request.data['date'],
+                user_id=int(request.data['user_id'])
+            )
+            serializer = WorkNowSerializer(queryset, many=True)
+            return Response(serializer.data)
 
 
 class PostNestedTaskFile(viewsets.ModelViewSet):

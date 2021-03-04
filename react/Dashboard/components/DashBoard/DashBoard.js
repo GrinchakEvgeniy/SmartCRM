@@ -11,6 +11,7 @@ import Users from "./Users/Users";
 import ProjectControl from "./ProjectControl/ProjectControl";
 import Notifications from "./Notifications/Notifications";
 import Events from "./Events/Events";
+import ProjectsTime from "./ProjectsTime/ProjectsTime";
 
 const DashBoard = () => {
 
@@ -28,6 +29,7 @@ const DashBoard = () => {
                     <Route path='/dashboard/notifications' component={()=>{return <Notifications/>}}/>
                     <Route path='/dashboard/events' component={()=>{return <Events/>}}/>
                     <Route path='/dashboard/users' component={()=>{return <Users/>}}/>
+                    <Route path='/dashboard/projects-time' component={()=>{return <ProjectsTime/>}}/>
                     <Route path='/dashboard/projects' component={()=>{return <Projects showPopUp={showPopUp}
                                                                                        setShowPopUp={setShowPopUp}
                                                                                        setPopUpOptions={setPopUpOptions}/>}}/>

@@ -6,6 +6,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
+import TimelapseIcon from '@material-ui/icons/Timelapse';
 import EventIcon from '@material-ui/icons/Event';
 
 const DashBoardSidebar = (props) => {
@@ -49,6 +50,10 @@ const DashBoardSidebar = (props) => {
                     label={"Users"}
                     link={'/dashboard/users'}
                     icon={<PeopleAltIcon/>}/>
+                <DashBoardSidebarElms
+                    label={"Projects Time"}
+                    link={'/dashboard/projects-time'}
+                    icon={<TimelapseIcon/>}/>
             </div>
         </div>
     );

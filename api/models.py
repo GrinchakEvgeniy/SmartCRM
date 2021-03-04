@@ -195,7 +195,7 @@ class WorkNow(models.Model):
     def save(self, *args, **kwargs):
         now = datetime.now()
         self.timestamps = now
-        self.date = now.strftime("%d:%m:%Y")
+        self.date = now.strftime("%Y-%m-%d")
         super(WorkNow, self).save(*args, **kwargs)
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
