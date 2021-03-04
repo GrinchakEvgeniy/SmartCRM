@@ -3,81 +3,99 @@ import './Task.scss'
 import DescriptionIcon from "@material-ui/icons/Description";
 import {isEmpty} from "../../helper";
 import Button from "@material-ui/core/Button";
-import {postProjectFilesFetch} from "../../requests";
+import EditIcon from '@material-ui/icons/Edit';
+import {delProjectNestedTaskFilesFetch, postProjectFilesFetch, postProjectNestedTaskFilesFetch} from "../../requests";
 
 const Task = (props) => {
 
-    const[files, setFiles] = useState([])
+    const [files, setFiles] = useState([])
     const [imgs, setImages] = useState(['png', 'jpeg', 'jpg', 'gif', 'webp'])
 
     useEffect(() => {
         if (!isEmpty(props)) {
-            if (props.task.project_nested_task_file.lenght === 'undefined' ) return;
-            setFiles(props.task.project_nested_task_file)
+            if (props.tasks.project_nested_task_file === []) return;
+            setFiles(props.tasks.project_nested_task_file)
+            console.log('props.tasks', props.tasks)
         }
-    }, [props]);
+    }, [props.tasks]);
 
     return (
         <div className='task'>
             <div className='taskWrap'>
                 <div className="taskHeader">
-                    <div className="status">
-                        Status - {props.task.status}
+                    <div className='nameStatus'>
+                        <h5 className="status">
+                            {props.tasks.status}
+                        </h5>
+                        <h3 className="name">
+                            {props.number}. Title - {props.tasks.name}
+                        </h3>
                     </div>
-                    <div className="name">
-                        Name - {props.task.name}
+                    <div className='creatorWorker'>
+                        <h4 className="creator">
+                            Creator id - {props.tasks.created_user_id}
+                        </h4>
+                        <h4 className="usersWorked">
+                            Worked id - {props.tasks.worked_user_id}
+                        </h4>
                     </div>
-                    <div className="creator">
-                        Creator id - {props.task.created_user_id}
-                    </div>
-                    <div className="usersWorked">
-                        Worked id - {props.task.worked_user_id}
-                    </div>
+                    <EditIcon className='editIcon'
+                              onClick={() => {
+
+                              }}/>
+                </div>
+                <div className="taskContent">
                     <div className="description">
-                        Description - {props.task.description}
+                        <p>
+                            {props.tasks.description}
+                        </p>
                     </div>
                     <div className="taskFiles">
                         <div className="filesWrap">
-                        {
-                            files.length
-                                ?
-                                files.map((el, index) => {
-                                    return (
-                                        <a className="file"
-                                           href={el.file}
-                                           download
-                                           key={index}>
-
-                                            <div className="fileIcon">
-                                                {
-                                                    imgs.indexOf(el.file.split('.').pop()) !== -1
-                                                        ?
-                                                        <img src={el.file} alt=""/>
-                                                        :
-                                                        <DescriptionIcon/>
-                                                }
-                                            </div>
-                                            <h4 className="fileName">{el.file.split('/').pop()}</h4>
-                                            <span className="delBtn"
-                                                  onClick={(e) => {
-                                                      e.preventDefault()
-                                                      // delProjectFile(el.id)
-                                                  }}
-                                                  id="9">-</span>
-                                        </a>
-                                    )
-                                })
-                                :
-                                ''
-                        }
+                            {
+                                files
+                                    ?
+                                    files.map((el, index) => {
+                                        return (
+                                            <a className="file"
+                                               href={el.file}
+                                               download
+                                               key={index}>
+                                                <div className="fileIcon">
+                                                    {
+                                                        imgs.indexOf(el.file.split('.').pop()) !== -1
+                                                            ?
+                                                            <img src={el.file} alt=""/>
+                                                            :
+                                                            <DescriptionIcon/>
+                                                    }
+                                                </div>
+                                                <h4 className="fileName">{el.file.split('/').pop()}</h4>
+                                                <span className="delBtn"
+                                                      onClick={(e) => {
+                                                          e.preventDefault()
+                                                          delProjectNestedTaskFilesFetch({id: el.id})
+                                                              .then((data) => {
+                                                                  console.log('del file', data)
+                                                                  props.update()
+                                                              })
+                                                      }}
+                                                      id="9">-</span>
+                                            </a>
+                                        )
+                                    })
+                                    :
+                                    ''
+                            }
                         </div>
                         <Button className="addFileBtn"
                                 color='secondary'
                                 variant="contained"
                                 onChange={(event) => {
-                                    postProjectFilesFetch(event.target.files, project.id)
-                                        .then(() => {
-                                            update()
+                                    postProjectNestedTaskFilesFetch(event.target.files, props.tasks.id)
+                                        .then((data) => {
+                                            console.log('add file', data)
+                                            props.update()
                                         })
                                 }}
                                 component="label">
@@ -87,10 +105,6 @@ const Task = (props) => {
                     </div>
                 </div>
             </div>
-            <button onClick={() => {
-                console.log(props)
-            }}>task
-            </button>
         </div>
     );
 };

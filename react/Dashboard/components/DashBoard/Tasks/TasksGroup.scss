@@ -1,0 +1,57 @@
+.tasksGroupHeader{
+  background: transparent;
+  width: 100%;
+  margin-bottom: 5px;
+  position: relative;
+  padding: 5px;
+  z-index: 1;
+  .creatorName{
+    justify-self: flex-end;
+  }
+  .taskGroupName{
+    justify-self: flex-start;
+    margin: 5px 0;
+    input{
+      border: none;
+      color: #2f2f2f;
+      min-width: fit-content;
+      display: block;
+      font-size: 1.17em;
+      font-weight: bold;
+      line-height: 22px;
+      border-radius: 5px;
+      outline: none;
+    }
+    .nameField{
+      padding: 5px;
+    }
+  }
+  .numberOfTasks{
+    display: flex;
+    .showBtn{
+      padding: 2px 4px;
+      font-size: 12px;
+      height: 20px;
+      margin: 0 5px;
+    }
+  }
+  .progress_line{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #b0ffb0;
+    border-radius: 7px;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  .editIcon{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+  }
+}
+.allTasksProject{
+  padding-top: 10px;
+}

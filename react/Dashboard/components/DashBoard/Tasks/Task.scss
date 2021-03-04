@@ -7,125 +7,158 @@
   padding: 10px;
   background: #d2efff;
   margin-bottom: 10px;
-  .taskFiles {
-    position: relative;
+
+  .taskWrap {
     width: 100%;
-    height: 240px;
-    overflow: auto;
-    padding: 18.5px 14px;
-    border: 1px solid #BDBDBD;
-    border-radius: 4px;
-
-    .filesWrap {
+    .taskHeader {
+      position: relative;
       display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-
-      .file {
-        position: relative;
-        margin: 5px;
-        width: 60px;
-        height: 90px;
-        border-radius: 5px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        flex-direction: column;
-        transition: 0.4s;
-        color: #757575;
-        text-decoration: none;
-
-        .fileIcon {
-          width: 100%;
-          height: 45px;
-          text-align: center;
-          padding: 5px;
-
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            border-radius: 4px;
-          }
-
-          svg {
-            width: 100%;
-            height: 100%;
-          }
+      align-items: center;
+      justify-content: space-between;
+      .nameStatus{
+        .status{
+          margin-bottom: 10px;
         }
-
-        .fileName {
-          text-align: center;
-          width: 100%;
-          max-width: 100%;
-          height: 45px;
-          font-size: 10px;
-          font-weight: 400;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        &:hover {
-          background: #c2e1f5;
-
-          .fileName {
-            height: fit-content;
-            word-break: break-word;
-          }
-
-          .delBtn {
-            opacity: 1;
-          }
-        }
-
-        .delBtn {
-          opacity: 0;
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 15px;
-          height: 15px;
-          background: #C51162;
-          color: white;
-          text-align: center;
-          line-height: 14px;
-          font-size: 30px;
-          border-radius: 50%;
-          transition: 0.4s;
-          transition-delay: 0.2s;
-          cursor: pointer;
-        }
+      }
+      .creatorWorker{
+        margin-right: 40px;
+      }
+      .editIcon{
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
       }
     }
 
-    .addFileBtn {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      right: 4px;
-      bottom: 4px;
-      width: 25px;
-      min-width: 25px;
-      height: 25px;
-      padding: 6px 6px 6px 6px;
-      background-color: #f50057;
-      border-radius: 50%;
-      color: white;
-      font-size: 22px;
-      line-height: 10px;
-      cursor: pointer;
-      transition-property: background-color, transform;
-      transition-duration: 0.4s, 0.1s;
+    .taskContent {
 
-      &:hover {
-        background-color: #c51162;
+      .description{
+        margin: 10px 0;
       }
 
-      &:active {
-        transform: scale(0.9);
+      .taskFiles {
+        position: relative;
+        width: 100%;
+        min-height: 100px;
+        overflow: auto;
+        padding: 0;
+        border: 1px solid #BDBDBD;
+        border-radius: 4px;
+        background: #e3f3ff;
+
+        .filesWrap {
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+
+          .file {
+            position: relative;
+            margin: 5px;
+            width: 60px;
+            height: 90px;
+            border-radius: 5px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: column;
+            transition: 0.4s;
+            color: #757575;
+            text-decoration: none;
+
+            .fileIcon {
+              width: 100%;
+              height: 45px;
+              text-align: center;
+              padding: 5px;
+
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 4px;
+              }
+
+              svg {
+                width: 100%;
+                height: 100%;
+              }
+            }
+
+            .fileName {
+              text-align: center;
+              width: 100%;
+              max-width: 100%;
+              height: 45px;
+              font-size: 10px;
+              font-weight: 400;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            &:hover {
+              background: #c2e1f5;
+
+              .fileName {
+                height: fit-content;
+                word-break: break-word;
+              }
+
+              .delBtn {
+                opacity: 1;
+              }
+            }
+
+            .delBtn {
+              opacity: 0;
+              position: absolute;
+              left: 0;
+              top: 0;
+              width: 15px;
+              height: 15px;
+              background: #C51162;
+              color: white;
+              text-align: center;
+              line-height: 14px;
+              font-size: 30px;
+              border-radius: 50%;
+              transition: 0.4s;
+              transition-delay: 0.2s;
+              cursor: pointer;
+            }
+          }
+        }
+
+        .addFileBtn {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          right: 4px;
+          bottom: 4px;
+          width: 25px;
+          min-width: 25px;
+          height: 25px;
+          padding: 6px 6px 6px 6px;
+          background-color: #f50057;
+          border-radius: 50%;
+          color: white;
+          font-size: 22px;
+          line-height: 10px;
+          cursor: pointer;
+          transition-property: background-color, transform;
+          transition-duration: 0.4s, 0.1s;
+
+          &:hover {
+            background-color: #c51162;
+          }
+
+          &:active {
+            transform: scale(0.9);
+          }
+        }
       }
     }
   }

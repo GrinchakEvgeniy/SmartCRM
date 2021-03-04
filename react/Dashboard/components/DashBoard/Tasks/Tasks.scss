@@ -32,5 +32,11 @@
       left: 0;
       z-index: -1;
     }
+    .editIcon{
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      cursor: pointer;
+    }
   }
 }

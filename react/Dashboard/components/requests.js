@@ -399,3 +399,31 @@ export async function getWorkNowByDateFetch(data) {
     const result = await response.json();
     return result;
 }
+
+export async function postProjectNestedTaskFilesFetch(file, projectNestedTaskId) {
+    let formData = new FormData();
+    formData.append("file", file[0], file[0].name);
+    formData.append("project_nested_task_id", projectNestedTaskId);
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: formData
+    }
+    const response = await fetch('/api/post-nested-task-file', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function delProjectNestedTaskFilesFetch(data) {
+    const options = {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify(data),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/delete-nested-task-file', options);
+    const result = await response.json();
+    return result;
+}
