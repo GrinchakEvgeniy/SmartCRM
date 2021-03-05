@@ -266,6 +266,7 @@ export async function createEventFetch(data) {
     const result = await response.json();
     return result;
 }
+
 export async function deleteEventFetch(data) {
     const options = {
         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
@@ -424,6 +425,66 @@ export async function delProjectNestedTaskFilesFetch(data) {
         }
     }
     const response = await fetch('/api/delete-nested-task-file', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function postProjectTaskNameFetch(taskId, taskName) {
+    const options = {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({id: taskId, name: taskName}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/put-task', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function postProjectNestedTaskNameFetch(taskId, taskName) {
+    const options = {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({id: taskId, name: taskName}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/put-nested-task', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function postProjectNestedTaskDescriptionFetch(taskId, description) {
+    const options = {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({id: taskId, description: description}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/put-nested-task', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function postNewTaskGroupFetch(project_id, created_user_id, name) {
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({project_id: project_id, created_user_id: created_user_id, name: name}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/post-task', options);
     const result = await response.json();
     return result;
 }

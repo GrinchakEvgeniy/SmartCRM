@@ -3,7 +3,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import Task from "./Task";
 import './TasksGroup.scss'
 import {isEmpty} from "../../helper";
-import {getProjectFetch} from "../../requests";
+import {getProjectFetch, getUsersFetch, postProjectTaskNameFetch, updateProjectFetch} from "../../requests";
 import Button from "@material-ui/core/Button";
 
 const TasksGroup = (props) => {
@@ -11,6 +11,8 @@ const TasksGroup = (props) => {
     const [tasks, setTasks] = useState([])
     const [showTasks, setShowTasks] = useState(false)
     const [editName, setEditName] = useState(false)
+    const [users, setUsers] = useState([])
+    const [project, setProject] = useState({})
 
     useEffect(() => {
         if (!isEmpty(props)) {
@@ -19,13 +21,37 @@ const TasksGroup = (props) => {
         }
     }, [props.tasks]);
 
+    useEffect(() => {
+        getUsersFetch()
+            .then(data => setUsers(data));
+        getProjectFetch(window.location.href.split('/').pop())
+            .then(data => {
+                setProject(data)
+            })
+    }, [])
 
+    const findName = (id, arr) => {
+        for (let el of arr) {
+            if (el.id === id) {
+                return el.first_name
+            }
+        }
+    }
+
+    const editTaskName = (e) => {
+        postProjectTaskNameFetch(props.tasks.id, e.target.value)
+            .then(() => {
+                props.update()
+            })
+    }
 
     return (
         <div>
             <div className="tasksGroupHeader">
                 <div className="creatorName">
-                    <h5>Creator name id - {props.tasks.created_user_id}</h5>
+                    <h5>Creator name -
+                        {findName(props.tasks.created_user_id, users)}
+                    </h5>
                 </div>
                 <div className="taskGroupName">
                     {
@@ -35,8 +61,9 @@ const TasksGroup = (props) => {
                                    type="text"
                                    defaultValue={props.tasks.name}
                                    onKeyPress={(e) => {
-                                       if(e.key==='Enter'){
-                                           console.log('DONE')
+                                       if (e.key === 'Enter') {
+                                           setEditName(!editName)
+                                           editTaskName(e)
                                        }
                                    }}/>
                             :
@@ -44,24 +71,32 @@ const TasksGroup = (props) => {
                     }
                 </div>
                 <div className="numberOfTasks">
-                    <h4>{props.tasks.project_nested_task.length} tasks</h4>
                     <Button className='showBtn'
                             variant="contained"
+                            disabled={!props.tasks.project_nested_task.length}
                             color="primary"
                             onClick={() => {
                                 setShowTasks(!showTasks)
                             }}>
-                        {showTasks ? 'close' : 'show'}
+                        {showTasks ? 'close tasks' : 'show ' + props.tasks.project_nested_task.length + ' tasks'}
+                    </Button>
+                    <Button className='showBtn'
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                console.log('add new nested task')
+                            }}>
+                        add new nested task
                     </Button>
                 </div>
                 <span className='progress_line'></span>
                 <EditIcon className='editIcon'
+                          color={editName ? 'secondary' : 'primary'}
                           onClick={(e) => {
                               e.stopPropagation()
                               setEditName(!editName)
                           }}/>
             </div>
-
             {
                 showTasks
                     ?
@@ -70,7 +105,9 @@ const TasksGroup = (props) => {
                             tasks.map((el, index) => {
                                 return (
                                     <Task tasks={el}
+                                          users={users}
                                           update={props.update}
+                                          findName={findName}
                                           number={index + 1}
                                           key={index}/>
                                 )
@@ -80,13 +117,12 @@ const TasksGroup = (props) => {
                     :
                     ''
             }
-
-
-            <button onClick={() => {
-                console.log('props', props)
-            }}>
-                show task
-            </button>
+            {/*<button onClick={() => {*/}
+            {/*    console.log('users', users)*/}
+            {/*    console.log('project', project)*/}
+            {/*}}>*/}
+            {/*    show users*/}
+            {/*</button>*/}
         </div>
     );
 };

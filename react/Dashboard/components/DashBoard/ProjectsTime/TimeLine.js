@@ -13,11 +13,11 @@ const TimeLine = (props) => {
             user_id: props.user_id})
             .then(data=>{
                 setLines(data);
-                console.log(props.lineTimeStandart, data[0].start)
+                // console.log(props.lineTimeStandart, data[0].start)
             })
         const sublines = [];
         for(let i = 0; i < 24; i++){
-            sublines.push(<div className="sub_line"><p>{i+":00"}</p></div>)
+            sublines.push(<div className="sub_line" key={i}><p>{i+":00"}</p></div>)
         }
         setSubLines(sublines);
     }, [])

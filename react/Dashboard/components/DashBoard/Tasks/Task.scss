@@ -19,6 +19,21 @@
         .status{
           margin-bottom: 10px;
         }
+        input{
+          width: 90%;
+          border: none;
+          color: #2f2f2f;
+          min-width: fit-content;
+          display: block;
+          font-size: 1.17em;
+          font-weight: bold;
+          line-height: 22px;
+          border-radius: 5px;
+          outline: none;
+        }
+        .name{
+          padding: 5px;
+        }
       }
       .creatorWorker{
         margin-right: 40px;
@@ -34,7 +49,32 @@
     .taskContent {
 
       .description{
+        position: relative;
         margin: 10px 0;
+        background: #e3f3ff;
+        border-radius: 5px;
+        padding: 5px 20px 5px 5px;
+        border: 1px solid #BDBDBD;
+        .editIcon{
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          cursor: pointer;
+        }
+        textarea{
+          width: 98%;
+          height: 100px;
+          border: none;
+          color: #757575;
+          min-width: fit-content;
+          display: block;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 22px;
+          border-radius: 5px;
+          outline: none;
+          resize: none;
+        }
       }
 
       .taskFiles {
