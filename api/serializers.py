@@ -94,7 +94,7 @@ class ProjectNestedTaskSerializer(serializers.ModelSerializer):
 
 
 class ProjectTaskSerializer(serializers.ModelSerializer):
-    project_nested_task = ProjectNestedTaskSerializer(many=True)
+    project_nested_task = ProjectNestedTaskSerializer(many=True, read_only=True)
 
     class Meta:
         model = ProjectTask

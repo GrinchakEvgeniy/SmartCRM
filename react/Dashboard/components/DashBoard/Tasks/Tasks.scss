@@ -6,37 +6,10 @@
   border-radius: 5px;
   margin-bottom: 10px;
 
-  .tasksHeader{
-    background: transparent;
-    width: 100%;
-    margin-bottom: 10px;
-    position: relative;
-    padding: 5px;
-    z-index: 1;
-    .taskGroupName{
-      justify-self: flex-start;
-    }
-    .creatorName{
-      justify-self: flex-end;
-    }
-    .allTasksProject{
-      padding-top: 10px;
-    }
-    .progress{
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #b0ffb0;
-      border-radius: 7px;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-    .editIcon{
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      cursor: pointer;
+  .addNewTasksGroup{
+    .addTasksGroupBtn{
+      margin-bottom: 10px;
     }
   }
+
 }

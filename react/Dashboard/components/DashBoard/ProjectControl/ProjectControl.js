@@ -250,18 +250,18 @@ const ProjectControl = (props) => {
                             tabValue === 'Tasks'
                                 ?
                                 <div className="projectTasks">
-                                    <div className="tasksControl">
-                                        <Button className='addBtn'
-                                                variant="contained"
-                                                color="primary">
-                                            Add single task
-                                        </Button>
-                                        <Button className='addBtn'
-                                                variant="contained"
-                                                color="primary">
-                                            add task group
-                                        </Button>
-                                    </div>
+                                    {/*<div className="tasksControl">*/}
+                                    {/*    <Button className='addBtn'*/}
+                                    {/*            variant="contained"*/}
+                                    {/*            color="primary">*/}
+                                    {/*        Add single task*/}
+                                    {/*    </Button>*/}
+                                    {/*    <Button className='addBtn'*/}
+                                    {/*            variant="contained"*/}
+                                    {/*            color="primary">*/}
+                                    {/*        add task group*/}
+                                    {/*    </Button>*/}
+                                    {/*</div>*/}
                                     <div className="allTasks">
                                         <Tasks/>
                                     </div>
