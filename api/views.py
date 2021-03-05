@@ -147,8 +147,11 @@ class PutNestedTask(viewsets.ModelViewSet):
         instance.name = request.data.get('name', instance.name)
         instance.description = request.data.get('description', instance.description)
         instance.status = request.data.get('status', instance.status)
-        user_worker = User.objects.get(pk=int(request.data.get('worked_user_id', instance.worked_user_id.id)))
-        instance.worked_user_id = user_worker
+        try:
+            user_worker = User.objects.get(pk=int(request.data.get('worked_user_id', instance.worked_user_id.id)))
+            instance.worked_user_id = user_worker
+        except:
+           pass
         instance.save()
         return Response({'message': 'Nested task has been updated', 'type': 'success'})
 

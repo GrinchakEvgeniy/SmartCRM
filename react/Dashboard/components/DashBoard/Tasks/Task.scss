@@ -17,7 +17,12 @@
       justify-content: space-between;
       .nameStatus{
         .status{
-          margin-bottom: 10px;
+          width: 150px;
+          .MuiInputBase-formControl{
+            .MuiSelect-root{
+              padding: 5px 10px 5px 5px;
+            }
+          }
         }
         input{
           width: 90%;
@@ -33,6 +38,7 @@
         }
         .name{
           padding: 5px;
+          min-height: 32px;
         }
       }
       .creatorWorker{
@@ -47,8 +53,11 @@
     }
 
     .taskContent {
+      display: flex;
+      flex-direction: column;
 
       .description{
+        min-height: 31px;
         position: relative;
         margin: 10px 0;
         background: #e3f3ff;
@@ -75,6 +84,17 @@
           outline: none;
           resize: none;
         }
+      }
+
+      .showBtn{
+        text-transform: none;
+        background: #00a4ff;
+        width: 100px;
+        min-width: 100px;
+        padding: 2px 4px;
+        font-size: 10px;
+        height: 16px;
+        margin: 0 5px 3px 5px;
       }
 
       .taskFiles {

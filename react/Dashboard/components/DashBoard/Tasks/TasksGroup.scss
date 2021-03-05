@@ -30,10 +30,24 @@
   .numberOfTasks{
     display: flex;
     .showBtn{
+      text-transform: none;
+      background: #00a4ff;
+      width: 120px;
+      min-width: 120px;
       padding: 2px 4px;
-      font-size: 12px;
-      height: 20px;
-      margin: 0 5px;
+      font-size: 10px;
+      height: 16px;
+      margin: 0 5px 3px 5px;
+    }
+    .addTask{
+      text-transform: none;
+      background: #00a4ff;
+      width: 120px;
+      min-width: 120px;
+      padding: 2px 4px;
+      font-size: 10px;
+      height: 16px;
+      margin: 0 5px 3px 5px;
     }
   }
   .progress_line{

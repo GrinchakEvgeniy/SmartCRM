@@ -4,12 +4,14 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import {isEmpty} from "../../helper";
 import Button from "@material-ui/core/Button";
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {
     delProjectNestedTaskFilesFetch,
     postProjectFilesFetch, postProjectNestedTaskDescriptionFetch,
     postProjectNestedTaskFilesFetch, postProjectNestedTaskNameFetch,
     postProjectTaskNameFetch
 } from "../../requests";
+import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
 const Task = (props) => {
 
@@ -17,16 +19,27 @@ const Task = (props) => {
     const [imgs, setImages] = useState(['png', 'jpeg', 'jpg', 'gif', 'webp'])
     const [editName, setEditName] = useState(false)
     const [editDescription, setEditDescription] = useState(false)
+    const [showDescription, setShowDescription] = useState(false)
+    const [showFiles, setShowFiles] = useState(false)
+    const [status, setStatus] = useState('is pending')
 
     useEffect(() => {
         if (!isEmpty(props)) {
             if (props.tasks.project_nested_task_file === []) return;
             setFiles(props.tasks.project_nested_task_file)
+            setStatus(props.tasks.status)
         }
     }, [props.tasks]);
 
+    const editNestedTaskStatus = (e) => {
+        postProjectNestedTaskNameFetch(props.tasks.id, props.tasks.name, e.target.value)
+            .then(() => {
+                props.update()
+            })
+    }
+
     const editNestedTaskName = (e) => {
-        postProjectNestedTaskNameFetch(props.tasks.id, e.target.value)
+        postProjectNestedTaskNameFetch(props.tasks.id, e.target.value, status)
             .then(() => {
                 props.update()
             })
@@ -39,15 +52,23 @@ const Task = (props) => {
             })
     }
 
-
     return (
         <div className='task'>
             <div className='taskWrap'>
                 <div className="taskHeader">
                     <div className='nameStatus'>
-                        <h5 className="status">
-                            {props.tasks.status}
-                        </h5>
+                        <FormControl variant="filled" className='status'>
+                            <Select value={status}
+                                    onChange={(event) => {
+                                        setStatus(event.target.value)
+                                        console.log('event.target.value', event.target.value)
+                                        editNestedTaskStatus(event)
+                                    }}>
+                                <MenuItem value='is pending'>IS PENDING</MenuItem>
+                                <MenuItem value='at work'>AT WORK</MenuItem>
+                                <MenuItem value='done'>DONE</MenuItem>
+                            </Select>
+                        </FormControl>
                         {
                             editName
                                 ?
@@ -79,83 +100,117 @@ const Task = (props) => {
                               }}/>
                 </div>
                 <div className="taskContent">
-                    <div className="description">
-                        {
-                            editDescription
-                                ?
-                                <textarea className='name'
-                                          defaultValue={props.tasks.description}
-                                          onKeyPress={(e) => {
-                                              if (e.key === 'Enter') {
-                                                  setEditDescription(!editDescription)
-                                                  editNestedTasksDescription(e)
-                                              }
+                    <Button className='showBtn'
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => {
+                                setShowDescription(!showDescription)
+                            }}>
+                        {showDescription ? 'close description' : 'show description'}
+                    </Button>
+                    {
+                        showDescription
+                            ?
+                            <div className="description">
+                                {
+                                    editDescription
+                                        ?
+                                        <textarea className='name'
+                                                  defaultValue={props.tasks.description}
+                                                  onKeyPress={(e) => {
+                                                      if (e.key === 'Enter') {
+                                                          setEditDescription(!editDescription)
+                                                          editNestedTasksDescription(e)
+                                                      }
+                                                  }}/>
+                                        :
+                                        <p>
+                                            {props.tasks.description}
+                                        </p>
+                                }
+                                <EditIcon className='editIcon'
+                                          color={editDescription ? 'secondary' : 'primary'}
+                                          onClick={() => {
+                                              setEditDescription(!editDescription)
                                           }}/>
-                                :
-                                <p>
-                                    {props.tasks.description}
-                                </p>
-                        }
-                        <EditIcon className='editIcon'
-                                  color={editDescription ? 'secondary' : 'primary'}
-                                  onClick={() => {
-                                      setEditDescription(!editDescription)
-                                  }}/>
-                    </div>
-                    <div className="taskFiles">
-                        <div className="filesWrap">
-                            {
-                                files
-                                    ?
-                                    files.map((el, index) => {
-                                        return (
-                                            <a className="file"
-                                               href={el.file}
-                                               download
-                                               key={index}>
-                                                <div className="fileIcon">
-                                                    {
-                                                        imgs.indexOf(el.file.split('.').pop()) !== -1
-                                                            ?
-                                                            <img src={el.file} alt=""/>
-                                                            :
-                                                            <DescriptionIcon/>
-                                                    }
-                                                </div>
-                                                <h4 className="fileName">{el.file.split('/').pop()}</h4>
-                                                <span className="delBtn"
-                                                      onClick={(e) => {
-                                                          e.preventDefault()
-                                                          delProjectNestedTaskFilesFetch({id: el.id})
-                                                              .then(() => {
-                                                                  props.update()
-                                                              })
-                                                      }}
-                                                      id="9">-</span>
-                                            </a>
-                                        )
-                                    })
-                                    :
-                                    ''
-                            }
-                        </div>
-                        <Button className="addFileBtn"
-                                color='secondary'
-                                variant="contained"
-                                onChange={(event) => {
-                                    postProjectNestedTaskFilesFetch(event.target.files, props.tasks.id)
-                                        .then((data) => {
-                                            console.log('add file', data)
-                                            props.update()
-                                        })
-                                }}
-                                component="label">
-                            +
-                            <input type="file" hidden/>
-                        </Button>
-                    </div>
+                            </div>
+                            :
+                            ''
+
+                    }
+                    <Button className='showBtn'
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => {
+                                setShowFiles(!showFiles)
+                            }}>
+                        {showFiles
+                            ?
+                            'close files'
+                            :
+                            'show ' + props.tasks.project_nested_task_file.length + ' files'}
+                    </Button>
+                    {
+                        showFiles
+                            ?
+                            <div className="taskFiles">
+                                <div className="filesWrap">
+                                    {
+                                        files
+                                            ?
+                                            files.map((el, index) => {
+                                                return (
+                                                    <a className="file"
+                                                       href={el.file}
+                                                       download
+                                                       key={index}>
+                                                        <div className="fileIcon">
+                                                            {
+                                                                imgs.indexOf(el.file.split('.').pop()) !== -1
+                                                                    ?
+                                                                    <img src={el.file} alt=""/>
+                                                                    :
+                                                                    <DescriptionIcon/>
+                                                            }
+                                                        </div>
+                                                        <h4 className="fileName">{el.file.split('/').pop()}</h4>
+                                                        <span className="delBtn"
+                                                              onClick={(e) => {
+                                                                  e.preventDefault()
+                                                                  delProjectNestedTaskFilesFetch({id: el.id})
+                                                                      .then(() => {
+                                                                          props.update()
+                                                                      })
+                                                              }}
+                                                              id="9">-</span>
+                                                    </a>
+                                                )
+                                            })
+                                            :
+                                            ''
+                                    }
+                                </div>
+                                <Button className="addFileBtn"
+                                        color='secondary'
+                                        variant="contained"
+                                        onChange={(event) => {
+                                            postProjectNestedTaskFilesFetch(event.target.files, props.tasks.id)
+                                                .then((data) => {
+                                                    console.log('add file', data)
+                                                    props.update()
+                                                })
+                                        }}
+                                        component="label">
+                                    +
+                                    <input type="file" hidden/>
+                                </Button>
+                            </div>
+                            :
+                            ""
+                    }
                 </div>
             </div>
+            <DeleteForeverIcon className='delNestedTask'/>
         </div>
     );
 };

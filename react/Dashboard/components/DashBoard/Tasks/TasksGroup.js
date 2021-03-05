@@ -3,7 +3,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import Task from "./Task";
 import './TasksGroup.scss'
 import {isEmpty} from "../../helper";
-import {getProjectFetch, getUsersFetch, postProjectTaskNameFetch, updateProjectFetch} from "../../requests";
+import {
+    getProjectFetch,
+    getUserFetch,
+    getUsersFetch, postNewNestedTaskFetch, postNewTaskGroupFetch,
+    postProjectTaskNameFetch,
+    updateProjectFetch
+} from "../../requests";
 import Button from "@material-ui/core/Button";
 
 const TasksGroup = (props) => {
@@ -45,12 +51,21 @@ const TasksGroup = (props) => {
             })
     }
 
+    const addNewNestedTask = (name, status) => {
+        postNewNestedTaskFetch(name, status, props.tasks.id, props.currentUser).then(() => {
+            props.update()
+            console.log('name', name)
+            console.log('status', status)
+            console.log('id', props.tasks.id)
+            console.log('currentUser', props.currentUser)
+        })
+    }
+
     return (
         <div>
             <div className="tasksGroupHeader">
                 <div className="creatorName">
-                    <h5>Creator name -
-                        {findName(props.tasks.created_user_id, users)}
+                    <h5>created by {findName(props.tasks.created_user_id, users)}
                     </h5>
                 </div>
                 <div className="taskGroupName">
@@ -80,11 +95,12 @@ const TasksGroup = (props) => {
                             }}>
                         {showTasks ? 'close tasks' : 'show ' + props.tasks.project_nested_task.length + ' tasks'}
                     </Button>
-                    <Button className='showBtn'
+                    <Button className='addTask'
                             variant="contained"
+                            // disabled={!showTasks}
                             color="primary"
                             onClick={() => {
-                                console.log('add new nested task')
+                                addNewNestedTask('New nested task', 'not started')
                             }}>
                         add new nested task
                     </Button>
@@ -118,8 +134,7 @@ const TasksGroup = (props) => {
                     ''
             }
             {/*<button onClick={() => {*/}
-            {/*    console.log('users', users)*/}
-            {/*    console.log('project', project)*/}
+            {/*    console.log('current users', props.currentUser)*/}
             {/*}}>*/}
             {/*    show users*/}
             {/*</button>*/}

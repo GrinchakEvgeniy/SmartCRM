@@ -10,8 +10,11 @@ const Tasks = () => {
 
     const [taskGroups, setTaskGroups] = useState([])
     const [currentProjectId, setCurrentProjectId] = useState('')
+    const [currentUser, setCurrentUser] = useState('')
 
     useEffect(() => {
+        getUserFetch().then(data => {
+            setCurrentUser(data.id)})
         update()
     }, [])
 
@@ -26,7 +29,7 @@ const Tasks = () => {
     const addNewTask = (name) => {
         console.log(currentProjectId)
         getUserFetch().then(data => {
-            console.log('data', data)
+            console.log('data user', data)
             postNewTaskGroupFetch(currentProjectId, data.id, name).then(()=>{
                 update()
             })
@@ -43,7 +46,6 @@ const Tasks = () => {
                         className='addTasksGroupBtn'
                         onClick={() => {
                             addNewTask('New Task')
-                            console.log('addNewTask')
                         }}>
                     Add new tasks group
                 </Button>
@@ -52,10 +54,11 @@ const Tasks = () => {
             {
                 taskGroups.map((el, index) => {
                     return (
-                        <TasksGroup tasks={el} key={index} update={update} number={index}/>
+                        <TasksGroup currentUser={currentUser} tasks={el} key={index} update={update} number={index}/>
                     )
                 })
             }
+            <button onClick={()=>{console.log(currentUser)}} >9999999</button>
         </div>
     );
 };

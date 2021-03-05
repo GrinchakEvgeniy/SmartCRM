@@ -444,10 +444,10 @@ export async function postProjectTaskNameFetch(taskId, taskName) {
     return result;
 }
 
-export async function postProjectNestedTaskNameFetch(taskId, taskName) {
+export async function postProjectNestedTaskNameFetch(taskId, taskName, status) {
     const options = {
         method: 'PUT', // *GET, POST, PUT, DELETE, etc.
-        body: JSON.stringify({id: taskId, name: taskName}),
+        body: JSON.stringify({id: taskId, name: taskName, status: status}),
         headers: {
             "X-CSRFToken": getCookie('csrftoken'),
             'Content-Type': 'application/json',
@@ -485,6 +485,26 @@ export async function postNewTaskGroupFetch(project_id, created_user_id, name) {
         }
     }
     const response = await fetch('/api/post-task', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function postNewNestedTaskFetch(name, status, project_task_id, created_user_id) {
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({
+            name: name,
+            status: status,
+            project_task_id: project_task_id,
+            created_user_id: created_user_id
+        }),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/post-nested-task', options);
     const result = await response.json();
     return result;
 }
