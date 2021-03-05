@@ -128,7 +128,7 @@ class ProjectNestedTask(models.Model):
     status = models.CharField(blank=True, null=True, max_length=20)
     project_task_id = models.ForeignKey(ProjectTask, on_delete=models.CASCADE, related_name="project_nested_task")
     created_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_nested_task_created")
-    worked_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_nested_task_worked")
+    worked_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_nested_task_worked", blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
