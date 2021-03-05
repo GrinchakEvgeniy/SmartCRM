@@ -1,5 +1,6 @@
 node_modules/
 .idea/
+media/
 
 api/__pycache__
 dashboard/__pycache__

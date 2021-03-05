@@ -6,21 +6,28 @@ const TimeLine = (props) => {
     const [lines, setLines] = useState([]);
     const [subLines, setSubLines] = useState([]);
 
-    useEffect(()=>{
+    const init  = () => {
         getWorkNowByDateFetch({
             date: props.date,
             action: 'user',
             user_id: props.user_id})
             .then(data=>{
                 setLines(data);
-                console.log(props.lineTimeStandart, data[0].start)
             })
+    }
+
+    useEffect(()=>{
+        init()
         const sublines = [];
         for(let i = 0; i < 24; i++){
-            sublines.push(<div className="sub_line"><p>{i+":00"}</p></div>)
+            sublines.push(<div className="sub_line" key={i}><p>{i+":00"}</p></div>)
         }
         setSubLines(sublines);
     }, [])
+
+    useEffect(()=>{
+        init()
+    }, [props.date])
 
     return (
         <div className="time_lines">
