@@ -107,13 +107,7 @@ const ProjectsTime = () => {
                         }
                     </Select>
                 </div>
-                <div className="search">
-                    <Button className="btn add-btn"
-                            variant="contained"
-                            color="primary"
-                            onClick={searchByDate}
-                    >Search</Button>
-                </div>
+
             </div>
             <div className="content">
                 {

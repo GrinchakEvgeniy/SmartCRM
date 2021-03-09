@@ -92,6 +92,10 @@ class GetWorkNowByDateView(viewsets.ModelViewSet):
                 date=request.data['date'],
                 project_id=int(request.data['project_id'])
             )
+        elif request.data['action'] == 'project all time':
+            queryset = WorkNow.objects.filter(
+                project_id=int(request.data['project_id'])
+            )
         serializer = WorkNowSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -459,7 +463,7 @@ class DeleteProjectsSimpleView(viewsets.ModelViewSet):
 class PutProjectsSimpleView(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSimpleSerializer
-    perms = ['PM', 'S']
+    perms = ['all']
 
     def put(self, request):
         token = get_token(request)
@@ -469,6 +473,7 @@ class PutProjectsSimpleView(viewsets.ModelViewSet):
         instance = Project.objects.get(pk=int(request.data['id']))
         instance.users_list = request.data.get('users_list', instance.users_list)
         instance.name = request.data.get('name', instance.name)
+        instance.project_predict_time = request.data.get('project_predict_time', instance.project_predict_time)
         instance.description = request.data.get('description', instance.description)
         instance.accesses = request.data.get('accesses', instance.accesses)
         instance.status = request.data.get('status', instance.status)

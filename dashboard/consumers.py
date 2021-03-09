@@ -2,7 +2,8 @@ import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.contrib.auth.models import User
 from asgiref.sync import sync_to_async
-from api.models import Notification
+from api.models import Notification, WorkNow, Profile
+import time
 
 @sync_to_async
 def get_user(user_id):
@@ -17,12 +18,26 @@ def save_new(notification):
         for_notification  = notification["for_notification"]
     ).save()
 
+@sync_to_async
+def save_last_work(user_id):
+    work = WorkNow.objects.filter(user_id=user_id).last()
+    if not work.finish:
+        work.finish = int(time.time())*1000
+        work.save()
+
+@sync_to_async
+def set_online_status(user_id, status):
+    user_profile = Profile.objects.get(user_id=user_id)
+    user_profile.online = status
+    user_profile.save()
+
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user_id = self.scope['url_route']['kwargs']['user_id']
         self.room_group_name = await get_user(self.user_id)
         self.all_group = "all"
 
+        await set_online_status(self.user_id, True)
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -54,6 +69,9 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         # Leave room group
+        await save_last_work(self.user_id)
+        await set_online_status(self.user_id, False)
+
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name

@@ -28,6 +28,7 @@ class Profile(models.Model):
     position = models.CharField(blank=True,null=True, max_length=100)
     experience = models.CharField(blank=True,null=True, max_length=100)
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="profile", blank=True, null=True)
+    online = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
@@ -69,6 +70,7 @@ class Project(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
     users_list = models.CharField(blank=True, null=True, max_length=1000)
     name = models.CharField(max_length=100)
+    project_predict_time = models.IntegerField(default=1)
     description = models.TextField()
     accesses = models.CharField(max_length=1000, blank=True, null=True)
     client_id = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='project', blank=True, null=True)

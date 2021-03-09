@@ -39,6 +39,48 @@
               background: #30fd00;
               height: 50%;
               border-radius: 6px;
+              cursor: pointer;
+              .popup_line_wrap{
+                position: relative;
+                .line_popup{
+                  cursor: default;
+                  position: absolute;
+                  top: 10px;
+                  left: 10px;
+                  background: #fff;
+                  box-shadow: 0 0 2px black;
+                  z-index: 12;
+                  border-radius: 3px;
+                  .toolbar{
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: #9e9ef1;
+                    padding: 3px 0;
+                    .close{
+                      position: absolute;
+                      right: 1px;
+                      background: #ff6565;
+                      border-radius: 50%;
+                      display: flex;
+                      overflow: hidden;
+                      align-items: center;
+                      cursor: pointer;
+                    }
+                  }
+                  .info{
+                    padding: 10px;
+                    display: flex;
+                    width: 200px;
+                    justify-content: space-evenly;
+                  }
+                }
+              }
+            }
+            .line:hover{
+              transition: 0.5s;
+              box-shadow: 0 0 3px black;
             }
             .sub_line{
               height: 100%;

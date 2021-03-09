@@ -20,6 +20,7 @@ function msToTime(duration) {
 
 const ProjectInfo = (props) => {
     const [workStack, setWorkStack] = useState([]);
+    const [workStackAllTime, setWorkStackAllTime] = useState([]);
     const [users, setUsers] = useState([]);
 
 
@@ -30,6 +31,12 @@ const ProjectInfo = (props) => {
             project_id: props.value.id})
             .then(data=>{
                 setWorkStack(data);
+                getWorkNowByDateFetch({
+                    action: 'project all time',
+                    project_id: props.value.id})
+                    .then(data=>{
+                        setWorkStackAllTime(data);
+                    })
             })
     }
 
@@ -81,7 +88,7 @@ const ProjectInfo = (props) => {
                         })
                     }
                 </div>
-                <Diagrams/>
+                <Diagrams today={workStack} allTime={workStackAllTime} users={users} project={props.value}/>
             </div>
         </div>
     );
