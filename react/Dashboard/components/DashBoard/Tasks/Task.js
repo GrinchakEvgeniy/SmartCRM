@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {
+    delNestedTaskFetch,
     delProjectNestedTaskFilesFetch,
     postProjectFilesFetch, postProjectNestedTaskDescriptionFetch,
     postProjectNestedTaskFilesFetch, postProjectNestedTaskNameFetch,
@@ -21,7 +22,8 @@ const Task = (props) => {
     const [editDescription, setEditDescription] = useState(false)
     const [showDescription, setShowDescription] = useState(false)
     const [showFiles, setShowFiles] = useState(false)
-    const [status, setStatus] = useState('is pending')
+    const [status, setStatus] = useState('')
+    const [warning, setWarning] = useState(false)
 
     useEffect(() => {
         if (!isEmpty(props)) {
@@ -38,18 +40,24 @@ const Task = (props) => {
             })
     }
 
-    const editNestedTaskName = (e) => {
-        postProjectNestedTaskNameFetch(props.tasks.id, e.target.value, status)
+    const editNestedTaskName = (val) => {
+        postProjectNestedTaskNameFetch(props.tasks.id, val, status)
             .then(() => {
                 props.update()
             })
     }
 
-    const editNestedTasksDescription = (e) => {
-        postProjectNestedTaskDescriptionFetch(props.tasks.id, e.target.value)
+    const editNestedTasksDescription = (val) => {
+        postProjectNestedTaskDescriptionFetch(props.tasks.id, val)
             .then(() => {
                 props.update()
             })
+    }
+
+    const delNestedTask = (task_id) => {
+        delNestedTaskFetch(task_id).then(() => {
+            props.update()
+        })
     }
 
     return (
@@ -57,7 +65,24 @@ const Task = (props) => {
             <div className='taskWrap'>
                 <div className="taskHeader">
                     <div className='nameStatus'>
-                        <FormControl variant="filled" className='status'>
+                        <FormControl variant="filled"
+                                     className='status'
+                                     style={
+                                         status === 'is pending'
+                                             ?
+                                             {background: '#ffff48'}
+                                             :
+                                             status === 'at work'
+                                                 ?
+                                                 {background: '#ff9745'}
+                                                 :
+                                                 status === 'done'
+                                                     ?
+                                                     {background: '#4fff4f'}
+                                                     :
+                                                     {background: '#D8D8D8'}
+
+                                     }>
                             <Select value={status}
                                     onChange={(event) => {
                                         setStatus(event.target.value)
@@ -72,17 +97,29 @@ const Task = (props) => {
                         {
                             editName
                                 ?
-                                <input className='name'
-                                       type="text"
-                                       defaultValue={props.tasks.name}
-                                       onKeyPress={(e) => {
-                                           if (e.key === 'Enter') {
-                                               setEditName(!editName)
-                                               editNestedTaskName(e)
-                                           }
-                                       }}/>
+                                <div className='nameWrap'>
+                                    <input className='name'
+                                           type="text"
+                                           defaultValue={props.tasks.name}
+                                           onKeyPress={(e) => {
+                                               if (e.key === 'Enter') {
+                                                   setEditName(!editName)
+                                                   editNestedTaskName(e.target.value)
+                                               }
+                                           }}/>
+                                    <span className='saveBtn'
+                                          onClick={(e) => {
+                                              setEditName(!editName)
+                                              editNestedTaskName(e.target.previousSibling.value)
+
+                                          }}>
+                                          ok
+                                      </span>
+                                </div>
                                 :
-                                <h3 className='name'>{props.number}. {props.tasks.name}</h3>
+                                <div className='nameWrap'>
+                                    <h3 className='name'>{props.number}. {props.tasks.name}</h3>
+                                </div>
                         }
                     </div>
                     <div className='creatorWorker'>
@@ -115,14 +152,24 @@ const Task = (props) => {
                                 {
                                     editDescription
                                         ?
-                                        <textarea className='name'
-                                                  defaultValue={props.tasks.description}
-                                                  onKeyPress={(e) => {
-                                                      if (e.key === 'Enter') {
-                                                          setEditDescription(!editDescription)
-                                                          editNestedTasksDescription(e)
-                                                      }
-                                                  }}/>
+                                        <div className='descrWrap'>
+                                            <textarea className='descriptionVal'
+                                                     defaultValue={props.tasks.description}
+                                                     onKeyPress={(e) => {
+                                                         if (e.key === 'Enter') {
+                                                             setEditDescription(!editDescription)
+                                                             editNestedTasksDescription(e.target.value)
+                                                         }
+                                                     }}/>
+                                            <span className='saveDescrBtn'
+                                                  onClick={(e) => {
+                                                      setEditDescription(!editDescription)
+                                                      editNestedTasksDescription(e.target.previousSibling.value)
+
+                                                  }}>
+                                          ok
+                                      </span>
+                                        </div>
                                         :
                                         <p>
                                             {props.tasks.description}
@@ -210,7 +257,40 @@ const Task = (props) => {
                     }
                 </div>
             </div>
-            <DeleteForeverIcon className='delNestedTask'/>
+            <DeleteForeverIcon className='delNestedTask'
+                               color='primary'
+                               onClick={() => {
+                                   console.log('DELETE TASK')
+                                   setWarning(!warning)
+                               }}/>
+            {
+                warning
+                    ?
+                    <div className="warning">
+                        <h3>Are You sure?</h3>
+                        <div className="btns">
+                            <Button className='btn'
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                        setWarning(!warning)
+                                    }}>
+                                Cancel
+                            </Button>
+                            <Button className='btn'
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => {
+                                        delNestedTask(props.tasks.id)
+                                        setWarning(!warning)
+                                    }}>
+                                Delete
+                            </Button>
+                        </div>
+                    </div>
+                    :
+                    ''
+            }
         </div>
     );
 };

@@ -45,10 +45,12 @@ const Users = () => {
                 setUsers(data);
                 setRenderUser(data);
             })
-        const timer = setTimeout(() => {
-            setAlerts({type: "", message: ""})
-        }, 2300);
-        return () => clearTimeout(timer);
+        if (alerts.type !== "") {
+            const timer = setTimeout(() => {
+                setAlerts({type: "", message: ""})
+            }, 2300);
+            return () => clearTimeout(timer);
+        }
     }, [alerts]);
 
     return (

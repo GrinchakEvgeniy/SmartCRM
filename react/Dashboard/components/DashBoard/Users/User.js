@@ -8,8 +8,9 @@ import AutorenewIcon from "@material-ui/icons/Autorenew";
 
 const User = (props) => {
     const [nowUser, setNowUser] = useState(false);
+    const defaultAva = '/static/images/userIcon.svg';
 
-    console.log(props)
+    // console.log(props)
 
     // function getRandomColor() {
     //     var letters = '0123456789ABCDEF';
@@ -24,13 +25,13 @@ const User = (props) => {
         let color
         switch (role) {
             case 'S':
-                color = '#b2ff67'
+                color = '#fffaa4'
                 break;
             case 'G':
-                color = '#ffc29b'
+                color = '#ffe7d7'
                 break;
             case 'Drt':
-                color = '#99dbff'
+                color = '#d2edff'
                 break;
             default:
                 color = 'grey';
@@ -51,7 +52,7 @@ const User = (props) => {
 
     const Change = (id) => {
         if (props.user_data.id === props.value.id) {
-            console.log(12)
+            // console.log(12)
             props.setAlerts({type: "warning", message: "You don`t can change your role"});
             let popups = document.getElementsByClassName('select_role_wrap');
             for (let i = 0; i < popups.length; i++) {
@@ -84,7 +85,13 @@ const User = (props) => {
         <div className="item">
             <div className="avatar">
                 <div className='imgWrap'>
-                    <img src={props.value.profile.avatar.image} alt=""/>
+                    <img src={
+                        props.value.profile.avatar.image
+                            ?
+                            props.value.profile.avatar.image
+                            :
+                            defaultAva
+                    } alt="ava"/>
                 </div>
             </div>
             <div className="info">

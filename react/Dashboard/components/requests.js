@@ -489,6 +489,21 @@ export async function postNewTaskGroupFetch(project_id, created_user_id, name) {
     return result;
 }
 
+export async function delTaskGroupFetch(taskId) {
+    const options = {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({id: taskId}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/delete-task', options);
+    const result = await response.json();
+    return result;
+}
+
 export async function postNewNestedTaskFetch(name, status, project_task_id, created_user_id) {
     const options = {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -505,6 +520,23 @@ export async function postNewNestedTaskFetch(name, status, project_task_id, crea
         }
     }
     const response = await fetch('/api/post-nested-task', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function delNestedTaskFetch(project_task_id) {
+    const options = {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({
+            id: project_task_id,
+        }),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/delete-nested-task', options);
     const result = await response.json();
     return result;
 }

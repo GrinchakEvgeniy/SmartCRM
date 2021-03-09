@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './Tasks.scss'
-import {getProjectFetch, getUserFetch, getUsersFetch, postNewTaskGroupFetch} from "../../requests";
+import {delTaskGroupFetch, getProjectFetch, getUserFetch, getUsersFetch, postNewTaskGroupFetch} from "../../requests";
 import TasksGroup from "./TasksGroup";
 import {TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -37,6 +37,8 @@ const Tasks = () => {
     }
 
 
+
+
     return (
         <div className='tasks'>
 
@@ -58,7 +60,7 @@ const Tasks = () => {
                     )
                 })
             }
-            <button onClick={()=>{console.log(currentUser)}} >9999999</button>
+            {/*<button onClick={()=>{console.log(currentUser)}} >9999999</button>*/}
         </div>
     );
 };

@@ -1,5 +1,5 @@
 .task {
-  width: 100%;
+  width: 96%;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -7,24 +7,33 @@
   padding: 10px;
   background: #d2efff;
   margin-bottom: 10px;
+  position: relative;
 
   .taskWrap {
     width: 100%;
+
     .taskHeader {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      .nameStatus{
-        .status{
-          width: 150px;
-          .MuiInputBase-formControl{
-            .MuiSelect-root{
-              padding: 5px 10px 5px 5px;
+
+      .nameStatus {
+        .status {
+          width: 100px;
+          margin-bottom: 3px;
+          border-radius: 4px;
+
+          .MuiInputBase-formControl {
+            .MuiSelect-root {
+              padding: 3px 10px 3px 8px;
+              font-size: 12px;
+              font-weight: 600;
             }
           }
         }
-        input{
+
+        input {
           width: 90%;
           border: none;
           color: #2f2f2f;
@@ -36,19 +45,57 @@
           border-radius: 5px;
           outline: none;
         }
-        .name{
-          padding: 5px;
-          min-height: 32px;
+
+        .nameWrap {
+          position: relative;
+
+          .name {
+            padding: 5px;
+            min-height: 32px;
+            margin-bottom: 3px;
+
+          }
+
+          .saveBtn {
+            color: white;
+            text-align: center;
+            padding: 2px 4px;
+            background: #999988;
+            border-radius: 4px;
+            font-size: 18px;
+            line-height: 18px;
+            display: block;
+            position: absolute;
+            left: 86%;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            transition: 0.2s;
+
+            &:hover {
+              background: #5d5d53;
+            }
+          }
         }
+
+
       }
-      .creatorWorker{
+
+      .creatorWorker {
         margin-right: 40px;
       }
-      .editIcon{
+
+      .editIcon {
         position: absolute;
         top: 0;
         right: 0;
         cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+          fill: #c51162;
+          transform: scale(1.2);
+        }
       }
     }
 
@@ -56,21 +103,23 @@
       display: flex;
       flex-direction: column;
 
-      .description{
+      .description {
         min-height: 31px;
         position: relative;
-        margin: 10px 0;
+        margin: 0 0 10px;
         background: #e3f3ff;
         border-radius: 5px;
         padding: 5px 20px 5px 5px;
         border: 1px solid #BDBDBD;
-        .editIcon{
+
+        .editIcon {
           position: absolute;
-          top: 5px;
+          top: 3px;
           right: 5px;
           cursor: pointer;
         }
-        textarea{
+
+        .descriptionVal {
           width: 98%;
           height: 100px;
           border: none;
@@ -84,9 +133,34 @@
           outline: none;
           resize: none;
         }
+
+        .descrWrap {
+          position: relative;
+
+          .saveDescrBtn {
+            color: white;
+            text-align: center;
+            padding: 2px 4px;
+            background: #999988;
+            border-radius: 4px;
+            font-size: 18px;
+            line-height: 18px;
+            display: block;
+            position: absolute;
+            left: 94%;
+            top: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+
+            &:hover {
+              background: #5d5d53;
+            }
+          }
+        }
+
       }
 
-      .showBtn{
+      .showBtn {
         text-transform: none;
         background: #00a4ff;
         width: 100px;
@@ -106,6 +180,7 @@
         border: 1px solid #BDBDBD;
         border-radius: 4px;
         background: #e3f3ff;
+        margin-bottom: 25px;
 
         .filesWrap {
           display: flex;
@@ -185,7 +260,7 @@
               font-size: 30px;
               border-radius: 50%;
               transition: 0.4s;
-              transition-delay: 0.2s;
+              transition-delay: 0.4s;
               cursor: pointer;
             }
           }
@@ -219,6 +294,41 @@
             transform: scale(0.9);
           }
         }
+      }
+    }
+  }
+
+  .delNestedTask {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    transition: 0.2s;
+
+    &:hover {
+      fill: #c51162;
+      transform: scale(1.2);
+    }
+  }
+
+  .warning {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    h3 {
+      font-size: 32px;
+    }
+
+    .btns {
+      .btn {
+        margin: 5px;
       }
     }
   }

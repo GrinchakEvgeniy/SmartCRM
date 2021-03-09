@@ -6,6 +6,7 @@ import {getUserFetch} from "../../requests";
 import DashBoardHeadUserMenu from "../DashBoardHeadUserMenu/DashBoardHeadUserMenu";
 import WorkNow from "../WorkNow/WorkNow";
 import WorkIcon from '@material-ui/icons/Work';
+import TimerIcon from '@material-ui/icons/Timer';
 
 const DashBoardHead = (props) => {
     const [workNowPopup, setWorkNowPopup] = useState(false);
@@ -105,7 +106,9 @@ const DashBoardHead = (props) => {
                     <img src="/static/images/logo.png" alt="logo"/>
                 </div>
                 <div className="work_now">
-                    <button onClick={()=>setWorkNowPopup(!workNowPopup)}><WorkIcon/></button>
+                    {/*<button onClick={()=>setWorkNowPopup(!workNowPopup)}>*/}
+                        <TimerIcon className='work_now_icon' onClick={()=>setWorkNowPopup(!workNowPopup)}/>
+                    {/*</button>*/}
                     {
                         workNowPopup ?
                             <WorkNow time={{'hour':hour, 'minute':minute, 'second':second}}

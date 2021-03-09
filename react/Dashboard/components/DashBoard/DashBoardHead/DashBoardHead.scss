@@ -70,14 +70,26 @@
     }
     .work_now{
       position: relative;
-      button{
+      .work_now_icon{
+        //position: relative;
+        width: 45px;
+        height: 45px;
         cursor: pointer;
-        padding: 5px;
-        font-size: 17px;
-        color: #f3f3f3;
-        border: none;
-        background: #336db7;
-        box-shadow: 0 0 2px black;
+        //padding: 5px;
+        //font-size: 17px;
+        //color: #f3f3f3;
+        //border: none;
+        //background: #336db7;
+        //box-shadow: 0 0 2px black;
+        &::after{
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 5px;
+          height: 15px;
+          background: red;
+        }
       }
     }
   }

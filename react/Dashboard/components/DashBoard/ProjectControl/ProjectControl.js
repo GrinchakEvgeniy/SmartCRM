@@ -23,7 +23,7 @@ const ProjectControl = (props) => {
 
     const audio = new Audio('/static/images/Goat.mp3')
 
-    const [tabValue, setTabValue] = useState('Tasks')
+    const [tabValue, setTabValue] = useState('Project')
     const [project, setProject] = useState({})
     const [projectName, setProjectName] = useState('')
     const [projectDescription, setProjectDescription] = useState('')
@@ -299,12 +299,12 @@ const ProjectControl = (props) => {
                     ''
             }
 
-            <button
-                onClick={() => {
-                    audio.play()
-                }}
-            >CLICK
-            </button>
+            {/*<button*/}
+            {/*    onClick={() => {*/}
+            {/*        audio.play()*/}
+            {/*    }}*/}
+            {/*>CLICK*/}
+            {/*</button>*/}
 
         </div>
     );

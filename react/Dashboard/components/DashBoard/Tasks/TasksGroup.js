@@ -4,6 +4,7 @@ import Task from "./Task";
 import './TasksGroup.scss'
 import {isEmpty} from "../../helper";
 import {
+    delTaskGroupFetch,
     getProjectFetch,
     getUserFetch,
     getUsersFetch, postNewNestedTaskFetch, postNewTaskGroupFetch,
@@ -11,20 +12,26 @@ import {
     updateProjectFetch
 } from "../../requests";
 import Button from "@material-ui/core/Button";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const TasksGroup = (props) => {
 
     const [tasks, setTasks] = useState([])
+    const [doneTasks, setDoneTasks] = useState('')
     const [showTasks, setShowTasks] = useState(false)
     const [editName, setEditName] = useState(false)
     const [users, setUsers] = useState([])
     const [project, setProject] = useState({})
+    const [warning, setWarning] = useState(false)
+    const [widthProgessLine, setWidthProgessLine] = useState('0%')
 
     useEffect(() => {
         if (!isEmpty(props)) {
             if (props.tasks.project_nested_task.length === 'undefined') return;
             setTasks(props.tasks.project_nested_task)
+            setDoneTasks(props.tasks.project_nested_task.filter(el => el.status === 'done'))
         }
+        console.log('widthProgessLine', widthProgessLine)
     }, [props.tasks]);
 
     useEffect(() => {
@@ -44,8 +51,8 @@ const TasksGroup = (props) => {
         }
     }
 
-    const editTaskName = (e) => {
-        postProjectTaskNameFetch(props.tasks.id, e.target.value)
+    const editTaskName = (val) => {
+        postProjectTaskNameFetch(props.tasks.id, val)
             .then(() => {
                 props.update()
             })
@@ -54,15 +61,21 @@ const TasksGroup = (props) => {
     const addNewNestedTask = (name, status) => {
         postNewNestedTaskFetch(name, status, props.tasks.id, props.currentUser).then(() => {
             props.update()
-            console.log('name', name)
-            console.log('status', status)
-            console.log('id', props.tasks.id)
-            console.log('currentUser', props.currentUser)
         })
     }
 
+    const delTask = (id) => {
+        delTaskGroupFetch(id).then(() => {
+            props.update()
+        })
+    }
+
+    console.log('doneTasks', doneTasks)
+    console.log('tasks', tasks)
+
+
     return (
-        <div>
+        <div className="tasksGroup">
             <div className="tasksGroupHeader">
                 <div className="creatorName">
                     <h5>created by {findName(props.tasks.created_user_id, users)}
@@ -72,15 +85,25 @@ const TasksGroup = (props) => {
                     {
                         editName
                             ?
-                            <input className='nameField'
-                                   type="text"
-                                   defaultValue={props.tasks.name}
-                                   onKeyPress={(e) => {
-                                       if (e.key === 'Enter') {
-                                           setEditName(!editName)
-                                           editTaskName(e)
-                                       }
-                                   }}/>
+                            <div className='nameFieldWrap'>
+                                <input className='nameField'
+                                       type="text"
+                                       defaultValue={props.tasks.name}
+                                       onKeyPress={(e) => {
+                                           if (e.key === 'Enter') {
+                                               setEditName(!editName)
+                                               editTaskName(e.target.value)
+                                           }
+                                       }}/>
+                                <span className='saveBtn'
+                                      onClick={(e) => {
+                                          setEditName(!editName)
+                                          editTaskName(e.target.previousSibling.value)
+
+                                      }}>
+                                          ok
+                                      </span>
+                            </div>
                             :
                             <h3 className='nameField'>{props.tasks.name}</h3>
                     }
@@ -97,7 +120,8 @@ const TasksGroup = (props) => {
                     </Button>
                     <Button className='addTask'
                             variant="contained"
-                            // disabled={!showTasks}
+                            disabled={!showTasks}
+                            style={!showTasks ? {background: '#c6c6c6'} : {background: '#00a4ff'}}
                             color="primary"
                             onClick={() => {
                                 addNewNestedTask('New nested task', 'not started')
@@ -105,7 +129,9 @@ const TasksGroup = (props) => {
                         add new nested task
                     </Button>
                 </div>
-                <span className='progress_line'></span>
+                <span className='progress_line'
+                      style={{width: doneTasks.length / tasks.length * 100 + '%'}}
+                > </span>
                 <EditIcon className='editIcon'
                           color={editName ? 'secondary' : 'primary'}
                           onClick={(e) => {
@@ -133,11 +159,46 @@ const TasksGroup = (props) => {
                     :
                     ''
             }
-            {/*<button onClick={() => {*/}
-            {/*    console.log('current users', props.currentUser)*/}
-            {/*}}>*/}
-            {/*    show users*/}
-            {/*</button>*/}
+            <DeleteForeverIcon className='delTask'
+                               style={
+                                   showTasks
+                                       ?
+                                       {display: 'none'}
+                                       :
+                                       {display: 'initial'}
+                               }
+                               color='primary'
+                               onClick={() => {
+                                   setWarning(!warning)
+                               }}/>
+            {
+                warning
+                    ?
+                    <div className="warning">
+                        <h3>Are You sure?</h3>
+                        <div className="btns">
+                            <Button className='btn'
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                        setWarning(!warning)
+                                    }}>
+                                Cancel
+                            </Button>
+                            <Button className='btn'
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => {
+                                        delTask(props.tasks.id)
+                                        setWarning(!warning)
+                                    }}>
+                                Delete
+                            </Button>
+                        </div>
+                    </div>
+                    :
+                    ''
+            }
         </div>
     );
 };
