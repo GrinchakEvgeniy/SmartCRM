@@ -96,6 +96,7 @@ const WorkNow = (props) => {
                             props.setIsActive(!props.isActive);
                             Action(checked)
                         }}
+                        disabled={!project && !props.selfEducation ? true : false}
                         color="primary"
                         name="checkedB"
                         inputProps={{ 'aria-label': 'primary checkbox' }}

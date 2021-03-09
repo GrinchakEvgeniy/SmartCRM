@@ -12,10 +12,10 @@ def get_user(user_id):
 @sync_to_async
 def save_new(notification):
     Notification(
-        message           = notification["message"],
+        message = notification["message"],
         type_notification = notification["type_notification"],
         from_notification = notification["from_notification"],
-        for_notification  = notification["for_notification"]
+        for_notification = notification["for_notification"]
     ).save()
 
 @sync_to_async
@@ -30,6 +30,7 @@ def set_online_status(user_id, status):
     user_profile = Profile.objects.get(user_id=user_id)
     user_profile.online = status
     user_profile.save()
+
 
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):

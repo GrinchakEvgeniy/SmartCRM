@@ -49,8 +49,8 @@ const Diagrams = (props) => {
 				indexLabel: "{label}: {y}%",
 				startAngle: -90,
 				dataPoints: [
-					{ y: time_success, label: "Spent time" },
-					{ y: 100 - time_success, label: "Time left" },
+					{ y: time_success.toFixed(2), label: "Spent time", color: "#3cc926" },
+					{ y: (100 - time_success).toFixed(2), label: "Time left", color: "#e8cd33" },
 				]
 			}]
 		})
@@ -74,8 +74,8 @@ const Diagrams = (props) => {
 				}
 			}
 			result.push({
-				y: time_user == 0 ? 0 : time_user / time * 100,
-				label: value.username
+				y: (time_user == 0 ? 0 : time_user / time * 100).toFixed(2),
+				label: value.first_name
 			})
 		})
 		setOptions2({
