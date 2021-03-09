@@ -108,6 +108,7 @@ const DashBoardHead = (props) => {
                 <div className="work_now">
                     {/*<button onClick={()=>setWorkNowPopup(!workNowPopup)}>*/}
                         <TimerIcon className='work_now_icon' onClick={()=>setWorkNowPopup(!workNowPopup)}/>
+                        <div className={isActive ? 'clock_hand active' : 'clock_hand'}> </div>
                     {/*</button>*/}
                     {
                         workNowPopup ?

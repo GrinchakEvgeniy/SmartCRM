@@ -68,27 +68,46 @@
         width: 100%;
       }
     }
-    .work_now{
+
+    .work_now {
       position: relative;
-      .work_now_icon{
-        //position: relative;
+      width: 45px;
+      height: 45px;
+
+      .work_now_icon {
+        position: absolute;
+        top: 48%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: 45px;
         height: 45px;
         cursor: pointer;
-        //padding: 5px;
-        //font-size: 17px;
-        //color: #f3f3f3;
-        //border: none;
-        //background: #336db7;
-        //box-shadow: 0 0 2px black;
-        &::after{
-          content: "";
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 5px;
-          height: 15px;
-          background: red;
+      }
+      
+      @keyframes rotate_clock_hand {
+        from{
+          transform: translate(-50%, -90%) rotate(0deg)
+        }
+        to{
+          transform: translate(-50%, -90%) rotate(360deg)
+        }
+      }
+
+      .clock_hand {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 4px;
+        height: 14px;
+        background: red;
+        transform-origin: bottom;
+        transform: translate(-50%, -90%);
+        &.active{
+          animation-name: rotate_clock_hand;
+          animation-duration: 2s;
+          animation-iteration-count: infinite;
+          animation-timing-function: linear;
         }
       }
     }

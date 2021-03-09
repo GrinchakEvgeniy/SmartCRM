@@ -9,6 +9,7 @@
   box-shadow: 0 0 5px black;
   display: flex;
   flex-direction: column;
+  z-index: 15;
   .body{
     padding: 5px;
     .time {
