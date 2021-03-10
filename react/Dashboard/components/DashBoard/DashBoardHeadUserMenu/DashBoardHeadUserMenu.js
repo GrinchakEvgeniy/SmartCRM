@@ -59,12 +59,6 @@ const DashBoardHeadUserMenu = (props) => {
                                     <h4 className="userMenuIconLabel">Notifications</h4>
                                 </div>
                             </Link>
-                            <Link to={'/dashboard'} className="link">
-                                <div className="userMenuItem">
-                                    <HelpRoundedIcon className="userMenuIcon"/>
-                                    <h4 className="userMenuIconLabel">Help</h4>
-                                </div>
-                            </Link>
                             <Link to={'/login'} className="link">
                                 <div className="userMenuItem"
                                      onClick={() => {

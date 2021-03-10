@@ -74,9 +74,6 @@ const DashBoardHead = (props) => {
         })
     }, [])
 
-    useEffect(() => {
-        console.log(props.user_data)
-    })
 
     const [showMenu, setShowMenu] = useState(props.openMenu)
     const [headWidth, setHeadWidth] = useState(0)

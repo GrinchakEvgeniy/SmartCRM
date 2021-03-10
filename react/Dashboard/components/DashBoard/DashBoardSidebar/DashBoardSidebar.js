@@ -8,6 +8,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import TimelapseIcon from '@material-ui/icons/Timelapse';
 import EventIcon from '@material-ui/icons/Event';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 const DashBoardSidebar = (props) => {
 
@@ -27,7 +28,7 @@ const DashBoardSidebar = (props) => {
                      :
                      closeSideBarStyle}>
             <audio id="myAudio" src="/media/Goat.mp3"
-    playsInline={true} muted="muted"></audio>
+                   playsInline={true} muted="muted"></audio>
             <div className="dashBoardSidebar">
                 <DashBoardSidebarElms
                     label={"Notifications"}
@@ -54,6 +55,10 @@ const DashBoardSidebar = (props) => {
                     label={"Projects Time"}
                     link={'/dashboard/projects-time'}
                     icon={<TimelapseIcon/>}/>
+                <DashBoardSidebarElms
+                    label={"Info"}
+                    link={'/dashboard/info'}
+                    icon={<InfoOutlinedIcon/>}/>
             </div>
         </div>
     );

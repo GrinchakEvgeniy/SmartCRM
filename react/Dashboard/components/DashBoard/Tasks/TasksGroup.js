@@ -31,7 +31,6 @@ const TasksGroup = (props) => {
             setTasks(props.tasks.project_nested_task)
             setDoneTasks(props.tasks.project_nested_task.filter(el => el.status === 'done'))
         }
-        console.log('widthProgessLine', widthProgessLine)
     }, [props.tasks]);
 
     useEffect(() => {
@@ -69,10 +68,6 @@ const TasksGroup = (props) => {
             props.update()
         })
     }
-
-    console.log('doneTasks', doneTasks)
-    console.log('tasks', tasks)
-
 
     return (
         <div className="tasksGroup">
@@ -120,8 +115,8 @@ const TasksGroup = (props) => {
                     </Button>
                     <Button className='addTask'
                             variant="contained"
-                            disabled={!showTasks}
-                            style={!showTasks ? {background: '#c6c6c6'} : {background: '#00a4ff'}}
+                            // disabled={!showTasks}
+                            // style={!showTasks ? {background: '#c6c6c6'} : {background: '#00a4ff'}}
                             color="primary"
                             onClick={() => {
                                 addNewNestedTask('New nested task', 'not started')

@@ -12,6 +12,7 @@ import ProjectControl from "./ProjectControl/ProjectControl";
 import Notifications from "./Notifications/Notifications";
 import Events from "./Events/Events";
 import ProjectsTime from "./ProjectsTime/ProjectsTime";
+import Info from "./Info/Info";
 
 const DashBoard = () => {
 
@@ -37,6 +38,7 @@ const DashBoard = () => {
                                                                                      setShowPopUp={setShowPopUp}
                                                                                      setPopUpOptions={setPopUpOptions}/>}}/>
                     <Route path='/dashboard/project/:id' component={()=>{return <ProjectControl/>}}/>
+                    <Route path='/dashboard/info' component={()=>{return <Info/>}}/>
                 </Switch>
                 <PopUp showPopUp={showPopUp}
                        setShowPopUp={setShowPopUp}
