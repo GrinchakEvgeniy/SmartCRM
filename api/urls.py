@@ -6,6 +6,16 @@ from rest_framework.authtoken.views import obtain_auth_token
 urlpatterns = [
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
+    path('get-company-info', views.GetCompanyInfoView.as_view({'get':'get'})),
+    path('post-company-info', views.PostCompanyInfoView.as_view({'post':'post'})),
+    path('put-company-info', views.PutCompanyInfoView.as_view({'put':'put'})),
+    path('delete-company-info', views.DeleteCompanyInfoView.as_view({'delete':'delete'})),
+
+    path('get-user-time', views.GetUserTimeView.as_view({'get':'get'})),
+    path('post-user-time', views.PostUserTimeView.as_view({'post':'post'})),
+    path('put-user-time', views.PutUserTimeView.as_view({'put':'put'})),
+    path('delete-user-time', views.DeleteUserTimeView.as_view({'delete':'delete'})),
+
     path('get-work-now-by-date', views.GetWorkNowByDateView.as_view({'post':'post'})),
     path('post-work-now', views.PostWorkNowView.as_view({'post':'post'})),
     path('delete-work-now', views.DeleteWorkNowView.as_view({'delete':'delete'})),

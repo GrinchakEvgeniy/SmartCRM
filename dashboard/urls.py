@@ -12,5 +12,6 @@ urlpatterns = [
     path('dashboard/project/<int:pk>', views.dashboard, name='projects-single'),
     path('dashboard/notifications', views.dashboard, name='notifications'),
     path('dashboard/events', views.dashboard, name='events'),
+    path('dashboard/info', views.dashboard, name='info'),
     path('dashboard/projects-time', views.dashboard, name='projects-time'),
 ]

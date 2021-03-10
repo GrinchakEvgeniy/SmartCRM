@@ -3,6 +3,18 @@ from django.contrib.auth.models import User
 from .models import *
 
 
+class CompanyInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = CompanyInfo
+        fields = '__all__'
+
+
+class UserTimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = UserTime
+        fields = '__all__'
+
+
 class WorkNowSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkNow

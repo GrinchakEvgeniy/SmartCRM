@@ -200,6 +200,30 @@ class WorkNow(models.Model):
         self.date = now.strftime("%Y-%m-%d")
         super(WorkNow, self).save(*args, **kwargs)
 
+
+class UserTime(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_time')
+    start = models.CharField(blank=True, null=True, max_length=100)
+    finish = models.CharField(blank=True, null=True, max_length=100)
+    status = models.CharField(blank=True, null=True, max_length=100)
+
+    def save(self, *args, **kwargs):
+        now = datetime.now()
+        self.timestamps = now
+        super(UserTime, self).save(*args, **kwargs)
+
+
+class CompanyInfo(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    description = models.TextField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        now = datetime.now()
+        self.timestamps = now
+        super(CompaniInfo, self).save(*args, **kwargs)
+
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:

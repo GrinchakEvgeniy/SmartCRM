@@ -36,6 +36,88 @@ def get_token(request):
 
 # ==============================================
 
+class GetCompanyInfoView(viewsets.ModelViewSet):
+    queryset = CompanyInfo.objects.all()
+    serializer_class = CompanyInfoSerializer
+    perms = ['all']
+
+    def get(self, request):
+        queryset = CompanyInfo.objects.all()
+        serializer = CompanyInfoSerializer(queryset)
+        return Response(serializer.data)
+
+
+class PostCompanyInfoView(viewsets.ModelViewSet):
+    queryset = CompanyInfo.objects.all()
+    serializer_class = CompanyInfoSerializer
+    perms = ['all']
+
+    def post(self, request):
+        serializer = CompanyInfoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':"OK", 'type':"success"})
+        return Response({'message':"OK", 'type':"success"})
+
+
+class PutCompanyInfoView(viewsets.ModelViewSet):
+    queryset = CompanyInfo.objects.all()
+    serializer_class = CompanyInfoSerializer
+    perms = ['all']
+
+    def put(self, request):
+        instance = CompanyInfo.objects.get(id=int(request.data['id']))
+        instance.description = request.data.get('description', instance.description)
+        instance.save()
+        return Response({'message':"OK", 'type':'success'})
+
+
+class DeleteCompanyInfoView(viewsets.ModelViewSet):
+    queryset = CompanyInfo.objects.all()
+    serializer_class = CompanyInfoSerializer
+    perms = ['all']
+
+    def delete(self, request):
+        instance = CompanyInfo.objects.get(id=int(request.data['id']))
+        instance.delete()
+        return Response({'message':'OK', 'type':'success'})
+
+
+class GetUserTimeView(viewsets.ModelViewSet):
+    queryset = UserTime.objects.all()
+    serializer_class = UserTimeSerializer
+    perms = ['all']
+
+    def get(self, request):
+        pass
+
+
+class PostUserTimeView(viewsets.ModelViewSet):
+    queryset = UserTime.objects.all()
+    serializer_class = UserTimeSerializer
+    perms = ['all']
+
+    def post(self, request):
+        pass
+
+
+class PutUserTimeView(viewsets.ModelViewSet):
+    queryset = UserTime.objects.all()
+    serializer_class = UserTimeSerializer
+    perms = ['all']
+
+    def put(self, request):
+        pass
+
+
+class DeleteUserTimeView(viewsets.ModelViewSet):
+    queryset = UserTime.objects.all()
+    serializer_class = UserTimeSerializer
+    perms = ['all']
+
+    def delete(self, request):
+        pass
+
 
 class PutWorkNowView(viewsets.ModelViewSet):
     queryset = WorkNow.objects.all()
