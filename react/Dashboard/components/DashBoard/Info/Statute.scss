@@ -1,3 +1,22 @@
 .statute {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
+  0 4px 5px 0 rgb(0 0 0 / 14%),
+  0 1px 10px 0px rgb(0 0 0 / 12%);
 
+  .editorWrap {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #9b9b9b;
+    margin-bottom: 20px;
+
+    .editor {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #9b9b9b;
+    }
+  }
 }

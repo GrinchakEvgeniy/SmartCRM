@@ -221,7 +221,7 @@ class CompanyInfo(models.Model):
     def save(self, *args, **kwargs):
         now = datetime.now()
         self.timestamps = now
-        super(CompaniInfo, self).save(*args, **kwargs)
+        super(CompanyInfo, self).save(*args, **kwargs)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

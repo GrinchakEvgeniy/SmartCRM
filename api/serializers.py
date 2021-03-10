@@ -5,13 +5,13 @@ from .models import *
 
 class CompanyInfoSerializer(serializers.ModelSerializer):
     class Meta:
-        models = CompanyInfo
+        model = CompanyInfo
         fields = '__all__'
 
 
 class UserTimeSerializer(serializers.ModelSerializer):
     class Meta:
-        models = UserTime
+        model = UserTime
         fields = '__all__'
 
 

@@ -540,3 +540,32 @@ export async function delNestedTaskFetch(project_task_id) {
     const result = await response.json();
     return result;
 }
+
+export async function getStatuteFetch() {
+    const options = {
+        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/get-company-info', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function postStatuteFetch(data) {
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({description: data}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/post-company-info', options);
+    const result = await response.json();
+    return result;
+}
