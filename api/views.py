@@ -43,7 +43,7 @@ class GetCompanyInfoView(viewsets.ModelViewSet):
 
     def get(self, request):
         queryset = CompanyInfo.objects.all()
-        serializer = CompanyInfoSerializer(queryset)
+        serializer = CompanyInfoSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -89,7 +89,9 @@ class GetUserTimeView(viewsets.ModelViewSet):
     perms = ['all']
 
     def get(self, request):
-        pass
+        queryset = UserTime.objects.all()
+        serializer = UserTimeSerializer(queryset)
+        return Response(serializer.data)
 
 
 class PostUserTimeView(viewsets.ModelViewSet):
@@ -98,7 +100,11 @@ class PostUserTimeView(viewsets.ModelViewSet):
     perms = ['all']
 
     def post(self, request):
-        pass
+        serializer = UserTimeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'OK', 'type':'success'})
+        return Response(serializer.errors)
 
 
 class PutUserTimeView(viewsets.ModelViewSet):
@@ -107,7 +113,12 @@ class PutUserTimeView(viewsets.ModelViewSet):
     perms = ['all']
 
     def put(self, request):
-        pass
+        instance = UserTime.objects.get(id=request.data['id'])
+        instance.start = request.data.get('start', instance.start)
+        instance.finish = request.data.get('finish', instance.finish)
+        instance.status = request.data.get('status', instance.status)
+        instance.save()
+        return Response({'message':'OK', 'type':'success'})
 
 
 class DeleteUserTimeView(viewsets.ModelViewSet):
@@ -116,7 +127,9 @@ class DeleteUserTimeView(viewsets.ModelViewSet):
     perms = ['all']
 
     def delete(self, request):
-        pass
+        instance = UserTime.objects.get(id=request.data['id'])
+        instance.delete()
+        return Response({'message': 'OK', 'type': 'success'})
 
 
 class PutWorkNowView(viewsets.ModelViewSet):
