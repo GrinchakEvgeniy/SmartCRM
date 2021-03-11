@@ -68,7 +68,20 @@
         width: 100%;
       }
     }
-
+    .work_time_today{
+      position: relative;
+      width: 45px;
+      height: 45px;
+      .work_time_today_icon {
+        position: absolute;
+        top: 48%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+      }
+    }
     .work_now {
       position: relative;
       width: 45px;

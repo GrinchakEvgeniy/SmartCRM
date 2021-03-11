@@ -88,9 +88,10 @@ class GetUserTimeView(viewsets.ModelViewSet):
     serializer_class = UserTimeSerializer
     perms = ['all']
 
-    def get(self, request):
-        queryset = UserTime.objects.all()
-        serializer = UserTimeSerializer(queryset)
+    def post(self, request):
+        if request.data['action'] == 'get not finished work':
+            queryset = UserTime.objects.filter(today=request.data['today'], user_id=request.data['user_id']).last()
+            serializer = UserTimeSerializer(queryset)
         return Response(serializer.data)
 
 
@@ -103,7 +104,7 @@ class PostUserTimeView(viewsets.ModelViewSet):
         serializer = UserTimeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'message':'OK', 'type':'success'})
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 
@@ -117,6 +118,7 @@ class PutUserTimeView(viewsets.ModelViewSet):
         instance.start = request.data.get('start', instance.start)
         instance.finish = request.data.get('finish', instance.finish)
         instance.status = request.data.get('status', instance.status)
+        instance.today = request.data.get('today', instance.today)
         instance.save()
         return Response({'message':'OK', 'type':'success'})
 

@@ -7,6 +7,8 @@ import DashBoardHeadUserMenu from "../DashBoardHeadUserMenu/DashBoardHeadUserMen
 import WorkNow from "../WorkNow/WorkNow";
 import WorkIcon from '@material-ui/icons/Work';
 import TimerIcon from '@material-ui/icons/Timer';
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import WorkTimeToday from "../WorkTimeToday/WorkTimeToday";
 
 const DashBoardHead = (props) => {
     const [workNowPopup, setWorkNowPopup] = useState(false);
@@ -15,6 +17,8 @@ const DashBoardHead = (props) => {
     const [hour, setHour] = useState('00');
     const [isActive, setIsActive] = useState(false);
     const [counter, setCounter] = useState(0);
+
+    const [workTimeToday, setWorkTimeToday] = useState(false);
 
     const [workNowObject, setWorkNowObject] = useState({});
     const [selfEducation, setSelfEducation] = useState(false);
@@ -118,6 +122,12 @@ const DashBoardHead = (props) => {
                                      setSelfEducation={setSelfEducation}
                             />
                             : ""
+                    }
+                </div>
+                <div className="work_time_today">
+                    <HomeWorkIcon className="work_time_today_icon" onClick={()=>setWorkTimeToday(!workTimeToday)}/>
+                    {
+                        workTimeToday ? <WorkTimeToday user={props.user_data}/> : ""
                     }
                 </div>
                 <DashBoardHeadUserMenu/>

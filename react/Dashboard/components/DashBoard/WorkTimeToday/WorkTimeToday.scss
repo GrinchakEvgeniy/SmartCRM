@@ -1,0 +1,54 @@
+.work_time_today_wrap{
+  position: fixed;
+  left: 50%;
+  bottom: 40%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  box-shadow: 0 0 5px black;
+  border-radius: 5px;
+  min-width: 300px;
+  min-height: 200px;
+  .title{
+    background: #7272b3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+  .content{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    .date_in, .data_out{
+      width: 100%;
+    }
+    .date{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      p{
+        color: #000;
+      }
+      .inputs_wrap{
+        display: flex;
+        align-items: flex-end;
+        margin-bottom: 30px;
+        width: 100%;
+        justify-content: space-around;
+        #demo-simple-select_work{
+          display: flex;
+        }
+        .from__work {
+
+        }
+      }
+      .ttl{
+        margin: 10px 0px;
+      }
+      .btn_wrap{
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
