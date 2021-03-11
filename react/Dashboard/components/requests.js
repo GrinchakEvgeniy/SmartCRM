@@ -569,3 +569,18 @@ export async function postStatuteFetch(data) {
     const result = await response.json();
     return result;
 }
+
+export async function putStatuteFetch(data, id) {
+    const options = {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({id: id, description: data}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/put-company-info', options);
+    const result = await response.json();
+    return result;
+}
