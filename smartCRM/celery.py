@@ -7,22 +7,22 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "smartCRM.settings")
 
 app = Celery("smartCRM")
 app.config_from_object("django.conf:settings", namespace="CELERY")
+app.conf.update(result_expires=3600,
+                enable_utc=True,
+                timezone='Europe/Kiev', )
 
-app.autodiscover_tasks()
+
 
 app.conf.beat_schedule = {
-    'my-super-sum-every-5-min' : {
-                # Регистрируем задачу. Для этого в качестве значения ключа task
-                # Указываем полный путь до созданного нами ранее таска(функции)
+    'my-super-sum-every-5-min': {
         'task': 'api.tasks.supper_sum',
-                 # Периодичность с которой мы будем запускать нашу задачу
-                 # minute='*/5' - говорит о том, что задача должна выполнятся каждые 5 мин.
-        'schedule': crontab(minute='*/1'),
+        'schedule': crontab(hour='6, 18',
+                            minute=0,),
                 # Аргументы которые будет принимать функция
                 # 'args': (5, 8),
     }
 }
-
+app.autodiscover_tasks()
 
 @app.task(bind=True)
 def debug_task(self):

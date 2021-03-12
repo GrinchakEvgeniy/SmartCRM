@@ -9,6 +9,7 @@ import ContactMailIcon from '@material-ui/icons/ContactMail';
 import TimelapseIcon from '@material-ui/icons/Timelapse';
 import EventIcon from '@material-ui/icons/Event';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 const DashBoardSidebar = (props) => {
 
@@ -55,6 +56,10 @@ const DashBoardSidebar = (props) => {
                     label={"Projects Time"}
                     link={'/dashboard/projects-time'}
                     icon={<TimelapseIcon/>}/>
+                <DashBoardSidebarElms
+                    label={"Users Time"}
+                    link={'/dashboard/users-time'}
+                    icon={<AssignmentIndIcon/>}/>
                 <DashBoardSidebarElms
                     label={"Info"}
                     link={'/dashboard/info'}

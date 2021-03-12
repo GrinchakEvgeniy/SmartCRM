@@ -5,26 +5,7 @@ import {getProjectsSimpleFetch, getUsersFetch, getWorkNowByDateFetch} from "../.
 import './ProjectsTime.scss';
 import TimeLine from "./TimeLine";
 import ProjectInfo from "./ProjectInfo";
-import {isEmpty} from "../../helper";
-
-
-const today = () => {
-    let today = new Date();
-    let dd = today.getDate();
-
-    let mm = today.getMonth()+1;
-    const yyyy = today.getFullYear();
-    if(dd<10)
-    {
-        dd=`0${dd}`;
-    }
-
-    if(mm<10)
-    {
-        mm=`0${mm}`;
-    }
-    return `${yyyy}-${mm}-${dd}`;
-}
+import {isEmpty, today} from "../../helper";
 
 const ProjectsTime = () => {
     const [selectedDate, setSelectedDate] = useState(today());

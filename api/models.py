@@ -207,6 +207,7 @@ class UserTime(models.Model):
     start = models.CharField(blank=True, null=True, max_length=100)
     finish = models.CharField(blank=True, null=True, max_length=100)
     status = models.CharField(blank=True, null=True, max_length=100)
+    today = models.CharField(blank=True, null=True, max_length=100)
 
     def save(self, *args, **kwargs):
         now = datetime.now()
