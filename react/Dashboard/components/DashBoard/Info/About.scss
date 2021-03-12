@@ -1,3 +1,32 @@
-.about{
+.about {
   color: #757574;
+  max-width: 1200px;
+  margin: 10px auto;
+  background: white;
+  padding: 30px 90px;
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
+  0 4px 5px 0 rgb(0 0 0 / 14%),
+  0 1px 10px 0px rgb(0 0 0 / 12%);
+  text-align: center;
+
+  h2 {
+    margin-bottom: 30px;
+  }
+
+  p {
+    margin-bottom: 20px;
+  }
+
+  .versionSmartCRM,
+  .lastRelease {
+    font-size: 24px;
+  }
+
+  .lastRelease{
+    margin-bottom: 50px;
+  }
+
+  .copyright {
+    font-size: 12px;
+  }
 }

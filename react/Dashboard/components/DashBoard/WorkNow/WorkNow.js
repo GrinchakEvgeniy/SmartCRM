@@ -24,7 +24,7 @@ const WorkNow = (props) => {
         if(checked){
             const data = {
                 user_id: props.user_data.id,
-                project_id: project != "" ? parseInt(project) : "",
+                project_id: project !== "" ? parseInt(project) : "",
                 start: Date.now(),
                 self_education: props.selfEducation
             }
@@ -33,7 +33,7 @@ const WorkNow = (props) => {
             const newState = JSON.parse(JSON.stringify(props.workNowObject));
             newState.finish = Date.now()
             putWorkNowFetch(newState)
-                .then(data=>{
+                .then(()=>{
                     setProject('');
                     props.setWorkNowObject({});
                 })
@@ -66,7 +66,8 @@ const WorkNow = (props) => {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={project}
-                        disabled={props.isActive || props.selfEducation ? true : false}
+                        // disabled={props.isActive || props.selfEducation ? true : false}
+                        disabled={props.isActive || props.selfEducation}
                         onChange={(event)=>{
                             setProject(event.target.value);
                         }}
@@ -82,7 +83,8 @@ const WorkNow = (props) => {
                 <div className="self_education">
                     <p>Self-Education</p>
                     <Checkbox
-                        disabled={props.isActive ? true : false}
+                        // disabled={props.isActive ? true : false}
+                        disabled={props.isActive}
                         checked={props.selfEducation}
                         onChange={(event, checked)=>handleChangeSelfEducation(checked)}
                         inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -96,7 +98,8 @@ const WorkNow = (props) => {
                             props.setIsActive(!props.isActive);
                             Action(checked)
                         }}
-                        disabled={!project && !props.selfEducation ? true : false}
+                        // disabled={!project && !props.selfEducation ? true : false}
+                        disabled={!project && !props.selfEducation}
                         color="primary"
                         name="checkedB"
                         inputProps={{ 'aria-label': 'primary checkbox' }}

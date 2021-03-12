@@ -7,9 +7,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {
     delNestedTaskFetch,
-    delProjectNestedTaskFilesFetch,
+    delProjectNestedTaskFilesFetch, getUserFetch,
     postProjectFilesFetch, postProjectNestedTaskDescriptionFetch,
-    postProjectNestedTaskFilesFetch, postProjectNestedTaskNameFetch,
+    postProjectNestedTaskFilesFetch, postProjectNestedTaskNameFetch, postProjectNestedTaskWorkerFetch,
     postProjectTaskNameFetch
 } from "../../requests";
 import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
@@ -24,6 +24,7 @@ const Task = (props) => {
     const [showFiles, setShowFiles] = useState(false)
     const [status, setStatus] = useState('')
     const [warning, setWarning] = useState(false)
+    const [currentUser, setCurrentUser] = useState('')
 
     useEffect(() => {
         if (!isEmpty(props)) {
@@ -31,13 +32,38 @@ const Task = (props) => {
             setFiles(props.tasks.project_nested_task_file)
             setStatus(props.tasks.status)
         }
+        getUserFetch().then(data => {
+            setCurrentUser(data.id)
+        })
     }, [props.tasks]);
 
-    const editNestedTaskStatus = (e) => {
-        postProjectNestedTaskNameFetch(props.tasks.id, props.tasks.name, e.target.value)
-            .then(() => {
-                props.update()
-            })
+    const editNestedTaskStatusAndWorker = (e) => {
+        switch (e.target.value) {
+            case 'pending':
+                postProjectNestedTaskNameFetch(props.tasks.id, props.tasks.name, e.target.value, null)
+                    .then(() => {
+                        props.update()
+                    })
+                console.log('pending')
+                break
+            case 'at work':
+                postProjectNestedTaskNameFetch(props.tasks.id, props.tasks.name, e.target.value, currentUser)
+                    .then(() => {
+                        props.update()
+                    })
+                console.log('at work')
+                break
+            case 'done':
+                postProjectNestedTaskNameFetch(props.tasks.id, props.tasks.name, e.target.value, currentUser)
+                    .then(() => {
+                        props.update()
+                    })
+                console.log('done')
+                break
+            default:
+                console.log('default')
+        }
+        console.log(props.tasks)
     }
 
     const editNestedTaskName = (val) => {
@@ -66,9 +92,10 @@ const Task = (props) => {
                 <div className="taskHeader">
                     <div className='nameStatus'>
                         <FormControl variant="filled"
+                            disabled={!(currentUser === props.tasks.worked_user_id || props.tasks.worked_user_id === null)}
                                      className='status'
                                      style={
-                                         status === 'is pending'
+                                         status === 'pending'
                                              ?
                                              {background: '#ffff48'}
                                              :
@@ -86,10 +113,10 @@ const Task = (props) => {
                             <Select value={status}
                                     onChange={(event) => {
                                         setStatus(event.target.value)
-                                        console.log('event.target.value', event.target.value)
-                                        editNestedTaskStatus(event)
+                                        editNestedTaskStatusAndWorker(event)
+                                        // toPerformTheTask(event.target.value)
                                     }}>
-                                <MenuItem value='is pending'>IS PENDING</MenuItem>
+                                <MenuItem value='pending'>PENDING</MenuItem>
                                 <MenuItem value='at work'>AT WORK</MenuItem>
                                 <MenuItem value='done'>DONE</MenuItem>
                             </Select>
@@ -128,6 +155,7 @@ const Task = (props) => {
                         </h4>
                         <h4 className="usersWorked">
                             Worked: {props.findName(props.tasks.worked_user_id, props.users)}
+                            {/*Worked: {props.tasks.worked_user_id}*/}
                         </h4>
                     </div>
                     <EditIcon className='editIcon'
@@ -154,13 +182,13 @@ const Task = (props) => {
                                         ?
                                         <div className='descrWrap'>
                                             <textarea className='descriptionVal'
-                                                     defaultValue={props.tasks.description}
-                                                     onKeyPress={(e) => {
-                                                         if (e.key === 'Enter') {
-                                                             setEditDescription(!editDescription)
-                                                             editNestedTasksDescription(e.target.value)
-                                                         }
-                                                     }}/>
+                                                      defaultValue={props.tasks.description}
+                                                      onKeyPress={(e) => {
+                                                          if (e.key === 'Enter') {
+                                                              setEditDescription(!editDescription)
+                                                              editNestedTasksDescription(e.target.value)
+                                                          }
+                                                      }}/>
                                             <span className='saveDescrBtn'
                                                   onClick={(e) => {
                                                       setEditDescription(!editDescription)
