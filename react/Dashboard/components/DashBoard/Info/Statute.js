@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Editor} from 'react-draft-wysiwyg';
-import {EditorState, convertToRaw, ContentState} from 'draft-js';
+import {EditorState, convertToRaw, ContentState, convertFromRaw} from 'draft-js';
 import '../../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './Statute.scss'
 import draftToHtml from 'draftjs-to-html';
@@ -16,10 +16,9 @@ const Statute = () => {
     const [valueHTML, setValueHTML] = useState('')
     const [statuteId, setStatuteId] = useState('')
     const [showEditStatute, setShowEditStatute] = useState(false)
-    const [html, setHtml] = useState('')
+    const [st, setSt] = useState('')
 
     const onEditorStateChange = (editorState) => {
-        console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())))
         setEditorState(editorState)
         setValueHTML(draftToHtml(convertToRaw(editorState.getCurrentContent())))
     }
@@ -31,14 +30,16 @@ const Statute = () => {
             const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
             setEditorState(EditorState.createWithContent(contentState))
             setStatuteId(data[0].id)
-            setHtml(document.getElementById('textarea').value)
+            setSt(data[0].description)
         })
     }, [])
 
     const updateStatute = (value, id) => {
         // postStatuteFetch(value).then(data => console.log(data))
         putStatuteFetch(value, statuteId).then(data => console.log(data))
+        console.log(st)
     }
+
 
     return (
         <div className='statute'>
@@ -77,26 +78,10 @@ const Statute = () => {
                                     setShowEditStatute(!showEditStatute)
                                 }}/>
                             </div>
-                            {/*{parse(draftToHtml(convertToRaw(editorState.getCurrentContent())))}*/}
-                            <textarea id='textarea'
-                                      disabled
-                                      value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-                                      onChange={setHtml}
-                            />
+                            {parse(draftToHtml(convertToRaw(editorState.getCurrentContent())))}
                         </div>
                 }
             </div>
-            <button onClick={() => {
-                console.log('valueHTML', valueHTML)
-                console.log('statuteId', statuteId)
-                console.log('draftToHtml', draftToHtml(convertToRaw(editorState.getCurrentContent())))
-                console.log('PARSEdraftToHtml', parse(draftToHtml(convertToRaw(editorState.getCurrentContent()))))
-                console.log('html', html)
-                console.log('TYPEhtml', typeof html)
-            }}
-            >
-                TEST
-            </button>
         </div>
     );
 };

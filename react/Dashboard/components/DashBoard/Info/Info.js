@@ -7,7 +7,6 @@ const Info = () => {
     return (
         <div className='info'>
             <div className='container'>
-                <h1>INFO COMPONENT</h1>
                 <Statute/>
                 <About/>
             </div>

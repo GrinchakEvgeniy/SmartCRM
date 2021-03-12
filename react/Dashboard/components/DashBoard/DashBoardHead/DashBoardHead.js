@@ -28,12 +28,16 @@ const DashBoardHead = (props) => {
                 const minuteCounter = Math.floor(counter / 60);
                 const hourCounter = Math.floor(counter / 60 / 60);
 
-                const computedSecond = String(secondCounter).length === 1 ? `0${secondCounter}`: secondCounter;
-                const computedMinute = String(minuteCounter).length === 1 ? `0${minuteCounter}`: minuteCounter;
-                const computedHour = String(hourCounter).length === 1 ? `0${hourCounter}`: hourCounter;
+                const computedSecond = String(secondCounter).length === 1 ? `0${secondCounter}` : secondCounter;
+                const computedMinute = String(minuteCounter).length === 1 ? `0${minuteCounter}` : minuteCounter;
+                const computedHour = String(hourCounter).length === 1 ? `0${hourCounter}` : hourCounter;
 
                 setSecond(computedSecond);
-                if(computedMinute == '60'){setMinute('00');}else{setMinute(computedMinute);}
+                if (computedMinute === '60') {
+                    setMinute('00');
+                } else {
+                    setMinute(computedMinute);
+                }
                 setHour(computedHour);
 
                 setCounter(counter => counter + 1);
@@ -49,6 +53,7 @@ const DashBoardHead = (props) => {
     }, [isActive, counter])
 
     useEffect(() => {
+        document.addEventListener('click', clickOutSide, false);
         getUserFetch().then(data => {
             props.updateUserData(data)
             props.setSocket(new WebSocket(
@@ -85,6 +90,15 @@ const DashBoardHead = (props) => {
             setHeadWidth(200)
     }
 
+    const clickOutSide = (e) => {
+        const targ = document.getElementsByClassName('work_now_popup')
+        console.log(e.target.closest('.work_now_popup'))
+        if(e.target.closest('.work_now_popup')){
+            setWorkNowPopup(false)
+        }
+    }
+
+
     return (
         <div className={showMenu ? "dashboard__head_wrap active" : "dashboard__head_wrap"}
              style={{width: "calc(100% - " + headWidth + "px)"}}>
@@ -103,13 +117,15 @@ const DashBoardHead = (props) => {
                     <img src="/static/images/logo.png" alt="logo"/>
                 </div>
                 <div className="work_now">
-                    {/*<button onClick={()=>setWorkNowPopup(!workNowPopup)}>*/}
-                        <TimerIcon className='work_now_icon' onClick={()=>setWorkNowPopup(!workNowPopup)}/>
-                        <div className={isActive ? 'clock_hand active' : 'clock_hand'}> </div>
-                    {/*</button>*/}
+                    <TimerIcon className='work_now_icon'
+                               onClick={(e) => {
+                                   setWorkNowPopup(!workNowPopup)
+                               }}/>
+                    <div className={isActive ? 'clock_hand active' : 'clock_hand'}
+                         onClick={() => setWorkNowPopup(!workNowPopup)}> </div>
                     {
                         workNowPopup ?
-                            <WorkNow time={{'hour':hour, 'minute':minute, 'second':second}}
+                            <WorkNow time={{'hour': hour, 'minute': minute, 'second': second}}
                                      setIsActive={setIsActive}
                                      isActive={isActive}
                                      workNowObject={workNowObject}

@@ -247,8 +247,12 @@ class PutNestedTask(viewsets.ModelViewSet):
         instance.description = request.data.get('description', instance.description)
         instance.status = request.data.get('status', instance.status)
         try:
-            user_worker = User.objects.get(pk=int(request.data.get('worked_user_id', instance.worked_user_id.id)))
-            instance.worked_user_id = user_worker
+            user = request.data.get('worked_user_id', instance.worked_user_id)
+            if not user:
+                instance.worked_user_id = user
+            else:
+                user_worker = User.objects.get(pk=int(user))
+                instance.worked_user_id = user_worker
         except:
            pass
         instance.save()
