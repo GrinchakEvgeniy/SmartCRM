@@ -39,6 +39,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/pickers": "^3.2.10",
     "date-fns": "^2.18.0",
+    "dates-generator": "^1.0.3",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "html-react-parser": "^1.2.4",
