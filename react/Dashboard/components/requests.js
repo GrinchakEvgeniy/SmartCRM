@@ -152,6 +152,21 @@ export async function postProjectSimpleFetch(data) {
     return result;
 }
 
+export async function delProjectSimpleFetch(id) {
+    const options = {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({id: id}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/delete-projects-simple', options);
+    const result = await response.json();
+    return result;
+}
+
 export async function createUserFetch(data) {
     const options = {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.

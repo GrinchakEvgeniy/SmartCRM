@@ -34,12 +34,16 @@ const User = (props) => {
                 color = '#d2edff'
                 break;
             default:
-                color = 'grey';
+                color = '#e4e4e4';
         }
         return color;
     }
 
     const changeRole = (event) => {
+
+        let elems = document.querySelectorAll('.select_role_wrap')
+        elems.forEach(el => el.classList.remove('active'))
+
         if (event.target.classList[0] === 'btn_change_role') {
             let child = event.target.querySelector('.select_role_wrap');
             if (child.classList[1] === 'active') {

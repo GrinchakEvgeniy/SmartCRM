@@ -120,12 +120,14 @@ const DashBoardHead = (props) => {
                         {
                             workNowPopup ?
                                 <WorkNow time={{'hour': hour, 'minute': minute, 'second': second}}
+                                         id='popup'
                                          setIsActive={setIsActive}
                                          isActive={isActive}
                                          workNowObject={workNowObject}
                                          setWorkNowObject={setWorkNowObject}
                                          selfEducation={selfEducation}
                                          setSelfEducation={setSelfEducation}
+                                         setWorkNowPopup={setWorkNowPopup}
                                 />
                                 : ""
                         }
@@ -134,7 +136,8 @@ const DashBoardHead = (props) => {
                         <HomeWorkIcon className="work_time_today_icon"
                                       onClick={() => setWorkTimeToday(!workTimeToday)}/>
                         {
-                            workTimeToday ? <WorkTimeToday user={props.user_data}/> : ""
+                            workTimeToday ? <WorkTimeToday setWorkTimeToday={setWorkTimeToday}
+                                                           user={props.user_data}/> : ""
                         }
                     </div>
                 </div>

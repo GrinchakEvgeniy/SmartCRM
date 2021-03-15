@@ -81,7 +81,6 @@ const FamilyInfoProfile = (props) => {
                            value={position}/></div>
             <div className="infoItem edit"><h3>Experience</h3>
                 <TextField className="editField"
-                           label="SmartPIPL career start"
                            type="date"
                            onChange={(event) => {
                                setExperience(event.target.value)

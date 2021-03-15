@@ -1,0 +1,150 @@
+.projectWrap {
+  position: relative;
+
+  .project {
+    position: relative;
+    color: #757575;
+    width: 325px;
+    height: 200px;
+    padding: 15px 25px;
+    background: white;
+    border-radius: 10px;
+    margin: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: 0.4s cubic-bezier(0.45, -0.67, 0.53, 1.63);
+    box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
+
+    .users {
+      min-height: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: flex-end;
+
+      .userWrap {
+        position: relative;
+
+        .user {
+          width: 40px;
+          height: 40px;
+          align-items: center;
+          display: flex;
+          border-radius: 50%;
+          overflow: hidden;
+          margin-right: -7px;
+          transition: 0.4s;
+
+          &:hover {
+            transform: scale(1.2);
+          }
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+          }
+        }
+
+        .userName {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background: #5d5d5d;
+          padding: 2px 5px;
+          color: white;
+          font-weight: 900;
+          border-radius: 5px;
+          opacity: 0;
+          transition: 0.4s;
+          transition-delay: 0.3s;
+          transform-origin: left top;
+          transform: scale(0.1);
+        }
+
+        &:hover {
+          .userName {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      box-shadow: 0 7px 15px 5px rgb(0 0 0 / 20%), 0 7px 9px 0 rgb(0 0 0 / 7%), 0 9px 6px 0px rgb(0 0 0 / 25%);
+    }
+  }
+  .warning {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    h3 {
+      font-size: 32px;
+    }
+
+    .btns {
+      .btn {
+        margin: 5px;
+      }
+    }
+  }
+  .MyDelIcon{
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    cursor: pointer;
+
+    .iconWrap{
+      position: relative;
+      width: 16px;
+      height: 21px;
+      .lid{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 16px;
+        height: 4px;
+        background: #757575;
+        clip-path: polygon(0 50%, 30% 50%, 30% 0, 70% 0, 70% 50%, 100% 50%, 100% 100%, 0 100%);
+        transition: 0.5s;
+        transform-origin: right;
+        transition-delay: 0.2s;
+      }
+      .trash{
+        position: absolute;
+        top: 5px;
+        left: 1px;
+        width: 14px;
+        height: 16px;
+        background: #757575;
+        border-radius: 0 0 3px 3px;
+        transition: 0.5s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+      }
+    }
+    &:hover{
+      .lid{
+        transform: rotate(70deg);
+        background: #c51162;
+      }
+      .trash{
+        background: #c51162;
+      }
+    }
+  }
+}

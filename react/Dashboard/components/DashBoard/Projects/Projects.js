@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {isEmpty} from "../../helper";
 import Button from "@material-ui/core/Button";
 import {Link, NavLink} from "react-router-dom";
+import Project from "./Project";
 
 const Projects = (props) => {
     const [projectsSimple, setProjectsSimple] = useState([]);
@@ -24,6 +25,11 @@ const Projects = (props) => {
         getClientsFetch()
             .then(data => setClients(data));
     }, [])
+
+    const update = () => {
+        getProjectsSimpleFetch()
+            .then(data => setProjectsSimple(data));
+    }
 
     useEffect(() => {
         if (!isEmpty(props.user_data)) {
@@ -55,32 +61,12 @@ const Projects = (props) => {
                         projectsSimple.map((value, index) => {
                             const users_id = value.users_list.split(',');
                             return (
-                                <NavLink to={'/dashboard/project/'+value.id} key={index}>
-                                    <div className="project"
-                                         key={index}>
-                                        <div className="title"><h3>{value.name}</h3></div>
-                                        <div className="status"><p>{value.status}</p></div>
-                                        <div className="users">
-                                            {
-                                                users.map((value2, index) => {
-                                                    for (let i = 0; i < users_id.length; i++) {
-                                                        if (value2.id === parseInt(users_id[i])) {
-                                                            return (
-                                                                <div className="userWrap" key={index}>
-                                                                    <div className="user">
-                                                                        <img src={value2.profile.avatar.image}
-                                                                             alt={value2.first_name}/>
-                                                                    </div>
-                                                                    <p className="userName">{value2.first_name}</p>
-                                                                </div>
-                                                            )
-                                                        }
-                                                    }
-                                                })
-                                            }
-                                        </div>
-                                    </div>
-                                </NavLink>
+                                <Project value={value}
+                                         index={index}
+                                         users_id={users_id}
+                                         key={index}
+                                         users={users}
+                                         update={update}/>
                             )
                         })
                     }

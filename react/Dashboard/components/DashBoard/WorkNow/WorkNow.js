@@ -48,65 +48,71 @@ const WorkNow = (props) => {
     }
 
     return (
-        <div className="work_now_popup">
-            <div className="title"><p>Work Now</p></div>
-            <div className="body">
-                <div className="time">
-                    <div className="digital">
-                        <span className="hour">{props.time.hour}</span>
-                        <span>:</span>
-                        <span className="minute">{props.time.minute}</span>
-                        <span>:</span>
-                        <span className="second">{props.time.second}</span>
+        <div className='work_now_popupWrap'>
+            <div className="work_now_popup">
+                <div className="title"><p>Work Now</p></div>
+                <div className="body">
+                    <div className="time">
+                        <div className="digital">
+                            <span className="hour">{props.time.hour}</span>
+                            <span>:</span>
+                            <span className="minute">{props.time.minute}</span>
+                            <span>:</span>
+                            <span className="second">{props.time.second}</span>
+                        </div>
+                    </div>
+                    <div className="project">
+                        <p>Project</p>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={project}
+                            // disabled={props.isActive || props.selfEducation ? true : false}
+                            disabled={props.isActive || props.selfEducation}
+                            onChange={(event) => {
+                                setProject(event.target.value);
+                            }}
+                        >
+                            <MenuItem value={''}/>
+                            {
+                                projects.map((value, index) => {
+                                    return <MenuItem key={index} value={value.id}>{value.name}</MenuItem>
+                                })
+                            }
+                        </Select>
+                    </div>
+                    <div className="self_education">
+                        <p>Self-Education</p>
+                        <Checkbox
+                            // disabled={props.isActive ? true : false}
+                            disabled={props.isActive}
+                            checked={props.selfEducation}
+                            onChange={(event, checked) => handleChangeSelfEducation(checked)}
+                            inputProps={{'aria-label': 'primary checkbox'}}
+                        />
+                    </div>
+                    <div className="on_off_btn">
+                        <p className="off">OFF</p>
+                        <Switch
+                            checked={props.isActive}
+                            onChange={(event, checked) => {
+                                props.setIsActive(!props.isActive);
+                                Action(checked)
+                            }}
+                            // disabled={!project && !props.selfEducation ? true : false}
+                            disabled={!project && !props.selfEducation}
+                            color="primary"
+                            name="checkedB"
+                            inputProps={{'aria-label': 'primary checkbox'}}
+                        />
+                        <p className="on">ON</p>
                     </div>
                 </div>
-                <div className="project">
-                    <p>Project</p>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={project}
-                        // disabled={props.isActive || props.selfEducation ? true : false}
-                        disabled={props.isActive || props.selfEducation}
-                        onChange={(event)=>{
-                            setProject(event.target.value);
-                        }}
-                    >
-                        <MenuItem value={''}/>
-                        {
-                            projects.map((value, index)=>{
-                                return <MenuItem key={index} value={value.id}>{value.name}</MenuItem>
-                            })
-                        }
-                    </Select>
-                </div>
-                <div className="self_education">
-                    <p>Self-Education</p>
-                    <Checkbox
-                        // disabled={props.isActive ? true : false}
-                        disabled={props.isActive}
-                        checked={props.selfEducation}
-                        onChange={(event, checked)=>handleChangeSelfEducation(checked)}
-                        inputProps={{ 'aria-label': 'primary checkbox' }}
-                    />
-                </div>
-                <div className="on_off_btn">
-                    <p className="off">OFF</p>
-                    <Switch
-                        checked={props.isActive}
-                        onChange={(event, checked)=>{
-                            props.setIsActive(!props.isActive);
-                            Action(checked)
-                        }}
-                        // disabled={!project && !props.selfEducation ? true : false}
-                        disabled={!project && !props.selfEducation}
-                        color="primary"
-                        name="checkedB"
-                        inputProps={{ 'aria-label': 'primary checkbox' }}
-                    />
-                    <p className="on">ON</p>
-                </div>
             </div>
+            <div className="work_now_popup_subLayer"
+                 onClick={()=>{
+                props.setWorkNowPopup(false)
+            }}> </div>
         </div>
     );
 };
