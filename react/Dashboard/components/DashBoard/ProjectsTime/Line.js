@@ -51,7 +51,8 @@ const Line = (props) => {
                             <div className="close" onClick={(e)=>{
                                 setLineInfoPopup(false);
                                 e.stopPropagation();
-                            }}><span>&#10006;</span></div>
+                            }}>
+                                <span>&#10006;</span></div>
                         </div>
                         <div className="info">
                             <p>Time spent: </p>

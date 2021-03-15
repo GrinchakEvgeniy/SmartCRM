@@ -9,6 +9,7 @@ import {isEmpty, today} from "../../helper";
 
 const ProjectsTime = () => {
     const [selectedDate, setSelectedDate] = useState(today());
+    const defaultAva = '/static/images/userIcon.svg';
 
     const [projects, setProjects] = useState([]);
     const [project, setProject] = useState('none');
@@ -16,17 +17,17 @@ const ProjectsTime = () => {
 
     const [users, setUsers] = useState([]);
     const [todayDateTime, setTodayDateTime] = useState({
-        start: Date.parse(today()+"T00:00:00"),
-        finish: Date.parse(today()+"T24:00:00")
+        start: Date.parse(today() + "T00:00:00"),
+        finish: Date.parse(today() + "T24:00:00")
     })
     const handleDateChange = (event) => {
         setSelectedDate(event.target.value)
     }
 
-    useEffect(()=>{
-        if(project != "none"){
-            const projectObj = projects.filter((el)=>el.id == parseInt(project));
-            if(projectObj.length != 0){
+    useEffect(() => {
+        if (project != "none") {
+            const projectObj = projects.filter((el) => el.id == parseInt(project));
+            if (projectObj.length != 0) {
                 setSelectedProject(projectObj[0]);
             }
         } else {
@@ -34,17 +35,17 @@ const ProjectsTime = () => {
         }
     }, [project]);
 
-    useEffect(()=>{
+    useEffect(() => {
         getProjectsSimpleFetch()
-            .then(data=>setProjects(data))
+            .then(data => setProjects(data))
         getUsersFetch()
-            .then(data=>setUsers(data))
+            .then(data => setUsers(data))
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         setTodayDateTime({
-            start: Date.parse(selectedDate+"T00:00:00"),
-            finish: Date.parse(selectedDate+"T24:00:00")
+            start: Date.parse(selectedDate + "T00:00:00"),
+            finish: Date.parse(selectedDate + "T24:00:00")
         })
     }, [selectedDate]);
 
@@ -59,6 +60,7 @@ const ProjectsTime = () => {
                     <TextField
                         id="date"
                         label="Select date"
+                        variant='outlined'
                         type="date"
                         format="yyyy-MM-dd"
                         onChange={handleDateChange}
@@ -70,19 +72,17 @@ const ProjectsTime = () => {
                     />
                 </div>
                 <div className="by_project">
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Project"
-                        value={project}
-                        disabled={false}
-                        onChange={(event)=>{
-                            setProject(event.target.value);
-                        }}
+                    <Select id="demo-simple-select"
+                            variant='outlined'
+                            value={project}
+                            disabled={false}
+                            onChange={(event) => {
+                                setProject(event.target.value);
+                            }}
                     >
-                        <MenuItem value={'none'} selected={true}>None</MenuItem>
+                        <MenuItem value={'none'} selected={true}>All Projects</MenuItem>
                         {
-                            projects.map((value, index)=>{
+                            projects.map((value, index) => {
                                 return <MenuItem key={index} value={value.id}>{value.name}</MenuItem>
                             })
                         }
@@ -96,16 +96,20 @@ const ProjectsTime = () => {
                         ?
                         <div className="user_time_info">
                             {
-                                users.map((value, index)=>{
+                                users.map((value, index) => {
                                     return (<div className="item_user" key={index}>
                                         <div className="user_info">
                                             <div className="avatar">
-                                                <img src={value.profile.avatar.image} alt=""/>
+                                                <img
+                                                    src={value.profile.avatar.image ? value.profile.avatar.image : defaultAva}
+                                                    alt=""/>
                                             </div>
-                                            <p>{value.first_name + " " + value.last_name}</p>
+                                            {/*<p>{value.first_name + " " + value.last_name}</p>*/}
+                                            <p>{value.first_name}</p>
                                         </div>
                                         <div className="user_content">
-                                            <TimeLine lineTimeStandart={todayDateTime} date={selectedDate} user_id={value.id}/>
+                                            <TimeLine lineTimeStandart={todayDateTime} date={selectedDate}
+                                                      user_id={value.id}/>
                                         </div>
                                     </div>)
                                 })

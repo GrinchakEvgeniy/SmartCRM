@@ -78,8 +78,13 @@ const ProjectInfo = (props) => {
                             const sum_time = all_time_project.reduce((a, b) => a + b, 0);
                             return (<div key={index} className="user_time_project">
                                 <div className="user_info">
-                                    <div className="avatar"><img src={value.profile.avatar.image} alt=""/></div>
-                                    <div className="name"><p>{value.first_name+ " " +value.last_name}</p></div>
+                                    <div className="avatar">
+                                        <img src={value.profile.avatar.image} alt=""/>
+                                    </div>
+                                    <div className="name">
+                                        {/*<p>{value.first_name+ " " +value.last_name}</p>*/}
+                                        <p>{value.first_name}</p>
+                                    </div>
                                 </div>
                                 <div className="time_project">
                                     <p>{msToTime(sum_time)}</p>

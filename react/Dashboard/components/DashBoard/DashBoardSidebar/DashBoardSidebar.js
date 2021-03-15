@@ -29,7 +29,7 @@ const DashBoardSidebar = (props) => {
                      :
                      closeSideBarStyle}>
             <audio id="myAudio" src="/media/Goat.mp3"
-                   playsInline={true} muted="muted"></audio>
+                   playsInline={true} muted="muted"> </audio>
             <div className="dashBoardSidebar">
                 <DashBoardSidebarElms
                     label={"Notifications"}

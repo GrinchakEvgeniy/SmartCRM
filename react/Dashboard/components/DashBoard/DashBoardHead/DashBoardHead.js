@@ -57,7 +57,6 @@ const DashBoardHead = (props) => {
     }, [isActive, counter])
 
     useEffect(() => {
-        document.addEventListener('click', clickOutSide, false);
         getUserFetch().then(data => {
             props.updateUserData(data)
             props.setSocket(new WebSocket(
@@ -83,7 +82,6 @@ const DashBoardHead = (props) => {
         })
     }, [])
 
-
     const [showMenu, setShowMenu] = useState(props.openMenu)
     const [headWidth, setHeadWidth] = useState(0)
     const selectWidth = () => {
@@ -93,15 +91,6 @@ const DashBoardHead = (props) => {
             :
             setHeadWidth(200)
     }
-
-    const clickOutSide = (e) => {
-        const targ = document.getElementsByClassName('work_now_popup')
-        console.log(e.target.closest('.work_now_popup'))
-        if(e.target.closest('.work_now_popup')){
-            setWorkNowPopup(false)
-        }
-    }
-
 
     return (
         <div className={showMenu ? "dashboard__head_wrap active" : "dashboard__head_wrap"}
@@ -120,31 +109,34 @@ const DashBoardHead = (props) => {
                 <div className="logo">
                     <img src="/static/images/logo.png" alt="logo"/>
                 </div>
-                <div className="work_now">
-                    <TimerIcon className='work_now_icon'
-                               onClick={(e) => {
-                                   setWorkNowPopup(!workNowPopup)
-                               }}/>
-                    <div className={isActive ? 'clock_hand active' : 'clock_hand'}
-                         onClick={() => setWorkNowPopup(!workNowPopup)}> </div>
-                    {
-                        workNowPopup ?
-                            <WorkNow time={{'hour': hour, 'minute': minute, 'second': second}}
-                                     setIsActive={setIsActive}
-                                     isActive={isActive}
-                                     workNowObject={workNowObject}
-                                     setWorkNowObject={setWorkNowObject}
-                                     selfEducation={selfEducation}
-                                     setSelfEducation={setSelfEducation}
-                            />
-                            : ""
-                    }
-                </div>
-                <div className="work_time_today">
-                    <HomeWorkIcon className="work_time_today_icon" onClick={()=>setWorkTimeToday(!workTimeToday)}/>
-                    {
-                        workTimeToday ? <WorkTimeToday user={props.user_data}/> : ""
-                    }
+                <div className='actionIconsWrap'>
+                    <div className="work_now">
+                        <TimerIcon className='work_now_icon'
+                                   onClick={(e) => {
+                                       setWorkNowPopup(!workNowPopup)
+                                   }}/>
+                        <div className={isActive ? 'clock_hand active' : 'clock_hand'}
+                             onClick={() => setWorkNowPopup(!workNowPopup)}> </div>
+                        {
+                            workNowPopup ?
+                                <WorkNow time={{'hour': hour, 'minute': minute, 'second': second}}
+                                         setIsActive={setIsActive}
+                                         isActive={isActive}
+                                         workNowObject={workNowObject}
+                                         setWorkNowObject={setWorkNowObject}
+                                         selfEducation={selfEducation}
+                                         setSelfEducation={setSelfEducation}
+                                />
+                                : ""
+                        }
+                    </div>
+                    <div className="work_time_today">
+                        <HomeWorkIcon className="work_time_today_icon"
+                                      onClick={() => setWorkTimeToday(!workTimeToday)}/>
+                        {
+                            workTimeToday ? <WorkTimeToday user={props.user_data}/> : ""
+                        }
+                    </div>
                 </div>
                 <DashBoardHeadUserMenu/>
             </div>
