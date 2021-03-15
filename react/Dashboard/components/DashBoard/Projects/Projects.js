@@ -6,7 +6,7 @@ import {getUser} from "../../redux/actions/actions";
 import {connect} from "react-redux";
 import {isEmpty} from "../../helper";
 import Button from "@material-ui/core/Button";
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 const Projects = (props) => {
     const [projectsSimple, setProjectsSimple] = useState([]);
@@ -55,7 +55,7 @@ const Projects = (props) => {
                         projectsSimple.map((value, index) => {
                             const users_id = value.users_list.split(',');
                             return (
-                                <Link to={'/dashboard/project/'+value.id} key={index}>
+                                <NavLink to={'/dashboard/project/'+value.id} key={index}>
                                     <div className="project"
                                          key={index}>
                                         <div className="title"><h3>{value.name}</h3></div>
@@ -80,7 +80,7 @@ const Projects = (props) => {
                                             }
                                         </div>
                                     </div>
-                                </Link>
+                                </NavLink>
                             )
                         })
                     }

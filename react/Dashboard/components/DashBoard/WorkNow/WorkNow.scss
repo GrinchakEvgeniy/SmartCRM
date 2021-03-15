@@ -1,56 +1,76 @@
-.work_now_popup{
+.work_now_popup {
   position: absolute;
-  left: -80px;
-  top: 60px;
-  border-radius: 7px;
+  left: 50%;
+  top: calc(100% + 10px);
+  border-radius: 10px;
   background: white;
   width: 350px;
-  //box-shadow: 0 0 5px black;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   z-index: 15;
   color: #757575;
-  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
-  0 4px 5px 0 rgb(0 0 0 / 14%),
+  box-shadow: 0px -2px 6px -1px rgb(0 0 0 / 20%),
+  0 1px 5px 0 rgb(0 0 0 / 14%),
   0 1px 10px 0px rgb(0 0 0 / 12%);
 
-  .body{
+  &:after {
+    content: '';
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    width: 20px;
+    height: 15px;
+    background: #41a0ff;
+    transform: translateX(-50%);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+
+  .body {
     padding: 5px;
+
     .time {
       padding-top: 30px;
       display: flex;
       justify-content: center;
       font-size: 24px;
-      .digital{
+
+      .digital {
         display: flex;
         font-size: 30px;
       }
     }
-    .project{
+
+    .project {
       padding: 30px 0;
       display: flex;
       align-items: center;
       justify-content: space-evenly;
-      .MuiInputBase-root{
+
+      .MuiInputBase-root {
         width: 150px;
       }
     }
   }
-  .title{
+
+  .title {
     color: #f3f3f3;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #41a0ff;
-    border-radius: 7px 7px 0 0;
+    border-radius: 10px 10px 0 0;
+    font-weight: 600;
   }
-  .on_off_btn{
+
+  .on_off_btn {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .self_education{
+
+  .self_education {
     display: flex;
     justify-content: space-around;
     align-items: center;

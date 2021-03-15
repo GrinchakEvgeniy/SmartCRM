@@ -15,7 +15,10 @@
     }
   }
   &:hover{
-    color: black;
+    color: #007cff;
+  }
+  &.active{
+    color: #007cff;
   }
 }
 .elem.new{

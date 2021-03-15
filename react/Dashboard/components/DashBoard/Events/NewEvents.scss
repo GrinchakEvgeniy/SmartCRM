@@ -1,25 +1,34 @@
 .new_event {
-      position: fixed;
-    bottom: 0%;
-    left: 50%;
-    transform: translate(-50%, -25%);
-    background: white;
-    z-index: 123;
-    padding: 40px;
-    box-shadow: 0 0 5px black;
-    .circle-picker {
-        box-shadow: 0 0 4px grey;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  z-index: 123;
+  padding: 40px;
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
+  0 4px 5px 0 rgb(0 0 0 / 14%),
+  0 1px 10px 0px rgb(0 0 0 / 12%);
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .title, .url, .circle-picker {
+      margin-bottom: 10px;
     }
-    .fields {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .title, .url, .sel, .circle-picker {
-            margin-bottom: 10px !important;
-        }
+
+    .sel {
+      margin-bottom: 20px;
     }
-    .actions {
-        display: flex;
-        justify-content: space-around;
+    .circle-picker{
+      margin-bottom: 10px !important;
     }
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-around;
+  }
 }

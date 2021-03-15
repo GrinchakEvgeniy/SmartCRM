@@ -1,79 +1,120 @@
 .container.projects-time {
+  padding: 30px 20px;
+  background: white;
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
+  0 4px 5px 0 rgb(0 0 0 / 14%),
+  0 1px 10px 0px rgb(0 0 0 / 12%);
+  color: #757575;
 
-  .navigations{
+  .navigations {
     display: flex;
     justify-content: space-evenly;
     align-items: flex-end;
+    margin-bottom: 20px;
   }
-  .content{
-    .user_time_info{
-      margin-top: 30px;
+
+  .content {
+    .user_time_info {
       .item_user {
+        background: #dbf2ff;
+        height: 60px;
         display: flex;
-        border: 1px solid black;
-        margin: 5px 0;
-        border-radius: 4px;
-        box-shadow: 0 0 3px grey;
-        .user_info{
-          padding: 2px;
+        border: 1px solid grey;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        transition: 0.4s;
+
+        &:hover {
+          background: #b3e0ff;
+        }
+
+        .user_info {
+          padding: 5px 10px;
           display: flex;
           align-items: center;
           width: 200px;
-          border: 1px solid black;
+          min-width: 150px;
+
           .avatar {
+            min-width: 50px;
             width: 50px;
+            height: 50px;
             border-radius: 50%;
             overflow: hidden;
             display: flex;
-            img{
+            margin-right: 5px;
+
+            img {
               width: 100%;
+              height: 100%;
             }
           }
         }
-        .user_content{
+
+        .user_content {
           width: 100%;
-          .time_lines{
+
+          .time_lines {
             width: 100%;
             position: relative;
             height: 100%;
             display: flex;
             align-items: center;
-            .line{
+
+            .line {
+              border: 2px solid #ffab27;
               position: absolute;
-              background: #30fd00;
+              background: #ffab27;
               height: 50%;
               border-radius: 6px;
               cursor: pointer;
-              .popup_line_wrap{
+              transition: 0.2s;
+
+              .popup_line_wrap {
                 position: relative;
-                .line_popup{
+
+                .line_popup {
                   cursor: default;
                   position: absolute;
-                  top: 10px;
-                  left: 10px;
+                  top: 15px;
+                  left: calc(100% + 5px);
                   background: #fff;
-                  box-shadow: 0 0 2px black;
+                  box-shadow: 0 0 5px grey;
                   z-index: 12;
-                  border-radius: 3px;
-                  .toolbar{
+                  border-radius: 10px;
+
+                  .toolbar {
+                    height: 30px;
+                    border-radius: 0 10px 0 0;
                     position: relative;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    background: #9e9ef1;
+                    background: #1B76D2;
                     padding: 3px 0;
-                    .close{
+                    color: white;
+                    font-weight: 600;
+
+                    .close {
                       position: absolute;
-                      right: 1px;
-                      background: #ff6565;
-                      border-radius: 50%;
+                      width: 20px;
+                      height: 20px;
+                      right: 3px;
                       display: flex;
-                      overflow: hidden;
                       align-items: center;
+                      justify-content: center;
+                      overflow: hidden;
                       cursor: pointer;
+                      transition: 0.2s;
+                      color: #afd9ee;
+
+                      &:hover {
+                        color: white;
+                      }
                     }
                   }
-                  .info{
+
+                  .info {
                     padding: 10px;
                     display: flex;
                     width: 200px;
@@ -82,16 +123,22 @@
                 }
               }
             }
-            .line:hover{
-              transition: 0.5s;
-              box-shadow: 0 0 3px black;
+
+            .line:hover {
+              background: #ff6d00;
+              border: 2px solid #ff6d00;
             }
-            .sub_line{
+
+            .sub_line {
               height: 100%;
               width: 100%;
-              border: 1px solid black;
-              p{
-                font-size: 7px;
+              border-left: 1px solid #c4c4c4;
+              display: flex;
+              justify-content: center;
+              padding-top: 2px;
+
+              p {
+                font-size: 10px;
               }
             }
           }
