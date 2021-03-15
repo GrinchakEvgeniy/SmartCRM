@@ -92,6 +92,9 @@ class GetUserTimeView(viewsets.ModelViewSet):
         if request.data['action'] == 'get not finished work':
             queryset = UserTime.objects.filter(today=request.data['today'], user_id=request.data['user_id']).last()
             serializer = UserTimeSerializer(queryset)
+        elif request.data['action'] == 'get all users time by date range':
+            queryset = UserTime.objects.filter(today__range=(request.data['from'], request.data['before']))
+            serializer = UserTimeSerializer(queryset, many=True)
         return Response(serializer.data)
 
 

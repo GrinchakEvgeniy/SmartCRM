@@ -1,0 +1,20 @@
+.users_times{
+  .table{
+    display: flex;
+    flex-direction: column;
+    .user_item{
+      display: flex;
+      .user_meta{
+        width: 50px;
+        border: 1px green solid;
+      }
+      .user_time_meta{
+        width: 100%;
+        display: flex;
+        .itm{
+          border: 1px blue solid;
+        }
+      }
+    }
+  }
+}
