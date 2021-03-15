@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 from .models import *
 
 
+class SalarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Salary
+        fields = '__all__'
+
+
 class CompanyInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompanyInfo

@@ -225,6 +225,23 @@ class CompanyInfo(models.Model):
         super(CompanyInfo, self).save(*args, **kwargs)
 
 
+class Salary(models.Model):
+    timestamps = models.CharField(blank=True, null=True, max_length=100)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='salary')
+    month = models.CharField(blank=True, null=True, max_length=10)
+    year = models.IntegerField(default=0, blank=True, null=True)
+    total_hour = models.FloatField(default=0, blank=True, null=True)
+    rate_per_hour = models.FloatField(default=0, blank=True, null=True)
+    fine = models.FloatField(default=0, blank=True, null=True)
+    issued = models.FloatField(default=0, blank=True, null=True)
+    course = models.FloatField(default=0, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        now = datetime.now()
+        self.timestamps = now
+        super(Salary, self).save(*args, **kwargs)
+
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:

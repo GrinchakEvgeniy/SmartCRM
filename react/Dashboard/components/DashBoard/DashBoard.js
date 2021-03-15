@@ -14,6 +14,7 @@ import Events from "./Events/Events";
 import ProjectsTime from "./ProjectsTime/ProjectsTime";
 import Info from "./Info/Info";
 import UsersTime from "./UsersTime/UsersTime";
+import Salary from "./Salary/Salary";
 
 const DashBoard = () => {
 
@@ -33,6 +34,7 @@ const DashBoard = () => {
                     <Route path='/dashboard/users' component={()=>{return <Users/>}}/>
                     <Route path='/dashboard/users-time' component={()=>{return <UsersTime/>}}/>
                     <Route path='/dashboard/projects-time' component={()=>{return <ProjectsTime/>}}/>
+                    <Route path='/dashboard/salary' component={()=>{return <Salary/>}}/>
                     <Route path='/dashboard/projects' component={()=>{return <Projects showPopUp={showPopUp}
                                                                                        setShowPopUp={setShowPopUp}
                                                                                        setPopUpOptions={setPopUpOptions}/>}}/>

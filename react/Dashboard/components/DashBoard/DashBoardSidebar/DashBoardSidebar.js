@@ -10,6 +10,7 @@ import TimelapseIcon from '@material-ui/icons/Timelapse';
 import EventIcon from '@material-ui/icons/Event';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 const DashBoardSidebar = (props) => {
 
@@ -60,6 +61,10 @@ const DashBoardSidebar = (props) => {
                     label={"Users Time"}
                     link={'/dashboard/users-time'}
                     icon={<AssignmentIndIcon/>}/>
+                <DashBoardSidebarElms
+                    label={"Salary"}
+                    link={'/dashboard/salary'}
+                    icon={<MonetizationOnIcon/>}/>
                 <DashBoardSidebarElms
                     label={"Info"}
                     link={'/dashboard/info'}

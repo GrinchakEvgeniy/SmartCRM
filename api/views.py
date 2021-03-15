@@ -36,6 +36,57 @@ def get_token(request):
 
 # ==============================================
 
+
+class DeleteSalaryView(viewsets.ModelViewSet):
+    queryset = Salary.objects.all()
+    serializer_class = SalarySerializer
+    perms = ['all']
+
+    def delete(self, request):
+        instance = Salary.objects.get(pk=int(request.data['id']))
+        instance.delete()
+        return Response({'message': 'OK', 'type': 'success'})
+
+
+class PutSalaryView(viewsets.ModelViewSet):
+    queryset = Salary.objects.all()
+    serializer_class = SalarySerializer
+    perms = ['all']
+
+    def put(self, request):
+        instance = Salary.objects.get(pk=int(request.data['id']))
+        instance.month = request.data.get('month', instance.month)
+        instance.total_hour = request.data.get('total_hour', instance.total_hour)
+        instance.rate_per_hour = request.data.get('rate_per_hour', instance.rate_per_hour)
+        instance.fine = request.data.get('fine', instance.fine)
+        instance.issued = request.data.get('issued', instance.issued)
+        instance.course = request.data.get('course', instance.course)
+        instance.save()
+        return Response({'message':'OK', 'type':'success'})
+
+
+class PostSalaryView(viewsets.ModelViewSet):
+    queryset = Salary.objects.all()
+    serializer_class = SalarySerializer
+    perms = ['all']
+
+    def post(self, request):
+        serializer = SalarySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'OK', 'type':'success'})
+        return Response(serializer.errors)
+
+
+class GetSalaryView(viewsets.ModelViewSet):
+    queryset = Salary.objects.all()
+    serializer_class = SalarySerializer
+    perms = ['all']
+
+    def post(self, request):
+        pass
+
+
 class GetCompanyInfoView(viewsets.ModelViewSet):
     queryset = CompanyInfo.objects.all()
     serializer_class = CompanyInfoSerializer

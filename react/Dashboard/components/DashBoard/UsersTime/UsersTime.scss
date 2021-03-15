@@ -5,7 +5,7 @@
     .user_item{
       display: flex;
       .user_meta{
-        width: 50px;
+        min-width: 140px;
         border: 1px green solid;
       }
       .user_time_meta{
@@ -13,6 +13,13 @@
         display: flex;
         .itm{
           border: 1px blue solid;
+          padding: 20px 3px;
+          font-size: 10px;
+          position: relative;
+          .day_{
+            position: absolute;
+            top: 2px;
+          }
         }
       }
     }

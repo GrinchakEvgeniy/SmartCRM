@@ -102,7 +102,7 @@ const UsersTime = () => {
     useEffect(()=>{
         const result = [];
         users.forEach((user)=>{
-            result.push({user:user.first_name, id:user.id, times:[], render:[]})
+            result.push({user:user.first_name+' '+user.last_name, id:user.id, times:[], render:[]})
             dataTimes.forEach((time)=>{
                 if(time.user_id === user.id){
                     result[result.length-1].times.push({
@@ -178,15 +178,15 @@ const UsersTime = () => {
                         return (
                             <div className="user_item" key={index}>
                                 <div className="user_meta">
-                                    {value.user}
+                                    <p>{value.user}</p>
                                 </div>
                                 <div className="user_time_meta">
                                     {
                                         value.render.map((value, index)=>{
                                             return (
                                                 <div className="itm">
-                                                    <p>{value.day}</p>
-                                                    <p>{msToTime(value.hours)}</p>
+                                                    <p className="day_">{value.day}</p>
+                                                    <p className="time_">{msToTime(value.hours)}</p>
                                                 </div>
                                             )
                                         })
