@@ -4,10 +4,12 @@ import './Project.scss'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Button from "@material-ui/core/Button";
 import {delProjectSimpleFetch} from "../../requests";
+import {getAccess} from "../../helper";
 
 const Project = (props) => {
 
     const [warning, setWarning] = useState(false)
+    const allowedUsersToDelProj = ['S', 'PM']
 
     const delProject = (id) => {
         delProjectSimpleFetch(id).then(() => {
@@ -42,14 +44,22 @@ const Project = (props) => {
                     </div>
                 </div>
             </NavLink>
-            <div className="MyDelIcon" onClick={() => {
-                setWarning(!warning)
-            }}>
-                <div className="iconWrap">
-                    <div className="lid"> </div>
-                    <div className="trash">	&times;</div>
-                </div>
-            </div>
+
+            {
+                getAccess(props.currentUserRole, allowedUsersToDelProj)
+                    ?
+                    <div className="MyDelIcon" onClick={() => {
+                        setWarning(!warning)
+                    }}>
+                        <div className="iconWrap">
+                            <div className="lid"> </div>
+                            <div className="trash">    &times;</div>
+                        </div>
+                    </div>
+                    :
+                    ''
+            }
+
             {
                 warning
                     ?

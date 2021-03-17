@@ -13,6 +13,7 @@ const Talk = (props) => {
     const [message, setMessage] = useState('')
     const [projectComments, setProjectComments] = useState([])
     const [users, setUsers] = useState([])
+    const [attachUsers, setAttachUsers] = useState('')
 
     useEffect(() => {
         getUsersFetch()
@@ -28,6 +29,7 @@ const Talk = (props) => {
         if (!isEmpty(props.project)) {
             setProjectId(props.project.id)
             setProjectComments(props.project.project_comment)
+            setAttachUsers(props.project.users_list)
         }
     }, [props.project]);
 
@@ -60,30 +62,36 @@ const Talk = (props) => {
                     }
                 </div>
             </div>
-            <div className="createTweet">
-                <TextField className='inputField'
-                           id="message"
-                           label="Message"
-                           fullWidth
-                           multiline
-                           rows={5}
-                           rowsMax={5}
-                           defaultValue=""
-                           variant="outlined"
-                           onChange={() => {
-                               setMessage(document.getElementById('message').value)
-                           }}
-                />
-                <div className="sendIcon">
-                    <div className='sendIconWrap'
-                         onClick={() => {
-                             newMessage()
-                             document.getElementById('message').value = ''
-                         }}>
-                        <SendIcon className='icon'/>
+            {
+                (attachUsers.split(',').indexOf(String(currentUserId)) !== -1)
+                    ?
+                    <div className="createTweet">
+                        <TextField className='inputField'
+                                   id="message"
+                                   label="Message"
+                                   fullWidth
+                                   multiline
+                                   rows={5}
+                                   rowsMax={5}
+                                   defaultValue=""
+                                   variant="outlined"
+                                   onChange={() => {
+                                       setMessage(document.getElementById('message').value)
+                                   }}
+                        />
+                        <div className="sendIcon">
+                            <div className='sendIconWrap'
+                                 onClick={() => {
+                                     newMessage()
+                                     document.getElementById('message').value = ''
+                                 }}>
+                                <SendIcon className='icon'/>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                    :
+                    ''
+            }
         </div>
     );
 };

@@ -17,7 +17,7 @@ import Button from "@material-ui/core/Button";
 import Tasks from "../Tasks/Tasks";
 import {getUser} from "../../redux/actions/actions";
 import {connect} from "react-redux";
-import {isEmpty} from "../../helper";
+import {getAccess, isEmpty} from "../../helper";
 
 const ProjectControl = (props) => {
 
@@ -35,6 +35,9 @@ const ProjectControl = (props) => {
     const [imgs, setImages] = useState(['png', 'jpeg', 'jpg', 'gif', 'webp'])
     const [currentUserId, setCurrentUserId] = useState('')
     const [currentUserName, setCurrentUserName] = useState('')
+    const [currentUserRole, setCurrentUserRole] = useState('')
+    const allowedUsersToDelAddUsers = ['S', 'PM']
+    const allowedUsersToDelAddProjFiles = ['S', 'PM', 'D', 'TL', 'Dev']
 
     useEffect(() => {
         if (!isEmpty(props.user_data)) {
@@ -61,6 +64,9 @@ const ProjectControl = (props) => {
 
     useEffect(() => {
         update()
+        getUserFetch().then(data => {
+            setCurrentUserRole(data.profile.role_id.value)
+        })
     }, [])
 
 
@@ -76,10 +82,10 @@ const ProjectControl = (props) => {
 
     const addUsers = () => {
 
-        const newUniq = (arr)=>{
+        const newUniq = (arr) => {
             let res = []
-            for(let str of arr){
-                if(!res.includes(str)){
+            for (let str of arr) {
+                if (!res.includes(str)) {
                     res.push(str)
                 }
             }
@@ -170,24 +176,36 @@ const ProjectControl = (props) => {
                                                                          alt={arr.first_name}/>
                                                                 </div>
                                                                 <p className="userName">{arr.first_name}</p>
-                                                                <span className='delBtn'
-                                                                      id={arr.id}
-                                                                      onClick={() => {
-                                                                          delUser(arr.id)
-                                                                      }}
-                                                                >-</span>
+                                                                {
+                                                                    getAccess(currentUserRole, allowedUsersToDelAddUsers)
+                                                                        ?
+                                                                        <span className='delBtn'
+                                                                              id={arr.id}
+                                                                              onClick={() => {
+                                                                                  delUser(arr.id)
+                                                                              }}
+                                                                        >-</span>
+                                                                        :
+                                                                        ''
+                                                                }
                                                             </div>
                                                         )
                                                     }
                                                 }
                                             })
                                         }
-                                        <div className='addUserBtn'
-                                             onClick={() => {
-                                                 setAddUserActive(!addUserActive)
-                                             }}>
-                                            <span>+</span>
-                                        </div>
+                                        {
+                                            getAccess(currentUserRole, allowedUsersToDelAddUsers)
+                                                ?
+                                                <div className='addUserBtn'
+                                                     onClick={() => {
+                                                         setAddUserActive(!addUserActive)
+                                                     }}>
+                                                    <span>+</span>
+                                                </div>
+                                                :
+                                                ''
+                                        }
                                     </div>
                                     <div className="projectFiles">
                                         <div className="filesWrap">
@@ -211,12 +229,18 @@ const ProjectControl = (props) => {
                                                                     }
                                                                 </div>
                                                                 <h4 className="fileName">{el.file.split('/').pop()}</h4>
-                                                                <span className="delBtn"
-                                                                      onClick={(e) => {
-                                                                          e.preventDefault()
-                                                                          delProjectFile(el.id)
-                                                                      }}
-                                                                      id="9">-</span>
+                                                                {
+                                                                    getAccess(currentUserRole, allowedUsersToDelAddProjFiles)
+                                                                        ?
+                                                                        <span className="delBtn"
+                                                                              onClick={(e) => {
+                                                                                  e.preventDefault()
+                                                                                  delProjectFile(el.id)
+                                                                              }}
+                                                                              id="9">-</span>
+                                                                        :
+                                                                        ''
+                                                                }
                                                             </a>
                                                         )
                                                     })
@@ -224,19 +248,25 @@ const ProjectControl = (props) => {
                                                     ''
                                             }
                                         </div>
-                                        <Button className="addFileBtn"
-                                                color='secondary'
-                                                variant="contained"
-                                                onChange={(event) => {
-                                                    postProjectFilesFetch(event.target.files, project.id)
-                                                        .then(() => {
-                                                            update()
-                                                        })
-                                                }}
-                                                component="label">
-                                            +
-                                            <input type="file" hidden/>
-                                        </Button>
+                                        {
+                                            getAccess(currentUserRole, allowedUsersToDelAddProjFiles)
+                                                ?
+                                                <Button className="addFileBtn"
+                                                        color='secondary'
+                                                        variant="contained"
+                                                        onChange={(event) => {
+                                                            postProjectFilesFetch(event.target.files, project.id)
+                                                                .then(() => {
+                                                                    update()
+                                                                })
+                                                        }}
+                                                        component="label">
+                                                    +
+                                                    <input type="file" hidden/>
+                                                </Button>
+                                                :
+                                                ''
+                                        }
                                     </div>
                                 </div>
                                 <div className="discussion">

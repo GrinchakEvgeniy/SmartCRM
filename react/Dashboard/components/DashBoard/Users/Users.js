@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import './Users.scss';
-import {getRolesFetch, getUsersFetch} from "../../requests";
+import {getRolesFetch, getUserFetch, getUsersFetch} from "../../requests";
 import User from "./User";
 import Button from "@material-ui/core/Button";
 import AddUser from "./AddUser";
 import {TextField} from "@material-ui/core";
+import {getAccess} from "../../helper";
 
 const Users = () => {
     const [alerts, setAlerts] = useState({
@@ -15,6 +16,8 @@ const Users = () => {
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
     const [renderUser, setRenderUser] = useState([]);
+    const [currentUserRole, setCurrentUserRole] = useState('')
+    const allowedUsersHere = ['S']
 
     useEffect(() => {
         getUsersFetch()
@@ -26,6 +29,9 @@ const Users = () => {
             .then(data => {
                 setRoles(data);
             })
+        getUserFetch().then(data => {
+            setCurrentUserRole(data.profile.role_id.value)
+        })
     }, []);
 
     const Search = (string) => {
@@ -53,18 +59,30 @@ const Users = () => {
         }
     }, [alerts]);
 
+
     return (
         <div className="container users-wrap">
             <div id='alert' className={alerts.type + " alerts"}>{alerts.message}</div>
             <div className="navigation">
-                <div className="action">
-                    <Button className="btn add-btn"
-                            variant="contained"
-                            color="primary"
-                            onClick={() => setAddUser(!addUser)}
-                    >Add user
-                    </Button>
-                </div>
+
+                {
+                    getAccess(currentUserRole, allowedUsersHere)
+                        ?
+                        <div className="action">
+                            <Button className="btn add-btn"
+                                    disabled={!(currentUserRole === "S")}
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => setAddUser(!addUser)}
+                            >Add user
+                            </Button>
+                        </div>
+                        :
+                        ''
+                }
+
+
+
                 <div className="search">
                     <TextField
                         className="search"
@@ -83,6 +101,7 @@ const Users = () => {
                     {
                         renderUser.map((value, index) => {
                             return <User value={value}
+                                         currentUserRole={currentUserRole}
                                          roles={roles}
                                          setAlerts={setAlerts}
                                          key={index}/>

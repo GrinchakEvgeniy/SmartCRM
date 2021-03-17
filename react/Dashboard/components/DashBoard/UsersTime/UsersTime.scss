@@ -1,24 +1,116 @@
-.users_times{
-  .table{
+.users_times {
+  padding: 20px;
+  color: #757575;
+
+  .users_times_control {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    .user_item{
-      display: flex;
-      .user_meta{
-        min-width: 140px;
-        border: 1px green solid;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    background: white;
+    border-radius: 10px;
+    padding: 15px 25px;
+    box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
+    0 4px 5px 0 rgb(0 0 0 / 14%),
+    0 1px 10px 0px rgb(0 0 0 / 12%);
+
+    .btn {
+      display: block;
+      padding: 10px 20px;
+      background: #afd9ee;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100px;
+      text-align: center;
+    }
+
+    .current_month {
+      text-align: center;
+      padding: 10px 10px;
+      background: #dbdbdb;
+      border-radius: 4px;
+      text-transform: uppercase;
+      width: 200px;
+    }
+
+  }
+
+  .table {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    //flex-direction: column;
+
+    .user_item {
+      //display: flex;
+      margin: 10px;
+      background: white;
+      border-radius: 10px;
+      padding: 15px 25px;
+      box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
+      0 4px 5px 0 rgb(0 0 0 / 14%),
+      0 1px 10px 0px rgb(0 0 0 / 12%);
+
+
+      .user_meta {
+        font-size: 24px;
+        min-width: 100%;
+        padding: 10px 0;
       }
-      .user_time_meta{
-        width: 100%;
+
+      .days_name {
         display: flex;
-        .itm{
-          border: 1px blue solid;
-          padding: 20px 3px;
-          font-size: 10px;
+
+        p {
+          text-align: center;
+          font-size: 12px;
+          width: 70px;
+          margin: 2px;
+          background: #dbf3ff;
+          border-radius: 4px;
+
+          &:nth-child(7), &:nth-child(1) {
+            background: #dbdbdb;
+          }
+        }
+      }
+
+      .user_time_meta {
+        width: 530px;
+        display: flex;
+        flex-wrap: wrap;
+
+        .itm {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 70px;
+          margin: 2px;
+          border-radius: 4px;
+          font-size: 16px;
+          background: #dbf3ff;
+          padding-top: 20px;
           position: relative;
-          .day_{
+
+
+          &:nth-child(7n+7) {
+            background: #dbdbdb;
+          }
+
+          &:nth-child(1) {
+            background: #dbdbdb;
+          }
+
+          &:nth-child(7n+8) {
+            background: #dbdbdb;
+          }
+
+          .day_ {
             position: absolute;
             top: 2px;
+            right: 4px;
+            font-size: 12px;
           }
         }
       }

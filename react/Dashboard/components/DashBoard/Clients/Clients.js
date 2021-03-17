@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import "./Clients.scss";
-import {getClientsFetch, postClientFetch, deleteClientFetch} from "../../requests";
+import {getClientsFetch, postClientFetch, deleteClientFetch, getUserFetch} from "../../requests";
 import Button from "@material-ui/core/Button";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
+import {getAccess} from "../../helper";
 
 const Clients = (props) => {
     const [clients, setClients] = useState([]);
@@ -16,6 +17,8 @@ const Clients = (props) => {
     const [clientsId, setClientsId] = useState([]);
     const [clientName, setClientName] = useState('')
     const [clientInfo, setClientInfo] = useState('')
+    const [currentUserRole, setCurrentUserRole] = useState('')
+    const allowedUsersHere = ['S', 'PM']
 
     useEffect(() => {
         getClientsFetch()
@@ -23,6 +26,9 @@ const Clients = (props) => {
                 setRenderClients(data);
                 setClients(data);
             })
+        getUserFetch().then(data => {
+            setCurrentUserRole(data.profile.role_id.value)
+        })
     }, []);
 
     const Save = () => {
@@ -99,123 +105,139 @@ const Clients = (props) => {
     return (
         <div className="clients">
             <div className="container">
-                <div className="actions">
-                    <div className="btnWrap">
-                        <Button className="btn add-btn"
-                                variant="contained"
-                                color="primary"
-                                onClick={() => {
-                                    setPopup(!popup);
-                                }}>Add client
-                        </Button>
-                    </div>
-                    <div className={popup ? "createNewClient active" : "createNewClient"}>
-                        <div className="createNewClientFields">
-                            <TextField id="name"
-                                       label="Client Name"
-                                       variant="outlined"
-                                       value={clientName}
-                                       onChange={(event) => {
-                                           setClientName(event.target.value)
-                                           setNewClientData({...newClientData, name: event.target.value})
-                                       }}/>
-                            <TextField id="contact_data"
-                                       label="Contact Data"
-                                       variant="outlined"
-                                       value={clientInfo}
-                                       onChange={(event) => {
-                                           setClientInfo(event.target.value)
-                                           setNewClientData({...newClientData, contact_data: event.target.value})
-                                       }}/>
-                        </div>
-                        <div className="button_group">
-                            <Button variant="contained"
-                                    color="secondary"
-                                    onClick={() => {
-                                        setClientName('')
-                                        setClientInfo('')
-                                        setPopup(false);
-                                    }}>
-                                Cancel
-                            </Button>
-                            <Button variant="contained"
-                                    color="primary"
-                                    disabled={!(clientName && clientInfo)}
-                                    onClick={() => {
-                                        Save()
-                                        setClientName('')
-                                        setClientInfo('')
-                                    }}>
-                                Save
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-                <div className="navigation">
-                    <div className="action_wrap">
-                        <FormControl variant="outlined" className="action_wrap">
-                            <InputLabel id="demo-simple-select-outlined-label">Action</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                value={action}
-                                onChange={(event => setAction(event.target.value))}
-                                label="Action">
-                                <MenuItem value="nothing">Nothing</MenuItem>
-                                <MenuItem value="delete">Delete Chased</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <Button className="btn select-btn"
-                                variant="contained"
-                                color="primary"
-                                disabled={action === 'nothing'}
-                                onClick={Action}
-                        >Done
-                        </Button>
-                    </div>
-                    <div className="search_wrap">
-                        <TextField
-                            className="search"
-                            type="text"
-                            id="outlined-basic"
-                            label="Search"
-                            variant="outlined"
-                            onChange={(event) => Search(event.target.value)}/>
-                    </div>
-                </div>
-                <div className="content">
-                    <div className="headers">
-                        <div className="check_all">
-                            <input type="checkbox"
-                                   onChange={(event) => CheckAll(event)}/>
-                        </div>
-                        <div className="id"><p>id</p></div>
-                        <div className="name"><p>name</p></div>
-                        <div className="contact_data"><p>contact data</p></div>
-                    </div>
-                    <div className="result">
-                        {
-                            renderClients.map((value, index) => {
-                                return <div key={index} className={index % 2 === 0 ? "row white" : "row grey"}>
-                                    <div className="check">
-                                        <input type="checkbox" className="input_check" onChange={() => {
-                                            Check(value.id)
-                                        }}/>
+
+                {
+                    getAccess(currentUserRole, allowedUsersHere)
+                        ?
+                        <div className="clientsWrap">
+                            <div className="actions">
+                                <div className="btnWrap">
+                                    <Button className="btn add-btn"
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => {
+                                                setPopup(!popup);
+                                            }}>Add client
+                                    </Button>
+                                </div>
+                                <div className={popup ? "createNewClient active" : "createNewClient"}>
+                                    <div className="createNewClientFields">
+                                        <TextField id="name"
+                                                   label="Client Name"
+                                                   variant="outlined"
+                                                   value={clientName}
+                                                   onChange={(event) => {
+                                                       setClientName(event.target.value)
+                                                       setNewClientData({...newClientData, name: event.target.value})
+                                                   }}/>
+                                        <TextField id="contact_data"
+                                                   label="Contact Data"
+                                                   variant="outlined"
+                                                   value={clientInfo}
+                                                   onChange={(event) => {
+                                                       setClientInfo(event.target.value)
+                                                       setNewClientData({
+                                                           ...newClientData,
+                                                           contact_data: event.target.value
+                                                       })
+                                                   }}/>
                                     </div>
-                                    <div className="id_result">
-                                        <p>{value.id}</p>
-                                    </div>
-                                    <div className="name_result">
-                                        <p>{value.name}</p>
-                                    </div>
-                                    <div className="contact_data_result">
-                                        <p>{value.contact_data}</p>
+                                    <div className="button_group">
+                                        <Button variant="contained"
+                                                color="secondary"
+                                                onClick={() => {
+                                                    setClientName('')
+                                                    setClientInfo('')
+                                                    setPopup(false);
+                                                }}>
+                                            Cancel
+                                        </Button>
+                                        <Button variant="contained"
+                                                color="primary"
+                                                disabled={!(clientName && clientInfo)}
+                                                onClick={() => {
+                                                    Save()
+                                                    setClientName('')
+                                                    setClientInfo('')
+                                                }}>
+                                            Save
+                                        </Button>
                                     </div>
                                 </div>
-                            })
-                        }
-                    </div>
-                </div>
+                            </div>
+                            <div className="navigation">
+                                <div className="action_wrap">
+                                    <FormControl variant="outlined" className="action_wrap">
+                                        <InputLabel id="demo-simple-select-outlined-label">Action</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-outlined-label"
+                                            id="demo-simple-select-outlined"
+                                            value={action}
+                                            onChange={(event => setAction(event.target.value))}
+                                            label="Action">
+                                            <MenuItem value="nothing">Nothing</MenuItem>
+                                            <MenuItem value="delete">Delete Chased</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <Button className="btn select-btn"
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={action === 'nothing'}
+                                            onClick={Action}
+                                    >Done
+                                    </Button>
+                                </div>
+                                <div className="search_wrap">
+                                    <TextField
+                                        className="search"
+                                        type="text"
+                                        id="outlined-basic"
+                                        label="Search"
+                                        variant="outlined"
+                                        onChange={(event) => Search(event.target.value)}/>
+                                </div>
+                            </div>
+                            <div className="content">
+                                <div className="headers">
+                                    <div className="check_all">
+                                        <input type="checkbox"
+                                               onChange={(event) => CheckAll(event)}/>
+                                    </div>
+                                    <div className="id"><p>id</p></div>
+                                    <div className="name"><p>name</p></div>
+                                    <div className="contact_data"><p>contact data</p></div>
+                                </div>
+                                <div className="result">
+                                    {
+                                        renderClients.map((value, index) => {
+                                            return <div key={index}
+                                                        className={index % 2 === 0 ? "row white" : "row grey"}>
+                                                <div className="check">
+                                                    <input type="checkbox" className="input_check" onChange={() => {
+                                                        Check(value.id)
+                                                    }}/>
+                                                </div>
+                                                <div className="id_result">
+                                                    <p>{value.id}</p>
+                                                </div>
+                                                <div className="name_result">
+                                                    <p>{value.name}</p>
+                                                </div>
+                                                <div className="contact_data_result">
+                                                    <p>{value.contact_data}</p>
+                                                </div>
+                                            </div>
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        :
+                        <div style={{textAlign: "center"}}>
+                            <h1>ШО ТЫ ТУТ ЗАБЫЛ?</h1>
+                        </div>
+                }
+
             </div>
         </div>
     );

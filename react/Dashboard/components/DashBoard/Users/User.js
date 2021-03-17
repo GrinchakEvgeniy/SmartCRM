@@ -5,10 +5,12 @@ import {changeUserRoleFetch, deleteUserFetch} from "../../requests";
 import {getUser} from "../../redux/actions/actions";
 import {connect} from "react-redux";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
+import {getAccess} from "../../helper";
 
 const User = (props) => {
     const [nowUser, setNowUser] = useState(false);
     const defaultAva = '/static/images/userIcon.svg';
+    const allowedUsersHere = ['S']
 
     // console.log(props)
 
@@ -25,13 +27,28 @@ const User = (props) => {
         let color
         switch (role) {
             case 'S':
-                color = '#fffaa4'
+                color = '#a4ffb1'
+                break;
+            case 'HR':
+                color = '#a4ffe4'
+                break;
+            case 'PM':
+                color = '#a4e0ff'
+                break;
+            case 'SM':
+                color = '#d1a4ff'
+                break;
+            case 'TL':
+                color = '#ffe5a4'
+                break;
+            case 'D':
+                color = '#fff994'
+                break;
+            case 'Dev':
+                color = '#a7a4ff'
                 break;
             case 'G':
-                color = '#ffe7d7'
-                break;
-            case 'Drt':
-                color = '#d2edff'
+                color = '#ffa4bf'
                 break;
             default:
                 color = '#e4e4e4';
@@ -108,37 +125,51 @@ const User = (props) => {
                     >
                         {props.value.profile.role_id.value}
                     </div>
-                    <div className='btn_change_roleWrap'>
-                        <div className="btn_change_role"
-                             onClick={
-                                 (event) => {
-                                     changeRole(event)
-                                 }}>
-                            &#9998;
-                            <div className="select_role_wrap">
-                                {
-                                    props.roles.map((value, index) => {
-                                        return (
-                                            <div className="select" onClick={() => Change(value.id)}
-                                                 key={index}>{value.value}</div>
-                                        )
-                                    })
-                                }
+
+                    {
+                        getAccess(props.currentUserRole, allowedUsersHere)
+                            ?
+                            <div className='btn_change_roleWrap'>
+                                <div className="btn_change_role"
+                                     onClick={
+                                         (event) => {
+                                             changeRole(event)
+                                         }}>
+                                    &#9998;
+                                    <div className="select_role_wrap">
+                                        {
+                                            props.roles.map((value, index) => {
+                                                return (
+                                                    <div className="select" onClick={() => Change(value.id)}
+                                                         key={index}>{value.value}</div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                            :
+                            ''
+                    }
 
                 </div>
             </div>
-            <div className='delete-btnWrap'>
-                <div className="delete-btn"
-                     onClick={() => {
-                         Delete(props.value.id)
-                     }}>
-                    &times;
-                    <span className='itemBtn title'>del user</span>
-                </div>
-            </div>
+            {
+                getAccess(props.currentUserRole, allowedUsersHere)
+                    ?
+                    <div className='delete-btnWrap'>
+                        <div className="delete-btn"
+                             onClick={() => {
+                                 Delete(props.value.id)
+                             }}>
+                            &times;
+                            <span className='itemBtn title'>del user</span>
+                        </div>
+                    </div>
+                    :
+                    ''
+            }
+
         </div>
     );
 };

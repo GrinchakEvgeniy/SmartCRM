@@ -6,9 +6,10 @@ import './Statute.scss'
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import parse from 'html-react-parser';
-import {getStatuteFetch, postStatuteFetch, putStatuteFetch} from "../../requests";
+import {getStatuteFetch, getUserFetch, postStatuteFetch, putStatuteFetch} from "../../requests";
 import Button from "@material-ui/core/Button";
 import EditIcon from '@material-ui/icons/Edit';
+import {getAccess} from "../../helper";
 
 const Statute = () => {
 
@@ -17,6 +18,9 @@ const Statute = () => {
     const [statuteId, setStatuteId] = useState('')
     const [showEditStatute, setShowEditStatute] = useState(false)
     const [st, setSt] = useState('')
+
+    const [currentUserRole, setCurrentUserRole] = useState('')
+    const allowedUsersToEditStatute = ['S']
 
     const onEditorStateChange = (editorState) => {
         setEditorState(editorState)
@@ -31,6 +35,9 @@ const Statute = () => {
             setEditorState(EditorState.createWithContent(contentState))
             setStatuteId(data[0].id)
             setSt(data[0].description)
+        })
+        getUserFetch().then(data => {
+            setCurrentUserRole(data.profile.role_id.value)
         })
     }, [])
 
@@ -73,11 +80,17 @@ const Statute = () => {
                         </div>
                         :
                         <div className='statuteShow'>
-                            <div className='editBtn'>
-                                <EditIcon onClick={() => {
-                                    setShowEditStatute(!showEditStatute)
-                                }}/>
-                            </div>
+                            {
+                                getAccess(currentUserRole, allowedUsersToEditStatute)
+                                    ?
+                                    <div className='editBtn'>
+                                        <EditIcon onClick={() => {
+                                            setShowEditStatute(!showEditStatute)
+                                        }}/>
+                                    </div>
+                                    :
+                                    ''
+                            }
                             {parse(draftToHtml(convertToRaw(editorState.getCurrentContent())))}
                         </div>
                 }

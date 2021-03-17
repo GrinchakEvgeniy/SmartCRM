@@ -20,8 +20,8 @@ const TimeLine = (props) => {
         init()
         const sublines = [];
         for(let i = 0; i < 24; i++){
-            // sublines.push(<div className="sub_line" key={i}><p>{i+":00"}</p></div>)
-            sublines.push(<div className="sub_line" key={i}><p>{i}</p></div>)
+            sublines.push(<div className="sub_line" key={i}><p>{i+":00"}</p></div>)
+            // sublines.push(<div className="sub_line" key={i}><p>{i}</p></div>)
         }
         setSubLines(sublines);
     }, [])

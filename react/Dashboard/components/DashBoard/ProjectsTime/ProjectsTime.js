@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {MenuItem, Select, TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import {getProjectsSimpleFetch, getUsersFetch, getWorkNowByDateFetch} from "../../requests";
+import {getProjectsSimpleFetch, getUserFetch, getUsersFetch, getWorkNowByDateFetch} from "../../requests";
 import './ProjectsTime.scss';
 import TimeLine from "./TimeLine";
 import ProjectInfo from "./ProjectInfo";
-import {isEmpty, today} from "../../helper";
+import {getAccess, isEmpty, today} from "../../helper";
 
 const ProjectsTime = () => {
     const [selectedDate, setSelectedDate] = useState(today());
@@ -20,6 +20,10 @@ const ProjectsTime = () => {
         start: Date.parse(today() + "T00:00:00"),
         finish: Date.parse(today() + "T24:00:00")
     })
+
+    const [currentUserRole, setCurrentUserRole] = useState('')
+    const allowedUsersToProjTime = ['S', 'HR', 'PM']
+
     const handleDateChange = (event) => {
         setSelectedDate(event.target.value)
     }
@@ -40,6 +44,9 @@ const ProjectsTime = () => {
             .then(data => setProjects(data))
         getUsersFetch()
             .then(data => setUsers(data))
+        getUserFetch().then(data => {
+            setCurrentUserRole(data.profile.role_id.value)
+        })
     }, [])
 
     useEffect(() => {
@@ -54,79 +61,87 @@ const ProjectsTime = () => {
     }
 
     return (
-        <div className='container projects-time'>
-            <div className="navigations">
-                <div className="by_time">
-                    <TextField
-                        id="date"
-                        label="Select date"
-                        variant='outlined'
-                        type="date"
-                        format="yyyy-MM-dd"
-                        onChange={handleDateChange}
-                        defaultValue={selectedDate}
-                        className="select-date"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                </div>
-                <div className="by_project">
-                    <Select id="demo-simple-select"
-                            variant='outlined'
-                            value={project}
-                            disabled={false}
-                            onChange={(event) => {
-                                setProject(event.target.value);
-                            }}
-                    >
-                        <MenuItem value={'none'} selected={true}>All Projects</MenuItem>
-                        {
-                            projects.map((value, index) => {
-                                return <MenuItem key={index} value={value.id}>{value.name}</MenuItem>
-                            })
-                        }
-                    </Select>
-                </div>
+        <div className='projects-time'>
+            {
+                getAccess(currentUserRole, allowedUsersToProjTime)
+                    ?
+                    <div className='container projects-time-wrap'>
+                        <div className="navigations">
+                            <div className="by_time">
+                                <TextField
+                                    id="date"
+                                    label="Select date"
+                                    variant='outlined'
+                                    type="date"
+                                    format="yyyy-MM-dd"
+                                    onChange={handleDateChange}
+                                    defaultValue={selectedDate}
+                                    className="select-date"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
+                            <div className="by_project">
+                                <Select id="demo-simple-select"
+                                        variant='outlined'
+                                        value={project}
+                                        disabled={false}
+                                        onChange={(event) => {
+                                            setProject(event.target.value);
+                                        }}
+                                >
+                                    <MenuItem value={'none'} selected={true}>All Projects</MenuItem>
+                                    {
+                                        projects.map((value, index) => {
+                                            return <MenuItem key={index} value={value.id}>{value.name}</MenuItem>
+                                        })
+                                    }
+                                </Select>
+                            </div>
 
-            </div>
-            <div className="content">
-                {
-                    project == "none"
-                        ?
-                        <div className="user_time_info">
-                            {
-                                users.map((value, index) => {
-                                    return (<div className="item_user" key={index}>
-                                        <div className="user_info">
-                                            <div className="avatar">
-                                                <img
-                                                    src={value.profile.avatar.image ? value.profile.avatar.image : defaultAva}
-                                                    alt=""/>
-                                            </div>
-                                            {/*<p>{value.first_name + " " + value.last_name}</p>*/}
-                                            <p>{value.first_name}</p>
-                                        </div>
-                                        <div className="user_content">
-                                            <TimeLine lineTimeStandart={todayDateTime} date={selectedDate}
-                                                      user_id={value.id}/>
-                                        </div>
-                                    </div>)
-                                })
-                            }
                         </div>
-                        :
-                        <div className="project_time_info">
+                        <div className="content">
                             {
-                                isEmpty(selectedProject)
+                                project == "none"
                                     ?
-                                    <div className="alert">Project not found</div>
+                                    <div className="user_time_info">
+                                        {
+                                            users.map((value, index) => {
+                                                return (<div className="item_user" key={index}>
+                                                    <div className="user_info">
+                                                        <div className="avatar">
+                                                            <img
+                                                                src={value.profile.avatar.image ? value.profile.avatar.image : defaultAva}
+                                                                alt=""/>
+                                                        </div>
+                                                        {/*<p>{value.first_name + " " + value.last_name}</p>*/}
+                                                        <p>{value.first_name}</p>
+                                                    </div>
+                                                    <div className="user_content">
+                                                        <TimeLine lineTimeStandart={todayDateTime} date={selectedDate}
+                                                                  user_id={value.id}/>
+                                                    </div>
+                                                </div>)
+                                            })
+                                        }
+                                    </div>
                                     :
-                                    <ProjectInfo value={selectedProject} date={selectedDate} users={users}/>
+                                    <div className="project_time_info">
+                                        {
+                                            isEmpty(selectedProject)
+                                                ?
+                                                <div className="alert">Project not found</div>
+                                                :
+                                                <ProjectInfo value={selectedProject} date={selectedDate} users={users}/>
+                                        }
+                                    </div>
                             }
                         </div>
-                }
-            </div>
+                    </div>
+                    :
+                    ''
+            }
         </div>
     );
 };

@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import datesGenerator from "dates-generator/scripts/datesGenerator";
 import {getWorkTimeTodayFetch} from "../../requests_";
-import {getUsersFetch} from "../../requests";
+import {getUserFetch, getUsersFetch} from "../../requests";
 import './UsersTime.scss'
+import {getAccess} from "../../helper";
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -20,12 +21,15 @@ const UsersTime = () => {
 
     const [render, setRender] = useState([]);
 
+    const [currentUserRole, setCurrentUserRole] = useState('')
+    const allowedUsersHere = ['S', 'HR']
+
     useEffect(() => {
         const body = {
             month: calendar.month,
             year: calendar.year
         };
-        console.log(body)
+        // console.log(body)
         getUsersFetch().then(data=>setUsers(data));
         const { dates, nextMonth, nextYear, previousMonth, previousYear } = datesGenerator(body);
 
@@ -37,6 +41,9 @@ const UsersTime = () => {
             previousMonth,
             previousYear
         });
+        getUserFetch().then(data => {
+            setCurrentUserRole(data.profile.role_id.value)
+        })
     }, [])
 
     const onClickNext = () => {
@@ -160,46 +167,64 @@ const UsersTime = () => {
     }
 
     return (
-        <div className="container users_times">
-            <div style={{ padding: 10 }}>
-                <div onClick={onClickPrevious} style={{ float: 'left', width: '50%' }}>
-                    Previous
-                </div>
-                <div onClick={onClickNext} style={{ float: 'left', width: '50%', textAlign: 'right' }}>
-                    Next
-                </div>
-            </div>
-            <div className="mount">
-                {months[calendar.month]}
-            </div>
-            <div className="table">
-                {
-                    render.map((value, index)=>{
-                        return (
-                            <div className="user_item" key={index}>
-                                <div className="user_meta">
-                                    <p>{value.user}</p>
-                                </div>
-                                <div className="user_time_meta">
-                                    {
-                                        value.render.map((value, index)=>{
-                                            return (
-                                                <div className="itm">
-                                                    <p className="day_">{value.day}</p>
-                                                    <p className="time_">{msToTime(value.hours)}</p>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
+        <div className='users_times'>
+
+            {
+                getAccess(currentUserRole, allowedUsersHere)
+                    ?
+                    <div className="container">
+                        <div className='users_times_control'>
+                            <div className='btn prev' onClick={onClickPrevious}>
+                                Previous
                             </div>
-                        )
-                    })
-                }
-            </div>
-            {/*<div style={{ padding: 10 }}>*/}
-            {/*    Selected Date: {selectedDate.toDateString()}*/}
-            {/*</div>*/}
+                            <div className="current_month">
+                                {months[calendar.month]}
+                            </div>
+                            <div className='btn next' onClick={onClickNext}>
+                                Next
+                            </div>
+                        </div>
+                        <div className="table">
+                            {
+                                render.map((value, index) => {
+                                    return (
+                                        <div className="user_item" key={index}>
+                                            <div className="user_meta">
+                                                <p>{value.user}</p>
+                                            </div>
+                                            <div className="days_name">
+                                                <p>Sun</p>
+                                                <p>Mon</p>
+                                                <p>Tue</p>
+                                                <p>Wed</p>
+                                                <p>Thu</p>
+                                                <p>Fri</p>
+                                                <p>Sat</p>
+                                            </div>
+                                            <div className="user_time_meta">
+                                                {
+                                                    value.render.map((value, index) => {
+                                                        return (
+                                                            <div className="itm" key={index}>
+                                                                <p className="day_">{value.day}</p>
+                                                                <p className="time_">{msToTime(value.hours)}</p>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                        {/*<div style={{ padding: 10 }}>*/}
+                        {/*    Selected Date: {selectedDate.toDateString()}*/}
+                        {/*</div>*/}
+                    </div>
+                    :
+                    ''
+            }
         </div>
     );
 };

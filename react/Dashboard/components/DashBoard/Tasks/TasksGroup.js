@@ -120,6 +120,7 @@ const TasksGroup = (props) => {
                             color="primary"
                             onClick={() => {
                                 addNewNestedTask('New nested task', 'not started')
+                                setShowTasks(!showTasks)
                             }}>
                         add new nested task
                     </Button>
