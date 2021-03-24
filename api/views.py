@@ -61,6 +61,8 @@ class PutSalaryView(viewsets.ModelViewSet):
         instance.fine = request.data.get('fine', instance.fine)
         instance.issued = request.data.get('issued', instance.issued)
         instance.course = request.data.get('course', instance.course)
+        instance.from_times = request.data.get('from_times', instance.from_times)
+        instance.to_times = request.data.get('to_times', instance.to_times)
         instance.save()
         return Response({'message':'OK', 'type':'success'})
 
@@ -84,7 +86,13 @@ class GetSalaryView(viewsets.ModelViewSet):
     perms = ['all']
 
     def post(self, request):
-        pass
+        if request.data['action'] == 'get salary by mount and year':
+            queryset = Salary.objects.filter(month=request.data['month'], year=request.data['year'])
+            serializer = SalarySerializer(queryset, many=True)
+        elif request.data['action'] == 'get salary by id':
+            queryset = Salary.objects.get(id=int(request.data['id']))
+            serializer = SalarySerializer(queryset)
+        return Response(serializer.data)
 
 
 class GetCompanyInfoView(viewsets.ModelViewSet):
@@ -147,7 +155,9 @@ class GetUserTimeView(viewsets.ModelViewSet):
             queryset = UserTime.objects.filter(today__range=(request.data['from'], request.data['before']))
             serializer = UserTimeSerializer(queryset, many=True)
         elif request.data['action'] == 'get all time by date range and user':
-            queryset = UserTime.objects.filter(today__range=(request.data['from'], request.data['before']), user_id=request.data['user_id'])
+            queryset = UserTime.objects.filter(today__range=(request.data['from'],
+                                                             request.data['before']),
+                                               user_id=int(request.data['user_id']))
             serializer = UserTimeSerializer(queryset, many=True)
         return Response(serializer.data)
 

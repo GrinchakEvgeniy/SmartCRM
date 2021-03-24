@@ -1,5 +1,5 @@
 .salary_wrap {
-  .new_salary{
+  .new_salary, .update_salary{
     .back{
       position: fixed;
       width: 100%;
@@ -73,12 +73,16 @@
         width: 100%;
         border: 1px solid grey;
         background: #8d8d8d;
+        border-radius: 8px;
       }
     }
     .item_selery{
       display: flex;
       width: 100%;
       justify-content: space-between;
+      cursor: pointer;
+      margin-bottom: 2px;
+      margin-top: 2px;
       div{
         display: flex;
         align-items: center;
@@ -86,6 +90,13 @@
         width: 100%;
         border: 1px solid grey;
         background: ivory;
+        border-radius: 8px;
+      }
+    }
+    .item_selery:hover{
+      div{
+        box-shadow: 0 0 5px grey;
+      transition: 0.4s;
       }
     }
   }

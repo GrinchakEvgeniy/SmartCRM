@@ -235,6 +235,8 @@ class Salary(models.Model):
     fine = models.FloatField(default=0, blank=True, null=True)
     issued = models.FloatField(default=0, blank=True, null=True)
     course = models.FloatField(default=0, blank=True, null=True)
+    from_times = models.CharField(blank=True, null=True, max_length=100)
+    to_times = models.CharField(blank=True, null=True, max_length=100)
 
     def save(self, *args, **kwargs):
         now = datetime.now()

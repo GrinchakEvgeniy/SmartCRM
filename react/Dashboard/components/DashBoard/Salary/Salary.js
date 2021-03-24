@@ -6,6 +6,7 @@ import {getUserFetch, getUsersFetch} from "../../requests";
 import NewSalary from "./NewSalary";
 import {getSalaryFetch} from "../../requests_";
 import {getAccess} from "../../helper";
+import UpdateSalary from "./UpdateSalary";
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -13,11 +14,28 @@ const Salary = (props) => {
     const [users, setUsers] = useState([]);
     const [usersSalary, setUsersSalary] = useState([]);
     const [newSalaryPopup, setNewSalaryPopup] = useState(false);
+
+    const [updateSalaryPopup, setUpdateSalaryPopup] = useState(false);
+    const [updateSalaryId, setUpdateSalaryId] = useState('');
+
     const [month, setMonth] = useState('');
     const [year, setYear] = useState('');
 
     const [currentUserRole, setCurrentUserRole] = useState('')
     const allowedUsersToSalary = ['S', 'HR']
+
+    useEffect(()=>{
+        if(!updateSalaryPopup || !newSalaryPopup){
+            const data = {
+                'action': 'get salary by mount and year',
+                'month' : month,
+                'year' : year
+            }
+            getSalaryFetch(data).then(data=>{
+                setUsersSalary(data)
+            })
+        }
+    }, [updateSalaryPopup, newSalaryPopup]);
 
     useEffect(()=>{
         getUsersFetch().then((data)=>setUsers(data))
@@ -27,18 +45,34 @@ const Salary = (props) => {
         setMonth(months[month]);
         setYear(year_);
         const data = {
-            'action': 'default',
+            'action': 'get salary by mount and year',
             'month' : months[month],
             'year' : year_
         }
         getSalaryFetch(data).then(data=>{
-            console.log(data)
+            setUsersSalary(data)
         })
         getUserFetch().then(data => {
             setCurrentUserRole(data.profile.role_id.value)
         })
 
     }, []);
+
+    useEffect(()=>{
+        if(updateSalaryId !== '')
+            setUpdateSalaryPopup(true);
+    }, [updateSalaryId]);
+
+    const Find = () => {
+        const data = {
+            'action': 'get salary by mount and year',
+            'month' : month,
+            'year' : year
+        }
+        getSalaryFetch(data).then(data=>{
+            setUsersSalary(data)
+        });
+    }
 
 
     return (
@@ -49,6 +83,9 @@ const Salary = (props) => {
                     <div className="container salary_wrap">
                         {
                             newSalaryPopup ? <NewSalary setNewSalaryPopup={setNewSalaryPopup} users={users}/> : ""
+                        }
+                        {
+                            updateSalaryPopup ? <UpdateSalary setUpdateSalaryPopup={setUpdateSalaryPopup} salary_id={updateSalaryId} users={users}/> : ""
                         }
                         <div className="panel">
                             <Button variant="contained"
@@ -100,6 +137,7 @@ const Salary = (props) => {
                                 <Button variant="contained"
                                         className="btn btn-new"
                                         color="primary"
+                                        onClick={Find}
                                 >
                                     Find
                                 </Button>
@@ -120,8 +158,13 @@ const Salary = (props) => {
                             {
                                 usersSalary.map((value, index) => {
                                     const total = value.total_hour * value.rate_per_hour
-                                    return (<div className="item_selery" key={index}>
-                                        <div className="user_meta">{value.user_id}</div>
+                                    return (<div className="item_selery" key={index} onClick={()=>setUpdateSalaryId(value.id)}>
+                                        {
+                                            users.map((value_user,index)=>{
+                                                if(value_user.id === value.user_id)
+                                                return (<div className="user_meta" key={index}>{value_user.first_name+' '+value_user.last_name}</div>);
+                                            })
+                                        }
                                         <div className="month_meta">{value.month}</div>
                                         <div className="course_meta">{value.course}</div>
                                         <div className="hour_total_meta">{value.total_hour}</div>

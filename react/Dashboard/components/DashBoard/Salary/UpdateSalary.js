@@ -1,19 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {MenuItem, Select, TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import {getWorkTimeTodayFetch, postSalaryFetch} from "../../requests_";
+import {
+    deleteSalaryFetch,
+    getSalaryFetch,
+    getWorkTimeTodayFetch,
+    postSalaryFetch,
+    putSalaryFetch
+} from "../../requests_";
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-const NewSalary = (props) => {
-    let date = new Date(Date.now());
-    let month = date.getMonth();
-    let year = date.getFullYear();
+const UpdateSalary = (props) => {
 
     const [newData, setNewData] = useState({
             user_id: 'None',
-            month: months[month],
-            year: year,
+            month: '',
+            year: '',
             total_hour: 0,
             rate_per_hour: 0,
             fine: 0,
@@ -24,10 +27,24 @@ const NewSalary = (props) => {
         });
 
     const Save = () => {
-        postSalaryFetch(newData).then(data=>{
-            props.setNewSalaryPopup(false);
+        putSalaryFetch(newData).then(data=>{
+            props.setUpdateSalaryPopup(false);
         })
     }
+
+    const Delete = () => {
+        deleteSalaryFetch({id:props.salary_id}).then(data=>{
+            props.setUpdateSalaryPopup(false);
+        })
+    }
+
+    useEffect(()=>{
+        const data = {
+            'action': 'get salary by id',
+            'id': props.salary_id
+        }
+        getSalaryFetch(data).then(data=>setNewData(data))
+    }, []);
 
     useEffect(()=>{
         if(!newData.from_times || !newData.to_times || newData.user_id === '') return;
@@ -47,10 +64,10 @@ const NewSalary = (props) => {
     }, [newData.from_times, newData.to_times, newData.user_id]);
 
     return (
-        <div className="new_salary">
-            <div className="back" onClick={()=>props.setNewSalaryPopup(false)}></div>
+        <div className="update_salary">
+            <div className="back" onClick={()=>props.setUpdateSalaryPopup(false)}></div>
             <div className="popup">
-                <div className="title">New Salary</div>
+                <div className="title">Update Salary</div>
                 <div className="group1">
                     <div className="select_user">
                         <Select id="demo-simple-select"
@@ -200,10 +217,17 @@ const NewSalary = (props) => {
                     >
                         Save
                     </Button>
+                    <Button variant="contained"
+                            className="btn btn-new"
+                            color="secondary"
+                            onClick={Delete}
+                    >
+                        Delete
+                    </Button>
                 </div>
             </div>
         </div>
     );
 };
 
-export default NewSalary;
+export default UpdateSalary;
