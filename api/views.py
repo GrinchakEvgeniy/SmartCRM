@@ -146,6 +146,9 @@ class GetUserTimeView(viewsets.ModelViewSet):
         elif request.data['action'] == 'get all users time by date range':
             queryset = UserTime.objects.filter(today__range=(request.data['from'], request.data['before']))
             serializer = UserTimeSerializer(queryset, many=True)
+        elif request.data['action'] == 'get all time by date range and user':
+            queryset = UserTime.objects.filter(today__range=(request.data['from'], request.data['before']), user_id=request.data['user_id'])
+            serializer = UserTimeSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
