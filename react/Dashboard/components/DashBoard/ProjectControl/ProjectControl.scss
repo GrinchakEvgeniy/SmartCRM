@@ -95,6 +95,7 @@
               .user {
                 width: 50px;
                 height: 50px;
+                background: #a7a7a7;
                 align-items: center;
                 display: flex;
                 border-radius: 50%;
@@ -115,6 +116,7 @@
                 bottom: 2px;
                 left: 50%;
                 background: #5d5d5d;
+                white-space: nowrap;
                 padding: 2px 5px;
                 color: white;
                 font-weight: 900;

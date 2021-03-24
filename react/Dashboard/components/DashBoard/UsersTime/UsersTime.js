@@ -223,7 +223,28 @@ const UsersTime = () => {
                         {/*</div>*/}
                     </div>
                     :
-                    ''
+                    <div className='noAccess' style={{
+                        width: '600px',
+                        height: '300px',
+                        position: "fixed",
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '10px',
+                        background: 'white',
+                        boxShadow: '1px 3px 10px 0px #bfbfbf'
+                    }}>
+                        <h2 style={{
+                            color: '#757575',
+                            fontSize: '36px',
+                            textTransform: 'uppercase'
+                        }}>
+                            You don't have access.
+                        </h2>
+                    </div>
             }
         </div>
     );

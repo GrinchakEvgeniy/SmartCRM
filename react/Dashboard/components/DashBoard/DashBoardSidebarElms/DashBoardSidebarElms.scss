@@ -13,6 +13,11 @@
     .icon {
       margin-right: 20px;
     }
+    .label{
+      h4{
+        white-space: nowrap;
+      }
+    }
   }
   &:hover{
     color: #007cff;

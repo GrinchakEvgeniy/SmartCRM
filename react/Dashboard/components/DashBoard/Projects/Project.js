@@ -10,6 +10,7 @@ const Project = (props) => {
 
     const [warning, setWarning] = useState(false)
     const allowedUsersToDelProj = ['S', 'PM']
+    const defaultAva = '/static/images/userIcon.svg';
 
     const delProject = (id) => {
         delProjectSimpleFetch(id).then(() => {
@@ -31,7 +32,11 @@ const Project = (props) => {
                                         return (
                                             <div className="userWrap" key={index}>
                                                 <div className="user">
-                                                    <img src={value2.profile.avatar.image}
+                                                    <img src={value2.profile.avatar.image
+                                                        ?
+                                                        value2.profile.avatar.image
+                                                        :
+                                                        defaultAva}
                                                          alt={value2.first_name}/>
                                                 </div>
                                                 <p className="userName">{value2.first_name}</p>

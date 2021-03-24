@@ -66,6 +66,7 @@ const AddUser = (props) => {
                             onClick={() => props.setAddUser(false)}
                     >Cancel</Button>
                     <Button className="btn add-btn"
+                            disabled={!(Boolean(newUser.username.trim()) && Boolean(newUser.password.trim()))}
                             variant="contained"
                             color="primary"
                             onClick={Create}

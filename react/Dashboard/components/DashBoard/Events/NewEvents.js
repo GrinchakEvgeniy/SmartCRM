@@ -93,6 +93,7 @@ const NewEvents = (props) => {
                 >Cancel</Button>
                 <Button className="btn add-btn"
                         variant="contained"
+                        disabled={!(Boolean(newEvent.title.trim()) || Boolean(newEvent.url.trim()))}
                         color="primary"
                         onClick={Create}
                 >Create</Button>

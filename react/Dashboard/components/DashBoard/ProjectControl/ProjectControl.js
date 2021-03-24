@@ -38,6 +38,7 @@ const ProjectControl = (props) => {
     const [currentUserRole, setCurrentUserRole] = useState('')
     const allowedUsersToDelAddUsers = ['S', 'PM']
     const allowedUsersToDelAddProjFiles = ['S', 'PM', 'D', 'TL', 'Dev']
+    const defaultAva = '/static/images/userIcon.svg';
 
     useEffect(() => {
         if (!isEmpty(props.user_data)) {
@@ -172,7 +173,11 @@ const ProjectControl = (props) => {
                                                             <div className="userWrap"
                                                                  key={index}>
                                                                 <div className="user">
-                                                                    <img src={arr.profile.avatar.image}
+                                                                    <img src={arr.profile.avatar.image
+                                                                        ?
+                                                                        arr.profile.avatar.image
+                                                                        :
+                                                                        defaultAva}
                                                                          alt={arr.first_name}/>
                                                                 </div>
                                                                 <p className="userName">{arr.first_name}</p>

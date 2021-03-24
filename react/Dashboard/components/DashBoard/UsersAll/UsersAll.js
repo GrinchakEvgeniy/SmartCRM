@@ -6,6 +6,7 @@ const UsersAll = (props) => {
 
     const [users, setUsers] = useState([]);
     const [userIds, setUserIds] = useState([]);
+    const defaultAva = '/static/images/userIcon.svg';
 
     useEffect(() => {
         getUsersFetch()
@@ -43,7 +44,11 @@ const UsersAll = (props) => {
                                      userCheck(event)
                                  }}>
                                 <div className="img_user">
-                                    <img src={value.profile.avatar.image} alt="ava"/>
+                                    <img src={value.profile.avatar.image
+                                        ?
+                                        value.profile.avatar.image
+                                        :
+                                        defaultAva} alt="ava"/>
                                 </div>
                                 <div className="name_user">
                                     <p>{value.first_name}</p>
