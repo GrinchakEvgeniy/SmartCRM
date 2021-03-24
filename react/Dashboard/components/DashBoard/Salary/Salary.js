@@ -11,8 +11,10 @@ const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 
 const Salary = (props) => {
     const [users, setUsers] = useState([]);
-    const [usersSelery, setUsersSelery] = useState([]);
+    const [usersSalary, setUsersSalary] = useState([]);
     const [newSalaryPopup, setNewSalaryPopup] = useState(false);
+    const [month, setMonth] = useState('');
+    const [year, setYear] = useState('');
 
     const [currentUserRole, setCurrentUserRole] = useState('')
     const allowedUsersToSalary = ['S', 'HR']
@@ -21,11 +23,13 @@ const Salary = (props) => {
         getUsersFetch().then((data)=>setUsers(data))
         let date = new Date(Date.now());
         let month = date.getMonth();
-        let year = date.getFullYear();
+        let year_ = date.getFullYear();
+        setMonth(months[month]);
+        setYear(year_);
         const data = {
             'action': 'default',
             'month' : months[month],
-            'year' : year
+            'year' : year_
         }
         getSalaryFetch(data).then(data=>{
             console.log(data)
@@ -60,11 +64,11 @@ const Salary = (props) => {
                                 </div>
                                 <Select id="demo-simple-select"
                                         variant='outlined'
-                                    // value={project}
+                                    value={month}
                                         disabled={false}
-                                    // onChange={(event) => {
-                                    //     setProject(event.target.value);
-                                    // }}
+                                    onChange={(event) => {
+                                        setMonth(event.target.value);
+                                    }}
                                 >
                                     <MenuItem value={'Jan'} selected={true}>January</MenuItem>
                                     <MenuItem value={'Feb'}>February</MenuItem>
@@ -79,6 +83,20 @@ const Salary = (props) => {
                                     <MenuItem value={'Nov'}>November</MenuItem>
                                     <MenuItem value={'Dec'}>December</MenuItem>
                                 </Select>
+                                <TextField
+                                    id="year"
+                                    label="Select year"
+                                    variant='outlined'
+                                    type="number"
+                                    value={year}
+                                    onChange={(event)=>{
+                                        setYear(event.target.value)
+                                    }}
+                                    className="select-year"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
                                 <Button variant="contained"
                                         className="btn btn-new"
                                         color="primary"
@@ -100,9 +118,9 @@ const Salary = (props) => {
                                 <div className="total_uan_meta">Total in UAN</div>
                             </div>
                             {
-                                usersSelery.map((value, index) => {
+                                usersSalary.map((value, index) => {
                                     const total = value.total_hour * value.rate_per_hour
-                                    return (<div className="item_selery">
+                                    return (<div className="item_selery" key={index}>
                                         <div className="user_meta">{value.user_id}</div>
                                         <div className="month_meta">{value.month}</div>
                                         <div className="course_meta">{value.course}</div>
