@@ -11,37 +11,60 @@ import {Select, MenuItem} from "@material-ui/core";
 const WorkNow = (props) => {
     const [projects, setProjects] = useState([]);
     const [project, setProject] = useState('');
+    const [projectName, setProjectName] = useState('');
 
-    useEffect(()=>{
+    useEffect(() => {
         getProjectsSimpleFetch()
-            .then(data=>setProjects(data))
-        if(!isEmpty(props.workNowObject)){
+            .then(data => setProjects(data))
+        //     .then(()=>{
+        //     let name = document.getElementById('projectName').innerText;
+        //     setProjectName(name)
+        // })
+        if (!isEmpty(props.workNowObject)) {
             setProject(props.workNowObject.project_id)
         }
+
     }, [])
 
+    // useEffect(() => {
+    //     let name = document.getElementById('projectName').innerText;
+    //     setProjectName(name)
+    // }, [project])
+
     const Action = (checked) => {
-        if(checked){
+        if (checked) {
             const data = {
                 user_id: props.user_data.id,
                 project_id: project !== "" ? parseInt(project) : "",
                 start: Date.now(),
                 self_education: props.selfEducation
             }
-            createWorkNowFetch(data).then(data=>props.setWorkNowObject(data))
+            createWorkNowFetch(data).then(data => props.setWorkNowObject(data))
+            props.web_socket.send(JSON.stringify({
+                'message': props.user_data.first_name + " started work",
+                'type_notification': "group",
+                'from_notification': props.user_data.id,
+                'for_notification': "S",
+            }));
         } else {
             const newState = JSON.parse(JSON.stringify(props.workNowObject));
             newState.finish = Date.now()
             putWorkNowFetch(newState)
-                .then(()=>{
+                .then(() => {
                     setProject('');
                     props.setWorkNowObject({});
                 })
+            props.web_socket.send(JSON.stringify({
+                'message': props.user_data.first_name + " finished work",
+                'type_notification': "group",
+                'from_notification': props.user_data.id,
+                'for_notification': "S",
+            }));
         }
     }
 
     const handleChangeSelfEducation = (checked) => {
-        if(checked){
+        if (checked) {
             setProject('')
         }
         props.setSelfEducation(checked);
@@ -63,16 +86,13 @@ const WorkNow = (props) => {
                     </div>
                     <div className="project">
                         <p>Project</p>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={project}
+                        <Select value={project}
+                                id='projectName'
                             // disabled={props.isActive || props.selfEducation ? true : false}
-                            disabled={props.isActive || props.selfEducation}
-                            onChange={(event) => {
-                                setProject(event.target.value);
-                            }}
-                        >
+                                disabled={props.isActive || props.selfEducation}
+                                onChange={(event) => {
+                                    setProject(event.target.value);
+                                }}>
                             <MenuItem value={''}/>
                             {
                                 projects.map((value, index) => {
@@ -110,9 +130,9 @@ const WorkNow = (props) => {
                 </div>
             </div>
             <div className="work_now_popup_subLayer"
-                 onClick={()=>{
-                props.setWorkNowPopup(false)
-            }}> </div>
+                 onClick={() => {
+                     props.setWorkNowPopup(false)
+                 }}> </div>
         </div>
     );
 };

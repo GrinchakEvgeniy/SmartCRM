@@ -4,10 +4,13 @@ import SendIcon from '@material-ui/icons/Send';
 import './Talk.scss'
 import {createProjectMessageFetch, getUsersFetch} from "../../requests";
 import {isEmpty} from "../../helper";
+import {getUser} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
 const Talk = (props) => {
 
     const [projectId, setProjectId] = useState()
+    const [projectName, setProjectName] = useState()
     const [currentUserId, setCurrentUserId] = useState('')
     const [currentUserName, setCurrentUserName] = useState('')
     const [message, setMessage] = useState('')
@@ -28,6 +31,7 @@ const Talk = (props) => {
     useEffect(() => {
         if (!isEmpty(props.project)) {
             setProjectId(props.project.id)
+            setProjectName(props.project.name)
             setProjectComments(props.project.project_comment)
             setAttachUsers(props.project.users_list)
         }
@@ -40,6 +44,14 @@ const Talk = (props) => {
         newMess.description = message
         createProjectMessageFetch(newMess).then(data => console.log(data))
         props.update()
+        for (let el of attachUsers.split(',')) {
+            props.web_socket.send(JSON.stringify({
+                'message': `New message in project ${projectName}`,
+                'type_notification': "user",
+                'from_notification': currentUserId,
+                'for_notification': el,
+            }));
+        }
     }
 
     return (
@@ -96,4 +108,13 @@ const Talk = (props) => {
     );
 };
 
-export default Talk;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+        web_socket: state.web_socket,
+    }
+}
+const putDispatch = (dispatch) => {
+    return {updateUserData: (data) => dispatch(getUser(data))}
+}
+export default connect(putState, putDispatch)(Talk);

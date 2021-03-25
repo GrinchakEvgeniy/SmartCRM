@@ -4,6 +4,8 @@ import {getClientsFetch, postClientFetch, deleteClientFetch, getUserFetch} from 
 import Button from "@material-ui/core/Button";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import {getAccess} from "../../helper";
+import {getUser, setSocket} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
 const Clients = (props) => {
     const [clients, setClients] = useState([]);
@@ -37,6 +39,18 @@ const Clients = (props) => {
                 setRenderClients(data)
                 setClients(data)
                 setPopup(false);
+                props.web_socket.send(JSON.stringify({
+                    'message': props.user_data.first_name + " add client " + clientName,
+                    'type_notification': "group",
+                    'from_notification': props.user_data.id,
+                    'for_notification': "S",
+                }));
+                props.web_socket.send(JSON.stringify({
+                    'message': props.user_data.first_name + " add client " + clientName,
+                    'type_notification': "group",
+                    'from_notification': props.user_data.id,
+                    'for_notification': "PM",
+                }));
             })
     }
 
@@ -67,7 +81,28 @@ const Clients = (props) => {
                     for (let i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].checked = false;
                     }
-                })
+                }).then(()=>{
+                let delClientNames = []
+                for( let el of clientsId ){
+                    for( let elem of clients){
+                        if(el === elem.id){
+                            delClientNames.push(elem.name)
+                        }
+                    }
+                }
+                props.web_socket.send(JSON.stringify({
+                    'message': props.user_data.first_name + " delete client: " + delClientNames.join(', '),
+                    'type_notification': "group",
+                    'from_notification': props.user_data.id,
+                    'for_notification': "S",
+                }));
+                props.web_socket.send(JSON.stringify({
+                    'message': props.user_data.first_name + " delete client: " + delClientNames.join(', '),
+                    'type_notification': "group",
+                    'from_notification': props.user_data.id,
+                    'for_notification': "PM",
+                }));
+            })
         }
     }
 
@@ -82,7 +117,7 @@ const Clients = (props) => {
         }
     }
 
-    const Check = (id) => {
+    const Check = (id, name) => {
         let finded = false;
         let index = 0;
         const arr = clientsId.slice();
@@ -100,6 +135,7 @@ const Clients = (props) => {
         } else {
             setClientsId([...clientsId, id])
         }
+        console.log('clientsId', clientsId)
     }
 
     return (
@@ -215,7 +251,7 @@ const Clients = (props) => {
                                                         className={index % 2 === 0 ? "row white" : "row grey"}>
                                                 <div className="check">
                                                     <input type="checkbox" className="input_check" onChange={() => {
-                                                        Check(value.id)
+                                                        Check(value.id, value.name)
                                                     }}/>
                                                 </div>
                                                 <div className="id_result">
@@ -262,4 +298,16 @@ const Clients = (props) => {
     );
 };
 
-export default Clients;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+        web_socket: state.web_socket
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data))
+    }
+}
+export default connect(putState, putDispatch)(Clients);

@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import './NewProject.scss';
-import {postProjectSimpleFetch} from "../../requests";
+import {getUserFetch, getUsersFetch, postProjectSimpleFetch} from "../../requests";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import {getUser, newNotification, setSocket} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
 const NewProject = (props) => {
     const [userIds, setUserIds] = useState([]);
@@ -14,24 +16,52 @@ const NewProject = (props) => {
         status: "Active",
         client_id: ""
     });
+    // const [currentUserId, setCurrentUserId] = useState('')
+    // const [currentUserName, setCurrentUserName] = useState('')
+    const defaultAva = '/static/images/userIcon.svg';
 
     const userCheck = (event) => {
-        console.log(event.target.dataset.id, event.target.dataset.check)
+        // console.log(event.target.dataset.id, event.target.dataset.check)
         let result = userIds.slice()
-        if (event.target.dataset.check === "true") {
-            result.push(event.target.dataset.id)
+        if (event.target.closest('.user_check_wrap').dataset.check === "true") {
+            result.push(event.target.closest('.user_check_wrap').dataset.id)
         } else {
-            result = userIds.filter(el => el !== event.target.dataset.id);
+            result = userIds.filter(el => el !== event.target.closest('.user_check_wrap').dataset.id);
         }
         setUserIds(result);
         setNewProject({...newProject, users_list: result.join()});
     }
 
     const Create = () => {
+        // getUsersFetch().then(data => {
+        //     console.log('data', data)
+        // })
         postProjectSimpleFetch(newProject)
             .then(data => {
                 props.setProjectsSimple(data);
                 props.closeLayout(false);
+            })
+            .then(() => {
+                for (let el of userIds) {
+                    props.web_socket.send(JSON.stringify({
+                        'message': props.currentUserName + ' created a project ' + newProject.name,
+                        'type_notification': "user",
+                        'from_notification': props.currentUserId,
+                        'for_notification': el,
+                    }));
+                }
+                props.web_socket.send(JSON.stringify({
+                    'message': props.currentUserName + ' created a project ' + newProject.name,
+                    'type_notification': "group",
+                    'from_notification': props.currentUserId,
+                    'for_notification': "PM",
+                }));
+                props.web_socket.send(JSON.stringify({
+                    'message': props.currentUserName + ' created a project ' + newProject.name,
+                    'type_notification': "group",
+                    'from_notification': props.currentUserId,
+                    'for_notification': "S",
+                }));
             })
     }
 
@@ -90,11 +120,15 @@ const NewProject = (props) => {
                                                      ?
                                                      (elem.dataset.check = "true", elem.style.background = "#b0d6ff")
                                                      :
-                                                     (elem.dataset.check = "false", elem.style.background = "white")
+                                                     (elem.dataset.check = "false", elem.style.background = "#f7f7f7")
                                                  userCheck(event)
                                              }}>
                                             <div className="img_user">
-                                                <img src={value.profile.avatar.image} alt="ava"/>
+                                                <img src={value.profile.avatar.image
+                                                    ?
+                                                    value.profile.avatar.image
+                                                    :
+                                                    defaultAva} alt="ava"/>
                                             </div>
                                             <div className="name_user">
                                                 <p>{value.first_name}</p>
@@ -169,4 +203,18 @@ const NewProject = (props) => {
     );
 };
 
-export default NewProject;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+        web_socket: state.web_socket,
+        notification: state.notification
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data)),
+        newNotification: (data) => dispatch(newNotification(data))
+    }
+}
+export default connect(putState, putDispatch)(NewProject);

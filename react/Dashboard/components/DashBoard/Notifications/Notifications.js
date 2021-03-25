@@ -1,4 +1,4 @@
-import   React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {getUser, newNotification, setSocket} from "../../redux/actions/actions";
 import {connect} from "react-redux";
 import './Notifications.scss'
@@ -21,24 +21,39 @@ function getCookie(name) {
     return cookieValue;
 }
 
-async function getNotificationFetch(data) {
+async function getNotificationFetch(id) {
     const options = {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        body: JSON.stringify(data),
+        body: JSON.stringify({"user_id": id}),
         headers: {
             "X-CSRFToken": getCookie('csrftoken'),
             'Content-Type': 'application/json',
             'Authorization': 'Token ' + getCookie('userToken'),
         }
     }
-    const response = await fetch('/api/get-notification', options);
+    const response = await fetch('/api/get-notification-read', options);
     const result = await response.json();
     return result;
 }
 
-async function putNotificationReadFetch(data) {
+// async function putNotificationReadFetch(data) {
+//     const options = {
+//         method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+//         body: JSON.stringify(data),
+//         headers: {
+//             "X-CSRFToken": getCookie('csrftoken'),
+//             'Content-Type': 'application/json',
+//             'Authorization': 'Token ' + getCookie('userToken'),
+//         }
+//     }
+//     const response = await fetch('/api/put-notification-read', options);
+//     const result = await response.json();
+//     return result;
+// }
+
+async function delNotificationReadFetch(data) {
     const options = {
-        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
         body: JSON.stringify(data),
         headers: {
             "X-CSRFToken": getCookie('csrftoken'),
@@ -46,94 +61,97 @@ async function putNotificationReadFetch(data) {
             'Authorization': 'Token ' + getCookie('userToken'),
         }
     }
-    const response = await fetch('/api/put-notification-read', options);
+    const response = await fetch('/api/delete-notification-read', options);
     const result = await response.json();
     return result;
 }
+
 
 const Notifications = (props) => {
+
     const [notifications, setNotifications] = useState([]);
-    const [readInfo, setReadInfo] = useState([]);
 
-   const click = () => {
-
-       props.web_socket.send(JSON.stringify({
-           'message': "New",
-           'type_notification': "group",
-           'from_notification': "1",
-           'for_notification': "D",
-       }));
-   }
-   const onRead = () => {
-       const ids = [];
-        readInfo.forEach(value=>{
-            ids.push(value.id)
+    useEffect(() => {
+        getNotificationFetch(1).then(data => {
+            setNotifications(data)
+            console.log(data)
         })
-        putNotificationReadFetch({'ids':ids, 'action':'readed'})
-   }
-
-    useEffect(()=>{
-        props.newNotification(false);
-        onRead();
     }, [])
 
-    useEffect(()=>{
-        props.newNotification(false);
-        getUserFetch()
-            .then(data=>{
-                props.updateUserData(data);
-            })
-    }, [props.notification]);
+    // const [notifications, setNotifications] = useState([]);
+    // const [readInfo, setReadInfo] = useState([]);
 
-    const init = () => {
-       if(props.user_data.notification_read){
-            const ids = [];
-            props.user_data.notification_read.forEach(value=>{
-                ids.push(value.notification_id)
-            })
-            setReadInfo(props.user_data.notification_read)
-            getNotificationFetch({'ids':ids})
-                .then(data=>{
-                    setNotifications(data)
-                })
-        }
-    }
-
-
-    useEffect(()=>{
-        init()
-        onRead();
-    }, [props.user_data]);
+    // const click = () => {
+    //
+    //     props.web_socket.send(JSON.stringify({
+    //         'message': "New",
+    //         'type_notification': "group",
+    //         'from_notification': "1",
+    //         'for_notification': "D",
+    //     }));
+    // }
+    // const onRead = () => {
+    //     const ids = [];
+    //     readInfo.forEach(value => {
+    //         ids.push(value.id)
+    //     })
+    //     delNotificationReadFetch({'ids': ids})
+    // }
+    //
+    // useEffect(() => {
+    //     props.newNotification(false);
+    //     onRead();
+    // }, [])
+    //
+    // useEffect(() => {
+    //     props.newNotification(false);
+    //     getUserFetch()
+    //         .then(data => {
+    //             props.updateUserData(data);
+    //         })
+    // }, [props.notification]);
+    //
+    // const init = () => {
+    //     if (props.user_data.notification_read) {
+    //         const ids = [];
+    //         props.user_data.notification_read.forEach(value => {
+    //             ids.push(value.notification_id)
+    //         })
+    //         setReadInfo(props.user_data.notification_read)
+    //         getNotificationFetch({'ids': ids})
+    //             .then(data => {
+    //                 setNotifications(data)
+    //             })
+    //     }
+    // }
+    //
+    //
+    // useEffect(() => {
+    //     init()
+    //     // onRead();
+    // }, [props.user_data]);
 
     return (
-        <div className="container">
-            <div className="clear_btn">
-                <Button variant="contained"
-                            className="btn btn-new"
-                            color="primary"
-                        onClick={click}
-                        >
-                        Clear all
-                    </Button>
-            </div>
-            <div className="wrap_notifications">
-                {
-                    notifications.map((value_notif, index)=>{
-                        let readed = false;
-                        readInfo.forEach((value)=>{
-                            if(value_notif.id == value.notification_id){
-                                readed = value.on_read;
-                            }
-                        });
-                        return (
-                                    <div key={index} className={readed?"notification":"notification not_readed"}>
-                                        <div className="from">{value_notif.from_notification}</div>
-                                        <div className="message">{value_notif.message}</div>
-                                        <div className="type">{value_notif.type_notification}</div>
-                                    </div>
-                                )
-                    })
-                }
+        <div className='notifications'>
+            <div className="container">
+                <div className="notifs">
+
+                    {
+                        notifications.map((el, index)=>{
+                            return <div className="notif" key={index}>
+                                <div className="itemNotifFrom">{el.id}</div>
+                                <div className="itemNotif">MESSAGE</div>
+                            </div>
+                        })
+                    }
+
+                    <div className="notif">
+                        <div className="itemNotifFrom">FROM</div>
+                        <div className="itemNotif">MESSAGE</div>
+                    </div>
+
+
+                </div>
             </div>
         </div>
     );

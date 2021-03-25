@@ -15,6 +15,8 @@ const Projects = (props) => {
     const [clients, setClients] = useState([])
     const [newProjectLayout, setNewProjectLayout] = useState(false);
     const [currentUserRole, setCurrentUserRole] = useState('')
+    const [currentUserName, setCurrentUserName] = useState('')
+    const [currentUserId, setCurrentUserId] = useState('')
     const allowedUsersToAddProj = ['S', 'PM']
     const allowedUsersHere = ['S', 'PM', 'D', 'TL', 'Dev']
 
@@ -28,6 +30,8 @@ const Projects = (props) => {
             .then(data => setClients(data));
         getUserFetch().then(data => {
             setCurrentUserRole(data.profile.role_id.value)
+            setCurrentUserName(data.first_name)
+            setCurrentUserId(data.id)
         })
     }, [])
 
@@ -78,6 +82,8 @@ const Projects = (props) => {
                                     return (
                                         <Project value={value}
                                                  currentUserRole={currentUserRole}
+                                                 currentUserName={currentUserName}
+                                                 currentUserId={currentUserId}
                                                  index={index}
                                                  users_id={users_id}
                                                  key={index}
@@ -114,6 +120,8 @@ const Projects = (props) => {
             </div>
             {
                 newProjectLayout ? <NewProject
+                    currentUserName={currentUserName}
+                    currentUserId={currentUserId}
                     closeLayout={setNewProjectLayout}
                     users={users}
                     setProjectsSimple={setProjectsSimple}

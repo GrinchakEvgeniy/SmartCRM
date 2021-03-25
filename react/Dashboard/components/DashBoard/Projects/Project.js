@@ -5,6 +5,8 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Button from "@material-ui/core/Button";
 import {delProjectSimpleFetch} from "../../requests";
 import {getAccess} from "../../helper";
+import {getUser, newNotification, setSocket} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
 const Project = (props) => {
 
@@ -15,6 +17,15 @@ const Project = (props) => {
     const delProject = (id) => {
         delProjectSimpleFetch(id).then(() => {
             props.update()
+        }).then(() => {
+            for (let elem of props.users_id) {
+                props.web_socket.send(JSON.stringify({
+                    'message': `${props.currentUserName} deleted the ${props.value.name} project`,
+                    'type_notification': "user",
+                    'from_notification': props.currentUserId,
+                    'for_notification': elem,
+                }));
+            }
         })
     }
 
@@ -57,7 +68,7 @@ const Project = (props) => {
                         setWarning(!warning)
                     }}>
                         <div className="iconWrap">
-                            <div className="lid"> </div>
+                            <div className="lid"></div>
                             <div className="trash">    &times;</div>
                         </div>
                     </div>
@@ -97,4 +108,18 @@ const Project = (props) => {
     );
 };
 
-export default Project;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+        web_socket: state.web_socket,
+        notification: state.notification
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data)),
+        newNotification: (data) => dispatch(newNotification(data))
+    }
+}
+export default connect(putState, putDispatch)(Project);

@@ -73,6 +73,8 @@ urlpatterns = [
 
     path('get-notification', views.GetNotificationView.as_view({"post": "post"}), name="get-notification"),
     path('put-notification-read', views.PutNotificationReadView.as_view({"put":"put"}), name="put-notification-read"),
+    path('delete-notification-read', views.DeleteNotificationReadView.as_view({"delete":"delete"}), name="delete-notification-read"),
+    path('get-notification-read', views.GetNotificationReadView.as_view({"post":"post"}), name="get-notification-read"),
 
     path('post-project-comments', views.PostProjectCommentView.as_view({"post":"post"}), name="post-project-comments")
 ]

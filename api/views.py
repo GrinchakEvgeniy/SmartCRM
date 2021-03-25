@@ -420,6 +420,29 @@ class PutNotificationReadView(viewsets.ModelViewSet):
                 instance.save()
         return Response({'message': "Notifications has been readed", 'type':"success"})
 
+class GetNotificationReadView(viewsets.ModelViewSet):
+    queryset = NotificationRead.objects.all()
+    serializer_class = NotificationReadSerializer
+    perms = ['all']
+
+    def post(self, request):
+         queryset = NotificationRead.objects.filter(user_id=int(request.data['user_id']))
+         serializer = NotificationReadSerializer(queryset, many=True)
+         return Response(serializer.data)
+
+
+
+class DeleteNotificationReadView(viewsets.ModelViewSet):
+    queryset = NotificationRead.objects.all()
+    serializer_class = NotificationReadSerializer
+    perms = ['all']
+
+    def delete(self, request):
+        for id in request.data["ids"]:
+            instance = NotificationRead.objects.get(pk=int(id))
+            instance.delete()
+        return Response({'message': "Notifications has been deleted", 'type':"success"})
+
 
 
 class PutAvatarView(viewsets.ModelViewSet):

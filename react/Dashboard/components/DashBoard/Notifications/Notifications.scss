@@ -1,22 +1,20 @@
-.container {
-  .wrap_notifications {
-    display: flex;
-    flex-direction: column;
-    .notification {
-      display: flex;
-      justify-content: space-between;
-      box-shadow: 0 0 4px black;
-      padding: 5px;
-      margin: 5px;
-      transform: scale(1);
-      cursor: pointer;
-    }
-    .notification:hover {
-      transition: 0.5s;
-      transform: scale(1.009);
-    }
-    .notification.not_readed {
-      box-shadow: 0 0 4px red;
-    }
+.notif{
+  width: fit-content;
+  display: flex;
+  margin: 10px;
+  background: #fff;
+  padding: 20px;
+  align-items: center;
+  position: relative;
+  border-radius: 0 10px 10px 10px;
+  transition: 0.4s cubic-bezier(0.45, -0.67, 0.53, 1.63);
+  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
+  0 4px 5px 0 rgb(0 0 0 / 14%),
+  0 1px 10px 0px rgb(0 0 0 / 12%);
+  &:hover {
+    box-shadow: 0 7px 15px 5px rgb(0 0 0 / 20%),
+    0 7px 9px 0 rgb(0 0 0 / 7%),
+    0 9px 6px 0 rgb(0 0 0 / 25%);
+    //z-index: 1;
   }
 }

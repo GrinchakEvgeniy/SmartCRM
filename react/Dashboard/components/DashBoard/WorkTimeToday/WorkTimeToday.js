@@ -7,6 +7,8 @@ import BusinessIcon from '@material-ui/icons/Business';
 import HomeIcon from '@material-ui/icons/Home';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 import Button from "@material-ui/core/Button";
+import {getUser, setSocket} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
 const WorkTimeToday = (props) => {
     const [newObject, setNewObject] = useState(true);
@@ -50,6 +52,18 @@ const WorkTimeToday = (props) => {
         postWorkTimeTodayFetch(data).then(data => {
             setWorkObject(data)
         })
+        props.web_socket.send(JSON.stringify({
+            'message': props.user_data.first_name + " started work at " + fromWork,
+            'type_notification': "group",
+            'from_notification': props.user_data.id,
+            'for_notification': "PM",
+        }));
+        props.web_socket.send(JSON.stringify({
+            'message': props.user_data.first_name + " started work at " + fromWork,
+            'type_notification': "group",
+            'from_notification': props.user_data.id,
+            'for_notification': "HR",
+        }));
     }
 
     const submit_out = () => {
@@ -62,6 +76,18 @@ const WorkTimeToday = (props) => {
         putWorkTimeTodayFetch(data).then(data => {
             setWorkObject({})
         })
+        props.web_socket.send(JSON.stringify({
+            'message': props.user_data.first_name + " finished work at " + fromWork,
+            'type_notification': "group",
+            'from_notification': props.user_data.id,
+            'for_notification': "PM",
+        }));
+        props.web_socket.send(JSON.stringify({
+            'message': props.user_data.first_name + " finished work at " + fromWork,
+            'type_notification': "group",
+            'from_notification': props.user_data.id,
+            'for_notification': "HR",
+        }));
     }
 
     return (
@@ -164,4 +190,16 @@ const WorkTimeToday = (props) => {
     );
 };
 
-export default WorkTimeToday;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+        web_socket: state.web_socket
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data))
+    }
+}
+export default connect(putState, putDispatch)(WorkTimeToday);

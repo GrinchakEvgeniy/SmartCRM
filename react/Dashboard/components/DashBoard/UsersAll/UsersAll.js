@@ -40,7 +40,7 @@ const UsersAll = (props) => {
                                          ?
                                          (elem.dataset.check = "true", elem.style.background = "#b0d6ff")
                                          :
-                                         (elem.dataset.check = "false", elem.style.background = "white")
+                                         (elem.dataset.check = "false", elem.style.background = "#f7f7f7")
                                      userCheck(event)
                                  }}>
                                 <div className="img_user">
