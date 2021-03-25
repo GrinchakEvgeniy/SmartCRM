@@ -179,6 +179,8 @@ class NotificationRead(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notification_read')
     notification_id = models.ForeignKey(Notification, on_delete=models.CASCADE, related_name='notification_read')
     on_read = models.BooleanField(default=False, blank=True, null=True)
+    message = models.CharField(blank=True, null=True, max_length=300)
+    from_notification = models.CharField(blank=True, null=True, max_length=300)
 
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
@@ -255,14 +257,23 @@ def create_notion_read(sender, instance, created, **kwargs):
         users = User.objects.all()
         if instance.type_notification == "all":
             for user in users:
-                NotificationRead.objects.create(user_id=user, notification_id=instance)
+                NotificationRead.objects.create(user_id=user,
+                                                notification_id=instance,
+                                                message=instance.message,
+                                                from_notification=instance.from_notification)
         elif instance.type_notification == "group":
             for user in users:
                 if user.profile.role_id.value == instance.for_notification:
-                    NotificationRead.objects.create(user_id=user, notification_id=instance)
+                    NotificationRead.objects.create(user_id=user,
+                                                    notification_id=instance,
+                                                    message=instance.message,
+                                                    from_notification=instance.from_notification)
         elif instance.type_notification == "user":
             user = User.objects.get(pk=int(instance.for_notification))
-            NotificationRead.objects.create(user_id=user, notification_id=instance)
+            NotificationRead.objects.create(user_id=user,
+                                            notification_id=instance,
+                                            message=instance.message,
+                                            from_notification=instance.from_notification)
 
 
 @receiver(post_save, sender=User)
