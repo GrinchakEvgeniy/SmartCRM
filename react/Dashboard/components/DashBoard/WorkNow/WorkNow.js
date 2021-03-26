@@ -11,7 +11,7 @@ import {Select, MenuItem} from "@material-ui/core";
 const WorkNow = (props) => {
     const [projects, setProjects] = useState([]);
     const [project, setProject] = useState('');
-    const [projectName, setProjectName] = useState('');
+    // const [projectName, setProjectName] = useState('');
 
     useEffect(() => {
         getProjectsSimpleFetch()
@@ -31,6 +31,10 @@ const WorkNow = (props) => {
     //     setProjectName(name)
     // }, [project])
 
+    const findProjectName = (arr, id) => {
+        return arr.find(el => el.id === +id)
+    }
+
     const Action = (checked) => {
         if (checked) {
             const data = {
@@ -41,7 +45,7 @@ const WorkNow = (props) => {
             }
             createWorkNowFetch(data).then(data => props.setWorkNowObject(data))
             props.web_socket.send(JSON.stringify({
-                'message': props.user_data.first_name + " started work",
+                'message': props.user_data.first_name + " started work " + ((+project) ? findProjectName(projects, project).name : 'SelfEducation'),
                 'type_notification': "group",
                 'from_notification': props.user_data.id,
                 'for_notification': "S",
@@ -55,13 +59,16 @@ const WorkNow = (props) => {
                     props.setWorkNowObject({});
                 })
             props.web_socket.send(JSON.stringify({
-                'message': props.user_data.first_name + " finished work",
+                'message': props.user_data.first_name + " finished work " + ((+project) ? findProjectName(projects, project).name : 'SelfEducation'),
                 'type_notification': "group",
                 'from_notification': props.user_data.id,
                 'for_notification': "S",
             }));
         }
     }
+
+    // console.log('project ID', project)
+    // console.log('projects', projects)
 
     const handleChangeSelfEducation = (checked) => {
         if (checked) {
@@ -86,7 +93,7 @@ const WorkNow = (props) => {
                     </div>
                     <div className="project">
                         <p>Project</p>
-                        <Select value={project}
+                        <Select value={String(project)}
                                 id='projectName'
                             // disabled={props.isActive || props.selfEducation ? true : false}
                                 disabled={props.isActive || props.selfEducation}
@@ -96,7 +103,7 @@ const WorkNow = (props) => {
                             <MenuItem value={''}/>
                             {
                                 projects.map((value, index) => {
-                                    return <MenuItem key={index} value={value.id}>{value.name}</MenuItem>
+                                    return <MenuItem key={index} value={String(value.id)}>{value.name}</MenuItem>
                                 })
                             }
                         </Select>
@@ -132,7 +139,7 @@ const WorkNow = (props) => {
             <div className="work_now_popup_subLayer"
                  onClick={() => {
                      props.setWorkNowPopup(false)
-                 }}> </div>
+                 }}></div>
         </div>
     );
 };

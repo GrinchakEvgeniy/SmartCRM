@@ -5,9 +5,11 @@ import User from "./User";
 import Button from "@material-ui/core/Button";
 import AddUser from "./AddUser";
 import {TextField} from "@material-ui/core";
-import {getAccess} from "../../helper";
+import {getAccess, isEmpty} from "../../helper";
+import {getUser, setSocket} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
-const Users = () => {
+const Users = (props) => {
     const [alerts, setAlerts] = useState({
         type: "",
         message: ""
@@ -29,10 +31,14 @@ const Users = () => {
             .then(data => {
                 setRoles(data);
             })
-        getUserFetch().then(data => {
-            setCurrentUserRole(data.profile.role_id.value)
-        })
     }, []);
+
+    useEffect(()=>{
+        if (!isEmpty(props.user_data)) {
+            if (props.user_data.profile.length === 0) return;
+            setCurrentUserRole(props.user_data.profile.role_id.value)
+        }
+    }, [props.user_data])
 
     const Search = (string) => {
         if (string === '') {
@@ -120,4 +126,16 @@ const Users = () => {
     );
 };
 
-export default Users;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+        web_socket: state.web_socket
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data))
+    }
+}
+export default connect(putState, putDispatch)(Users);

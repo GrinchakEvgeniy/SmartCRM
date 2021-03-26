@@ -9,9 +9,11 @@ import parse from 'html-react-parser';
 import {getStatuteFetch, getUserFetch, postStatuteFetch, putStatuteFetch} from "../../requests";
 import Button from "@material-ui/core/Button";
 import EditIcon from '@material-ui/icons/Edit';
-import {getAccess} from "../../helper";
+import {getAccess, isEmpty} from "../../helper";
+import {getUser, setSocket} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
-const Statute = () => {
+const Statute = (props) => {
 
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const [valueHTML, setValueHTML] = useState('')
@@ -36,10 +38,14 @@ const Statute = () => {
             setStatuteId(data[0].id)
             setSt(data[0].description)
         })
-        getUserFetch().then(data => {
-            setCurrentUserRole(data.profile.role_id.value)
-        })
     }, [])
+
+    useEffect(()=>{
+        if (!isEmpty(props.user_data)) {
+            if (props.user_data.profile.length === 0) return;
+            setCurrentUserRole(props.user_data.profile.role_id.value)
+        }
+    }, [props.user_data])
 
     const updateStatute = (value, id) => {
         // postStatuteFetch(value).then(data => console.log(data))
@@ -99,4 +105,15 @@ const Statute = () => {
     );
 };
 
-export default Statute;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data))
+    }
+}
+export default connect(putState, putDispatch)(Statute);

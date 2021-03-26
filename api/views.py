@@ -426,7 +426,7 @@ class GetNotificationReadView(viewsets.ModelViewSet):
     perms = ['all']
 
     def post(self, request):
-         queryset = NotificationRead.objects.filter(user_id=int(request.data['user_id']))
+         queryset = NotificationRead.objects.filter(user_id=int(request.data['user_id']))[::-1]
          serializer = NotificationReadSerializer(queryset, many=True)
          return Response(serializer.data)
 

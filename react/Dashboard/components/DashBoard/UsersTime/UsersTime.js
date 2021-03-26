@@ -3,12 +3,14 @@ import datesGenerator from "dates-generator/scripts/datesGenerator";
 import {getWorkTimeTodayFetch} from "../../requests_";
 import {getUserFetch, getUsersFetch} from "../../requests";
 import './UsersTime.scss'
-import {getAccess} from "../../helper";
+import {getAccess, isEmpty} from "../../helper";
+import {getUser, setSocket} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-const UsersTime = () => {
+const UsersTime = (props) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [dates, setDates] = useState([]);
     const [users, setUsers] = useState([]);
@@ -41,10 +43,14 @@ const UsersTime = () => {
             previousMonth,
             previousYear
         });
-        getUserFetch().then(data => {
-            setCurrentUserRole(data.profile.role_id.value)
-        })
     }, [])
+
+    useEffect(()=>{
+        if (!isEmpty(props.user_data)) {
+            if (props.user_data.profile.length === 0) return;
+            setCurrentUserRole(props.user_data.profile.role_id.value)
+        }
+    }, [props.user_data])
 
     const onClickNext = () => {
         const body = { month: calendar.nextMonth, year: calendar.nextYear };
@@ -250,4 +256,16 @@ const UsersTime = () => {
     );
 };
 
-export default UsersTime;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+        web_socket: state.web_socket
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data))
+    }
+}
+export default connect(putState, putDispatch)(UsersTime);

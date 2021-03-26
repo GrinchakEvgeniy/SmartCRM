@@ -28,28 +28,26 @@ const Projects = (props) => {
             .then(data => setUsers(data));
         getClientsFetch()
             .then(data => setClients(data));
-        getUserFetch().then(data => {
-            setCurrentUserRole(data.profile.role_id.value)
-            setCurrentUserName(data.first_name)
-            setCurrentUserId(data.id)
-        })
+        // getUserFetch().then(data => {
+        //     setCurrentUserRole(data.profile.role_id.value)
+        //     setCurrentUserName(data.first_name)
+        //     setCurrentUserId(data.id)
+        // })
     }, [])
+
+    useEffect(()=>{
+        if (!isEmpty(props.user_data)) {
+            if (props.user_data.profile === 0) return;
+            setCurrentUserRole(props.user_data.profile.role_id.value)
+            setCurrentUserName(props.user_data.first_name)
+            setCurrentUserId(props.user_data.id)
+        }
+    }, [props.user_data])
 
     const update = () => {
         getProjectsSimpleFetch()
             .then(data => setProjectsSimple(data));
     }
-
-    // useEffect(() => {
-    //     if (!isEmpty(props.user_data)) {
-    //         if (props.user_data.profile.role_id === 'undefined') return;
-    //         if (props.user_data.profile.role_id.value === "S" || props.user_data.profile.role_id.value === "PM") {
-    //             setRoleId(false);
-    //         } else {
-    //             setRoleId(true)
-    //         }
-    //     }
-    // }, [props.user_data]);
 
     return (
         <div className="projects">

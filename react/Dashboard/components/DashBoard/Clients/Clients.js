@@ -3,7 +3,7 @@ import "./Clients.scss";
 import {getClientsFetch, postClientFetch, deleteClientFetch, getUserFetch} from "../../requests";
 import Button from "@material-ui/core/Button";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui/core";
-import {getAccess} from "../../helper";
+import {getAccess, isEmpty} from "../../helper";
 import {getUser, setSocket} from "../../redux/actions/actions";
 import {connect} from "react-redux";
 
@@ -28,10 +28,14 @@ const Clients = (props) => {
                 setRenderClients(data);
                 setClients(data);
             })
-        getUserFetch().then(data => {
-            setCurrentUserRole(data.profile.role_id.value)
-        })
     }, []);
+
+    useEffect(()=>{
+        if (!isEmpty(props.user_data)) {
+            if (props.user_data.profile.length === 0) return;
+            setCurrentUserRole(props.user_data.profile.role_id.value)
+        }
+    }, [props.user_data])
 
     const Save = () => {
         postClientFetch(newClientData)
@@ -140,8 +144,6 @@ const Clients = (props) => {
 
     return (
         <div className="clients">
-
-
             {
                 getAccess(currentUserRole, allowedUsersHere)
                     ?

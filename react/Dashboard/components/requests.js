@@ -614,3 +614,50 @@ export async function putStatuteFetch(data, id) {
     const result = await response.json();
     return result;
 }
+
+
+export async function getNotificationFetch(id) {
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({"user_id": id}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/get-notification-read', options);
+    const result = await response.json();
+    return result;
+}
+
+
+export async function delNotificationReadFetch(data) {
+    const options = {
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({"ids": data}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/delete-notification-read', options);
+    const result = await response.json();
+    return result;
+}
+
+export async function readNotificationFetch(data) {
+    const options = {
+        method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+        body: JSON.stringify({"ids": data, "action": "readed"}),
+        headers: {
+            "X-CSRFToken": getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + getCookie('userToken'),
+        }
+    }
+    const response = await fetch('/api/put-notification-read', options);
+    const result = await response.json();
+    return result;
+}

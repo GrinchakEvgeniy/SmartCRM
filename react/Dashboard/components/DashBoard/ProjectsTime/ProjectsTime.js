@@ -6,8 +6,10 @@ import './ProjectsTime.scss';
 import TimeLine from "./TimeLine";
 import ProjectInfo from "./ProjectInfo";
 import {getAccess, isEmpty, today} from "../../helper";
+import {getUser, setSocket} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
-const ProjectsTime = () => {
+const ProjectsTime = (props) => {
     const [selectedDate, setSelectedDate] = useState(today());
     const defaultAva = '/static/images/userIcon.svg';
 
@@ -44,10 +46,14 @@ const ProjectsTime = () => {
             .then(data => setProjects(data))
         getUsersFetch()
             .then(data => setUsers(data))
-        getUserFetch().then(data => {
-            setCurrentUserRole(data.profile.role_id.value)
-        })
     }, [])
+
+    useEffect(()=>{
+        if (!isEmpty(props.user_data)) {
+            if (props.user_data.profile.length === 0) return;
+            setCurrentUserRole(props.user_data.profile.role_id.value)
+        }
+    }, [props.user_data])
 
     useEffect(() => {
         setTodayDateTime({
@@ -56,9 +62,9 @@ const ProjectsTime = () => {
         })
     }, [selectedDate]);
 
-    const searchByDate = () => {
-        console.log('search')
-    }
+    // const searchByDate = () => {
+    //     console.log('search')
+    // }
 
     return (
         <div className='projects-time'>
@@ -167,4 +173,15 @@ const ProjectsTime = () => {
     );
 };
 
-export default ProjectsTime;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data))
+    }
+}
+export default connect(putState, putDispatch)(ProjectsTime);

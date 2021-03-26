@@ -21,44 +21,48 @@ const Line = (props) => {
     const [lineInfoPopup, setLineInfoPopup] = useState(false);
 
     const init = () => {
-        getProjectFetch(props.value.project_id).then(data=>setProjectName(data.name));
+        getProjectFetch(props.value.project_id).then(data => setProjectName(data.name));
         let finish;
-        if(props.value.finish == null){finish = Date.now()}else{finish = props.value.finish}
+        if (props.value.finish == null) {
+            finish = Date.now()
+        } else {
+            finish = props.value.finish
+        }
         setTimeSpent(finish - props.value.start)
-        const left = (props.value.start - props.lineTimeStandart.start)/(props.lineTimeStandart.finish - props.lineTimeStandart.start)*100;
-        const width = (finish - props.value.start)/(props.lineTimeStandart.finish - props.lineTimeStandart.start)*100;
+        const left = (props.value.start - props.lineTimeStandart.start) / (props.lineTimeStandart.finish - props.lineTimeStandart.start) * 100;
+        const width = (finish - props.value.start) / (props.lineTimeStandart.finish - props.lineTimeStandart.start) * 100;
         setStyle({
-            left: left+'%',
-            width: width+'%'
+            left: left + '%',
+            width: width + '%'
         });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         init()
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         init()
     }, [props.value]);
 
     return (
-        <div className='line' onClick={()=>setLineInfoPopup(true)} style={style}>
+        <div className='line' onClick={() => setLineInfoPopup(true)} style={style}>
             <div className="popup_line_wrap">
                 {
                     lineInfoPopup ? <div className="line_popup">
-                        <div className="toolbar">
-                            <span className="name">{projectName}</span>
-                            <div className="close" onClick={(e)=>{
-                                setLineInfoPopup(false);
-                                e.stopPropagation();
-                            }}>
-                                <span>&#10006;</span></div>
+                            <div className="toolbar">
+                                <span className="name">{projectName}</span>
+                                <div className="close" onClick={(e) => {
+                                    setLineInfoPopup(false);
+                                    e.stopPropagation();
+                                }}>
+                                    <span>&#10006;</span></div>
+                            </div>
+                            <div className="info">
+                                <p>Time spent: </p>
+                                <span>{msToTime(timeSpent)}</span>
+                            </div>
                         </div>
-                        <div className="info">
-                            <p>Time spent: </p>
-                            <span>{msToTime(timeSpent)}</span>
-                        </div>
-                    </div>
                         :
                         ""
                 }

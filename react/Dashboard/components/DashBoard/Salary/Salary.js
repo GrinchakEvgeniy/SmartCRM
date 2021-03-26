@@ -5,8 +5,10 @@ import './Salary.scss'
 import {getUserFetch, getUsersFetch} from "../../requests";
 import NewSalary from "./NewSalary";
 import {getSalaryFetch} from "../../requests_";
-import {getAccess} from "../../helper";
+import {getAccess, isEmpty} from "../../helper";
 import UpdateSalary from "./UpdateSalary";
+import {getUser, setSocket} from "../../redux/actions/actions";
+import {connect} from "react-redux";
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -52,11 +54,14 @@ const Salary = (props) => {
         getSalaryFetch(data).then(data=>{
             setUsersSalary(data)
         })
-        getUserFetch().then(data => {
-            setCurrentUserRole(data.profile.role_id.value)
-        })
-
     }, []);
+
+    useEffect(()=>{
+        if (!isEmpty(props.user_data)) {
+            if (props.user_data.profile.length === 0) return;
+            setCurrentUserRole(props.user_data.profile.role_id.value)
+        }
+    }, [props.user_data])
 
     useEffect(()=>{
         if(updateSalaryId !== '')
@@ -73,7 +78,6 @@ const Salary = (props) => {
             setUsersSalary(data)
         });
     }
-
 
     return (
         <div className='salary'>
@@ -206,4 +210,16 @@ const Salary = (props) => {
     );
 };
 
-export default Salary;
+const putState = (state) => {
+    return {
+        user_data: state.user_data,
+        web_socket: state.web_socket
+    }
+}
+const putDispatch = (dispatch) => {
+    return {
+        updateUserData: (data) => dispatch(getUser(data)),
+        setSocket: (data) => dispatch(setSocket(data))
+    }
+}
+export default connect(putState, putDispatch)(Salary);
