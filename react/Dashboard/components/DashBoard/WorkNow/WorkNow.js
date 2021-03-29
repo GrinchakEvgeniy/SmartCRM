@@ -45,10 +45,10 @@ const WorkNow = (props) => {
             }
             createWorkNowFetch(data).then(data => props.setWorkNowObject(data))
             props.web_socket.send(JSON.stringify({
-                'message': props.user_data.first_name + " started work " + ((+project) ? findProjectName(projects, project).name : 'SelfEducation'),
+                'message': props.user_data.first_name + " started work on " + ((+project) ? findProjectName(projects, project).name : 'SelfEducation'),
                 'type_notification': "group",
                 'from_notification': props.user_data.id,
-                'for_notification': "S",
+                'for_notification': "PM",
             }));
         } else {
             const newState = JSON.parse(JSON.stringify(props.workNowObject));
@@ -59,10 +59,10 @@ const WorkNow = (props) => {
                     props.setWorkNowObject({});
                 })
             props.web_socket.send(JSON.stringify({
-                'message': props.user_data.first_name + " finished work " + ((+project) ? findProjectName(projects, project).name : 'SelfEducation'),
+                'message': props.user_data.first_name + " finished work on " + ((+project) ? findProjectName(projects, project).name : 'SelfEducation'),
                 'type_notification': "group",
                 'from_notification': props.user_data.id,
-                'for_notification': "S",
+                'for_notification': "PM",
             }));
         }
     }
