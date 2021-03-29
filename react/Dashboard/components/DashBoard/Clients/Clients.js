@@ -30,7 +30,7 @@ const Clients = (props) => {
             })
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!isEmpty(props.user_data)) {
             if (props.user_data.profile.length === 0) return;
             setCurrentUserRole(props.user_data.profile.role_id.value)
@@ -85,11 +85,11 @@ const Clients = (props) => {
                     for (let i = 0; i < checkboxes.length; i++) {
                         checkboxes[i].checked = false;
                     }
-                }).then(()=>{
+                }).then(() => {
                 let delClientNames = []
-                for( let el of clientsId ){
-                    for( let elem of clients){
-                        if(el === elem.id){
+                for (let el of clientsId) {
+                    for (let elem of clients) {
+                        if (el === elem.id) {
                             delClientNames.push(elem.name)
                         }
                     }
