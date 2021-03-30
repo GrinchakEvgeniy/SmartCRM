@@ -7,17 +7,16 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "smartCRM.settings")
 
 app = Celery("smartCRM")
 app.config_from_object("django.conf:settings", namespace="CELERY")
-app.conf.update(result_expires=3600,
-                enable_utc=True,
-                timezone='Europe/Kiev', )
+# app.conf.update(result_expires=3600,
+#                 enable_utc=True,
+#                 timezone='Europe/Kiev', )
 
 
 
 app.conf.beat_schedule = {
-    'my-super-sum-every-5-min': {
-        'task': 'api.tasks.supper_sum',
-        'schedule': crontab(hour='6, 18',
-                            minute=0,),
+    'events-every-1-min': {
+        'task': 'api.tasks.events',
+        'schedule': crontab(minute='*/1'),
                 # Аргументы которые будет принимать функция
                 # 'args': (5, 8),
     }

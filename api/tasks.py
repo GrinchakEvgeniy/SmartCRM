@@ -10,8 +10,8 @@ from loguru import logger
 # logger = logging.getLogger()
 
 
-@app.task(bind=True, name='supper_sum', max_retries=3, soft_time_limit=20)
-def supper_sum():
+@app.task
+def events():
     res = requests.get("http://api.icndb.com/jokes/random").json()
     joke = res["value"]["joke"]
     logger.add('logs/logs2.log', format="{time} {level} - {message}")
