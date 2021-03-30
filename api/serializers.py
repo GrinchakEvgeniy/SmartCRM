@@ -21,7 +21,16 @@ class UserTimeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProjectSimpleFWNSerializer(serializers.ModelSerializer):
+    """for the list projects without full information"""
+    class Meta:
+        model = Project
+        fields = "__all__"
+
+
 class WorkNowSerializer(serializers.ModelSerializer):
+    work_now = ProjectSimpleFWNSerializer()
+
     class Meta:
         model = WorkNow
         fields = '__all__'
