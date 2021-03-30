@@ -33,7 +33,7 @@ const Users = (props) => {
             })
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!isEmpty(props.user_data)) {
             if (props.user_data.profile.length === 0) return;
             setCurrentUserRole(props.user_data.profile.role_id.value)
@@ -67,61 +67,64 @@ const Users = (props) => {
 
 
     return (
-        <div className="container users-wrap">
-            <div id='alert' className={alerts.type + " alerts"}>{alerts.message}</div>
-            <div className="navigation">
+        <div className="users">
+            <div className="container">
+                <div className="users-wrap">
+                    <div id='alert' className={alerts.type + " alerts"}>{alerts.message}</div>
+                    <div className="navigation">
 
-                {
-                    getAccess(currentUserRole, allowedUsersHere)
-                        ?
-                        <div className="action">
-                            <Button className="btn add-btn"
-                                    disabled={!(currentUserRole === "S")}
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => setAddUser(!addUser)}
-                            >Add user
-                            </Button>
+                        {
+                            getAccess(currentUserRole, allowedUsersHere)
+                                ?
+                                <div className="action">
+                                    <Button className="btn add-btn"
+                                            disabled={!(currentUserRole === "S")}
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => setAddUser(!addUser)}
+                                    >Add user
+                                    </Button>
+                                </div>
+                                :
+                                ''
+                        }
+
+
+                        <div className="search">
+                            <TextField
+                                className="search"
+                                type="text"
+                                id="outlined-basic"
+                                label="Search"
+                                onChange={(event) => Search(event.target.value)}
+                                variant="outlined"/>
                         </div>
-                        :
-                        ''
-                }
+                    </div>
+                    <div className="content">
+                        {/*<div className="header">*/}
+                        {/*    <h4>Users</h4>*/}
+                        {/*</div>*/}
+                        <div className="items">
+                            {
+                                renderUser.map((value, index) => {
+                                    return <User value={value}
+                                                 currentUserRole={currentUserRole}
+                                                 roles={roles}
+                                                 setAlerts={setAlerts}
+                                                 key={index}/>
+                                })
+                            }
 
-
-
-                <div className="search">
-                    <TextField
-                        className="search"
-                        type="text"
-                        id="outlined-basic"
-                        label="Search"
-                        onChange={(event) => Search(event.target.value)}
-                        variant="outlined"/>
-                </div>
-            </div>
-            <div className="content">
-                {/*<div className="header">*/}
-                {/*    <h4>Users</h4>*/}
-                {/*</div>*/}
-                <div className="items">
+                        </div>
+                    </div>
                     {
-                        renderUser.map((value, index) => {
-                            return <User value={value}
-                                         currentUserRole={currentUserRole}
-                                         roles={roles}
-                                         setAlerts={setAlerts}
-                                         key={index}/>
-                        })
+                        addUser ? <AddUser
+                            setAlerts={setAlerts}
+                            setAddUser={setAddUser}
+                        /> : ""
                     }
-
                 </div>
             </div>
-            {
-                addUser ? <AddUser
-                    setAlerts={setAlerts}
-                    setAddUser={setAddUser}
-                /> : ""
-            }
         </div>
     );
 };

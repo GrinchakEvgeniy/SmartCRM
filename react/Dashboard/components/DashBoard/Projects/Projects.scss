@@ -3,10 +3,13 @@
   .container {
 
     .navigation {
-      margin-bottom: 20px;
+      margin: 0 auto 20px;
+      max-width: 1400px;
     }
 
     .projects_wrap {
+      margin: 0 auto;
+      max-width: 1400px;
       display: flex;
       justify-content: flex-start;
       flex-wrap: wrap;

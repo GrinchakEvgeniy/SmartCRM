@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {getUser} from "../../redux/actions/actions";
 import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
+import PersonIcon from '@material-ui/icons/Person';
 import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import MeetingRoomRoundedIcon from '@material-ui/icons/MeetingRoomRounded';
@@ -49,16 +50,16 @@ const DashBoardHeadUserMenu = (props) => {
                         <div className="userMenuItems">
                             <Link to={'/dashboard/profile'} className="link">
                                 <div className="userMenuItem">
-                                    <FaceRoundedIcon className="userMenuIcon"/>
+                                    <PersonIcon className="userMenuIcon"/>
                                     <h4 className="userMenuIconLabel">Profile</h4>
                                 </div>
                             </Link>
-                            <Link to={'/dashboard'} className="link">
-                                <div className="userMenuItem">
-                                    <NotificationsRoundedIcon className="userMenuIcon"/>
-                                    <h4 className="userMenuIconLabel">Notifications</h4>
-                                </div>
-                            </Link>
+                            {/*<Link to={'/dashboard'} className="link">*/}
+                            {/*    <div className="userMenuItem">*/}
+                            {/*        <NotificationsRoundedIcon className="userMenuIcon"/>*/}
+                            {/*        <h4 className="userMenuIconLabel">Notifications</h4>*/}
+                            {/*    </div>*/}
+                            {/*</Link>*/}
                             <Link to={'/login'} className="link">
                                 <div className="userMenuItem"
                                      onClick={() => {
@@ -69,6 +70,7 @@ const DashBoardHeadUserMenu = (props) => {
                                 </div>
                             </Link>
                         </div>
+                        <div className="close">&times;</div>
                     </div>
 
                 </div>

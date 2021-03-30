@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {getProjectFetch} from "../../requests";
+import {isEmpty} from "../../helper";
 
 function msToTime(duration) {
     let milliseconds = parseInt((duration % 1000) / 100),
@@ -21,7 +22,7 @@ const Line = (props) => {
     const [lineInfoPopup, setLineInfoPopup] = useState(false);
 
     const init = () => {
-        getProjectFetch(props.value.project_id).then(data => setProjectName(data.name));
+        // getProjectFetch(props.value.project_id).then(data => setProjectName(data.name));
         let finish;
         if (props.value.finish == null) {
             finish = Date.now()
@@ -42,8 +43,16 @@ const Line = (props) => {
     }, [])
 
     useEffect(() => {
+        if (!isEmpty(props.value)) {
+            if (props.value.project_id === null) {
+                setProjectName('Self-Education')
+            } else {
+                setProjectName(props.value.project_id.name)
+            }
+        }
         init()
     }, [props.value]);
+
 
     return (
         <div className='line' onClick={() => setLineInfoPopup(true)} style={style}>

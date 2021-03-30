@@ -35,6 +35,10 @@ const WorkNow = (props) => {
         return arr.find(el => el.id === +id)
     }
 
+    // console.log('workNowObj', props.workNowObject)
+    // console.log('project', project)
+    // console.log('props.workNowObject', props.workNowObject)
+
     const Action = (checked) => {
         if (checked) {
             const data = {
@@ -67,9 +71,6 @@ const WorkNow = (props) => {
         }
     }
 
-    // console.log('project ID', project)
-    // console.log('projects', projects)
-
     const handleChangeSelfEducation = (checked) => {
         if (checked) {
             setProject('')
@@ -80,7 +81,9 @@ const WorkNow = (props) => {
     return (
         <div className='work_now_popupWrap'>
             <div className="work_now_popup">
-                <div className="title"><p>Work Now</p></div>
+                <div className="title">
+                    <p>Work Now</p>
+                </div>
                 <div className="body">
                     <div className="time">
                         <div className="digital">

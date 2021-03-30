@@ -1,6 +1,6 @@
 .userMenu {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   color: #757575;
 
@@ -55,7 +55,7 @@
       box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
 
       .userMenuItems {
-        padding: 10px 20px;
+        padding: 10px 10px 10px 20px;
         cursor: initial;
 
         .link {
@@ -74,6 +74,12 @@
             }
           }
         }
+      }
+      .close{
+        text-align: center;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 5px 10px 5px 5px;
       }
     }
 
