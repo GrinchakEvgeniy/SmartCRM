@@ -160,6 +160,9 @@ class Events(models.Model):
     for_events = models.CharField(blank=True, null=True, max_length=20)
 
     def save(self, *args, **kwargs):
+        from loguru import logger
+        logger.add('logs/logs3.log', format="{time} {level} - {message}")
+        logger.info(self.start)
         self.timestamps = datetime.now()
         super(Events, self).save(*args, **kwargs)
 
