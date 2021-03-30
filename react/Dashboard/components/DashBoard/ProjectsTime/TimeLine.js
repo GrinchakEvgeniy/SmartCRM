@@ -30,6 +30,8 @@ const TimeLine = (props) => {
         init()
     }, [props.date])
 
+    console.log('lines', lines)
+
     return (
         <div className="time_lines">
             {
