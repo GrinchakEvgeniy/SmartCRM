@@ -27,7 +27,7 @@ class Profile(models.Model):
     github = models.CharField(blank=True,null=True, max_length=100)
     position = models.CharField(blank=True,null=True, max_length=100)
     experience = models.CharField(blank=True,null=True, max_length=100)
-    role_id = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="profile", blank=True, null=True)
+    role_id = models.ForeignKey(Role, on_delete=models.SET_NULL, related_name="profile", blank=True, null=True)
     online = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
@@ -73,7 +73,7 @@ class Project(models.Model):
     project_predict_time = models.IntegerField(default=1)
     description = models.TextField()
     accesses = models.CharField(max_length=1000, blank=True, null=True)
-    client_id = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='project', blank=True, null=True)
+    client_id = models.ForeignKey(Client, on_delete=models.SET_NULL, related_name='project', blank=True, null=True)
     status = models.CharField(blank=True, null=True, max_length=100)
 
     def save(self, *args, **kwargs):
@@ -105,7 +105,7 @@ class ProjectComment(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_comment")
     description = models.CharField(max_length=1000)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_comment")
+    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="project_comment")
 
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
@@ -116,7 +116,7 @@ class ProjectTask(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
     name = models.CharField(blank=True, null=True, max_length=500)
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="project_task")
-    created_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_task")
+    created_user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="project_task")
 
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
@@ -129,8 +129,8 @@ class ProjectNestedTask(models.Model):
     description = models.CharField(blank=True, null=True, max_length=1000)
     status = models.CharField(blank=True, null=True, max_length=20)
     project_task_id = models.ForeignKey(ProjectTask, on_delete=models.CASCADE, related_name="project_nested_task")
-    created_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_nested_task_created")
-    worked_user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project_nested_task_worked", blank=True, null=True)
+    created_user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="project_nested_task_created")
+    worked_user_id = models.ForeignKey(User, on_delete=models.SET_NULL, related_name="project_nested_task_worked", blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.timestamps = datetime.now()
@@ -174,6 +174,7 @@ class Notification(models.Model):
         self.timestamps = datetime.now()
         super(Notification, self).save(*args, **kwargs)
 
+
 class NotificationRead(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notification_read')
@@ -181,10 +182,6 @@ class NotificationRead(models.Model):
     on_read = models.BooleanField(default=False, blank=True, null=True)
     message = models.CharField(blank=True, null=True, max_length=300)
     from_notification = models.CharField(blank=True, null=True, max_length=300)
-
-    def save(self, *args, **kwargs):
-        self.timestamps = datetime.now()
-        super(NotificationRead, self).save(*args, **kwargs)
 
 
 class WorkNow(models.Model):
@@ -229,7 +226,7 @@ class CompanyInfo(models.Model):
 
 class Salary(models.Model):
     timestamps = models.CharField(blank=True, null=True, max_length=100)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='salary')
+    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='salary', null=True)
     month = models.CharField(blank=True, null=True, max_length=10)
     year = models.IntegerField(default=0, blank=True, null=True)
     total_hour = models.FloatField(default=0, blank=True, null=True)
@@ -285,3 +282,10 @@ def create_user_profile(sender, instance, created, *args, **kwargs):
         instance.first_name = "New User"
         instance.save()
     instance.profile.save()
+
+
+@receiver(post_save, sender=NotificationRead)
+def create_notification_read(sender, instance, created, *args, **kwargs):
+    if created:
+        instance.timestapms = datetime.now()
+        instance.save()
