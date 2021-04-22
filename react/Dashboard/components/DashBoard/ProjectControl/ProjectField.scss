@@ -1,19 +1,26 @@
 .projectField {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  min-width: 250px;
+  display: inline-flex;
   position: relative;
-  margin-bottom: 10px;
-
+  margin-bottom: 14px;
 
   .editField{
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
     width: 100%;
-    background: white;
+    height: 100%;
+    border-radius: 3px;
+    padding: 16px 60px 16px 14px;
+    background: #dbdbdb;
+    resize: none;
     z-index: 1;
+    &:focus{
+      outline: #EDC939;
+      border:2px solid #EDC939;
+    }
     .MuiOutlinedInput-input {
       font-size: 20px;
-      color: #757575;
     }
   }
 
@@ -22,7 +29,7 @@
     width: 18px;
     height: 18px;
     top: 7px;
-    right: 5px;
+    right: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,7 +39,7 @@
     span{
       width: 5px;
       height: 5px;
-      background: #757575;
+      background: #383838;
       border-radius: 50%;
       margin: 1px;
     }
@@ -40,34 +47,39 @@
 
   .actions {
     position: absolute;
+    width: 0;
     top: 0;
-    left: 90%;
+    right: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    transition: 0.6s cubic-bezier(0.45, -0.67, 0.53, 1.63);
-    z-index: 0;
+    transition: 0.2s;
+    z-index: 1;
+    overflow-x: hidden;
 
     .action {
-      width: 30px;
+      width: 100%;
       height: 30px;
       border-radius: 50%;
       transition: 0.4s;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #383838;
+      cursor: pointer;
 
       &:hover {
-        background: #e5e5e5;
+        color:#EDC939;
       }
 
       &:active {
-        background: #bababa;
+        //background: #bababa;
       }
     }
     &.show{
-      left: 100%;
+      right: 30px;
+      width: 30px;
     }
   }
 }

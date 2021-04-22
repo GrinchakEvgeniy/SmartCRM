@@ -84,7 +84,8 @@ const NewProject = (props) => {
                     </div>
                     <div className="field description">
                         <TextField
-                            label="Description"
+                            label="Description *"
+                            error={!newProject.name}
                             multiline
                             fullWidth
                             rows={4}
@@ -118,7 +119,7 @@ const NewProject = (props) => {
                                                  let elem = event.target.closest('.user_check_wrap')
                                                  elem.dataset.check === 'false'
                                                      ?
-                                                     (elem.dataset.check = "true", elem.style.background = "#b0d6ff")
+                                                     (elem.dataset.check = "true", elem.style.background = "rgba(237, 201, 57, 0.5)")
                                                      :
                                                      (elem.dataset.check = "false", elem.style.background = "#f7f7f7")
                                                  userCheck(event)
@@ -191,7 +192,7 @@ const NewProject = (props) => {
                         Cancel
                     </Button>
                     <Button variant="contained"
-                            disabled={!newProject.name}
+                            disabled={!(newProject.name && newProject.description)}
                             className="btn-create"
                             color="primary"
                             onClick={Create}>

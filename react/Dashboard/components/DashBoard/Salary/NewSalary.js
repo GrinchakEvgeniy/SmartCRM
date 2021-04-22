@@ -48,11 +48,11 @@ const NewSalary = (props) => {
 
     return (
         <div className="new_salary">
-            <div className="back" onClick={()=>props.setNewSalaryPopup(false)}></div>
+            <div className="back" onClick={()=>props.setNewSalaryPopup(false)}> </div>
             <div className="popup">
                 <div className="title">New Salary</div>
                 <div className="group1">
-                    <div className="select_user">
+                    <div className="select_user field">
                         <Select id="demo-simple-select"
                                 variant='outlined'
                                 value={newData.user_id}
@@ -71,7 +71,7 @@ const NewSalary = (props) => {
                             }
                         </Select>
                     </div>
-                    <div className="select_month">
+                    <div className="select_month field">
                         <Select id="demo-simple-select"
                                 variant='outlined'
                             value={newData.month}
@@ -94,7 +94,7 @@ const NewSalary = (props) => {
                             <MenuItem value={'Dec'}>December</MenuItem>
                         </Select>
                     </div>
-                    <div className="rate">
+                    <div className="rate field">
                         <TextField
                             id="rate"
                             label="Select rate per hour"
@@ -110,7 +110,7 @@ const NewSalary = (props) => {
                             }}
                         />
                     </div>
-                    <div className="cource">
+                    <div className="cource field">
                         <TextField
                             id="cource"
                             label="Select cource"
@@ -126,7 +126,7 @@ const NewSalary = (props) => {
                             }}
                         />
                     </div>
-                    <div className="fine">
+                    <div className="fine field">
                         <TextField
                             id="fine"
                             label="Select fine"
@@ -142,7 +142,7 @@ const NewSalary = (props) => {
                             }}
                         />
                     </div>
-                    <div className="issued">
+                    <div className="issued field">
                         <TextField
                             id="issued"
                             label="Select issued"
@@ -170,7 +170,7 @@ const NewSalary = (props) => {
                         onChange={(event)=>{
                             setNewData({...newData, from_times: event.target.value})
                         }}
-                        className="select-date"
+                        className="select-date field"
                         InputLabelProps={{
                             shrink: true,
                         }}
@@ -185,12 +185,12 @@ const NewSalary = (props) => {
                         onChange={(event)=>{
                             setNewData({...newData, to_times: event.target.value})
                         }}
-                        className="select-date"
+                        className="select-date field"
                         InputLabelProps={{
                             shrink: true,
                         }}
                     />
-                    <div className="result"><p>Hours</p><p>{newData.total_hour}</p></div>
+                    <div className="result field"><p>Hours</p><p>{newData.total_hour}</p></div>
                 </div>
                 <div className="btn">
                     <Button variant="contained"

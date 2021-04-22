@@ -15,38 +15,28 @@ const WorkNow = (props) => {
 
     useEffect(() => {
         getProjectsSimpleFetch()
-            .then(data => setProjects(data))
-        //     .then(()=>{
-        //     let name = document.getElementById('projectName').innerText;
-        //     setProjectName(name)
-        // })
+            .then(data => {
+                setProjects(data)
+                console.log('projects', data)
+            })
         if (!isEmpty(props.workNowObject)) {
             setProject(props.workNowObject.project_id)
         }
-
     }, [])
-
-    // useEffect(() => {
-    //     let name = document.getElementById('projectName').innerText;
-    //     setProjectName(name)
-    // }, [project])
 
     const findProjectName = (arr, id) => {
         return arr.find(el => el.id === +id)
     }
 
-    // console.log('workNowObj', props.workNowObject)
-    // console.log('project', project)
-    // console.log('props.workNowObject', props.workNowObject)
-
     const Action = (checked) => {
         if (checked) {
             const data = {
                 user_id: props.user_data.id,
-                project_id: project !== "" ? parseInt(project) : "",
+                project_id: project !== '' ? +project : '',
                 start: Date.now(),
                 self_education: props.selfEducation
             }
+            console.log('data', data)
             createWorkNowFetch(data).then(data => props.setWorkNowObject(data))
             props.web_socket.send(JSON.stringify({
                 'message': props.user_data.first_name + " started work on " + ((+project) ? findProjectName(projects, project).name : 'SelfEducation'),
@@ -78,11 +68,14 @@ const WorkNow = (props) => {
         props.setSelfEducation(checked);
     }
 
+    console.log('workNowObject', props.workNowObject)
+    console.log('project', project)
+
     return (
         <div className='work_now_popupWrap'>
             <div className="work_now_popup">
                 <div className="title">
-                    <p>Work Now</p>
+                    <h2>Work Now</h2>
                 </div>
                 <div className="body">
                     <div className="time">
@@ -142,7 +135,7 @@ const WorkNow = (props) => {
             <div className="work_now_popup_subLayer"
                  onClick={() => {
                      props.setWorkNowPopup(false)
-                 }}></div>
+                 }}> </div>
         </div>
     );
 };

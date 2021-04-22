@@ -6,6 +6,7 @@ import {FormControl, InputLabel, MenuItem, Select, TextField} from "@material-ui
 import {getAccess, isEmpty} from "../../helper";
 import {getUser, setSocket} from "../../redux/actions/actions";
 import {connect} from "react-redux";
+import NoAccess from "../NoAccess/NoAccess";
 
 const Clients = (props) => {
     const [clients, setClients] = useState([]);
@@ -150,36 +151,25 @@ const Clients = (props) => {
                     <div className="container">
                         <div className="clientsWrap">
                             <div className="actions">
-                                <div className="btnWrap">
-                                    <Button className="btn add-btn"
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={() => {
-                                                setPopup(!popup);
-                                            }}>Add client
-                                    </Button>
-                                </div>
                                 <div className={popup ? "createNewClient active" : "createNewClient"}>
                                     <div className="createNewClientFields">
-                                        <TextField id="name"
-                                                   label="Client Name"
-                                                   variant="outlined"
-                                                   value={clientName}
-                                                   onChange={(event) => {
-                                                       setClientName(event.target.value)
-                                                       setNewClientData({...newClientData, name: event.target.value})
-                                                   }}/>
-                                        <TextField id="contact_data"
-                                                   label="Contact Data"
-                                                   variant="outlined"
-                                                   value={clientInfo}
-                                                   onChange={(event) => {
-                                                       setClientInfo(event.target.value)
-                                                       setNewClientData({
-                                                           ...newClientData,
-                                                           contact_data: event.target.value
-                                                       })
-                                                   }}/>
+                                        <input id="name"
+                                               placeholder='name'
+                                               value={clientName}
+                                               onChange={(event) => {
+                                                   setClientName(event.target.value)
+                                                   setNewClientData({...newClientData, name: event.target.value})
+                                               }}/>
+                                        <input id="contact_data"
+                                               placeholder='contact'
+                                               value={clientInfo}
+                                               onChange={(event) => {
+                                                   setClientInfo(event.target.value)
+                                                   setNewClientData({
+                                                       ...newClientData,
+                                                       contact_data: event.target.value
+                                                   })
+                                               }}/>
                                     </div>
                                     <div className="button_group">
                                         <Button variant="contained"
@@ -205,16 +195,15 @@ const Clients = (props) => {
                                 </div>
                             </div>
                             <div className="navigation">
-                                <div className="action_wrap">
-                                    <FormControl variant="outlined" className="action_wrap">
-                                        <InputLabel id="demo-simple-select-outlined-label">Action</InputLabel>
+                                <div className="action_wrap action">
+                                    <FormControl className="action_wrap">
+                                        {/*<InputLabel id="demo-simple-select-outlined-label">Action!!!!!!</InputLabel>*/}
                                         <Select
                                             labelId="demo-simple-select-outlined-label"
                                             id="demo-simple-select-outlined"
                                             value={action}
-                                            onChange={(event => setAction(event.target.value))}
-                                            label="Action">
-                                            <MenuItem value="nothing">Nothing</MenuItem>
+                                            onChange={(event => setAction(event.target.value))}>
+                                            <MenuItem value="nothing">Action</MenuItem>
                                             <MenuItem value="delete">Delete Chased</MenuItem>
                                         </Select>
                                     </FormControl>
@@ -227,13 +216,21 @@ const Clients = (props) => {
                                     </Button>
                                 </div>
                                 <div className="search_wrap">
-                                    <TextField
+                                    <input
                                         className="search"
                                         type="text"
                                         id="outlined-basic"
-                                        label="Search"
-                                        variant="outlined"
+                                        placeholder="Search"
                                         onChange={(event) => Search(event.target.value)}/>
+                                </div>
+                                <div className="action_wrap addClient">
+                                    <Button className="btn add-btn"
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => {
+                                                setPopup(!popup);
+                                            }}>Add client
+                                    </Button>
                                 </div>
                             </div>
                             <div className="content">
@@ -273,28 +270,7 @@ const Clients = (props) => {
                         </div>
                     </div>
                     :
-                    <div className='noAccess' style={{
-                        width: '600px',
-                        height: '300px',
-                        position: "fixed",
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '10px',
-                        background: 'white',
-                        boxShadow: '1px 3px 10px 0px #bfbfbf'
-                    }}>
-                        <h2 style={{
-                            color: '#757575',
-                            fontSize: '36px',
-                            textTransform: 'uppercase'
-                        }}>
-                            You don't have access.
-                        </h2>
-                    </div>
+                    <NoAccess/>
             }
         </div>
     );

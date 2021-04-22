@@ -36,21 +36,21 @@ const Diagrams = (props) => {
 		setOptions1({
 			animationEnabled: true,
 			exportEnabled: false,
-			backgroundColor: '#f3f3f3',
+			backgroundColor: 'rgba(255, 255, 255, 0.75)',
 			theme: "light1", // "light1", "dark1", "dark2"
 			title:{
 				text: "Project Time"
 			},
 			width: 400,
-			height: 300,
+			height: 400,
 			data: [{
 				type: "pie",
 				indexLabelPlacement: "inside",
 				indexLabel: "{label}: {y}%",
 				startAngle: -90,
 				dataPoints: [
-					{ y: time_success.toFixed(2), label: "Spent time", color: "#3cc926" },
-					{ y: (100 - time_success).toFixed(2), label: "Time left", color: "#e8cd33" },
+					{ y: time_success.toFixed(2), label: "Spent time", color: "#565656" },
+					{ y: (100 - time_success).toFixed(2), label: "Time left", color: "#EDC939" },
 				]
 			}]
 		})
@@ -81,13 +81,13 @@ const Diagrams = (props) => {
 		setOptions2({
 			animationEnabled: true,
 			exportEnabled: false,
-			backgroundColor: '#f3f3f3',
+			backgroundColor: 'rgba(255, 255, 255, 0.75)',
 			theme: "light1", // "light1", "dark1", "dark2"
 			title:{
 				text: "Users Time Today"
 			},
 			width: 400,
-			height: 300,
+			height: 400,
 			data: [{
 				type: "pie",
 				indexLabelPlacement: "inside",

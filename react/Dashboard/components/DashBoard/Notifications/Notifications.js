@@ -9,6 +9,7 @@ import {
     getUsersFetch,
     readNotificationFetch
 } from "../../requests";
+import Button from "@material-ui/core/Button";
 
 
 const Notifications = (props) => {
@@ -60,16 +61,16 @@ const Notifications = (props) => {
         <div className='notifications'>
             <div className="container">
                 <div className="btns">
-                    <button className='btn clear'
+                    <Button className='btn clear'
                             onClick={() => {
                                 clearAll()
                             }}>clear all
-                    </button>
-                    <button className='btn read'
+                    </Button>
+                    <Button className='btn read'
                             onClick={() => {
                                 readAll()
                             }}>read all
-                    </button>
+                    </Button>
                 </div>
                 <div className="notifs">
                     {
@@ -81,9 +82,9 @@ const Notifications = (props) => {
                                             style={
                                                 el.on_read
                                                     ?
-                                                    {background: "#ffffff"}
+                                                    {background: "rgba(255, 255, 255, 0.7)"}
                                                     :
-                                                    {background: "#b0d6ff"}
+                                                    {background: "rgba(255, 255, 255, 0.95)"}
                                             }>
                                     <div className="itemNotifFrom">
                                         {findUserItem(users, el.from_notification).first_name}
@@ -100,7 +101,9 @@ const Notifications = (props) => {
                                     </div>
                                     <div className="createdTime">
                                         <p className='time'>
-                                            {el.timestamps.split('.')[0]}
+                                            {
+                                                el.timestamps !== null ? el.timestamps.split('.')[0] : ''
+                                            }
                                         </p>
                                     </div>
                                     <div className="img_user">
@@ -128,8 +131,6 @@ const Notifications = (props) => {
                         :
                         ''
                 }
-
-
             </div>
         </div>
     );

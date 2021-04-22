@@ -77,31 +77,34 @@ const TasksGroup = (props) => {
                     </h5>
                 </div>
                 <div className="taskGroupName">
-                    {
-                        editName
-                            ?
-                            <div className='nameFieldWrap'>
-                                <input className='nameField'
-                                       type="text"
-                                       defaultValue={props.tasks.name}
-                                       onKeyPress={(e) => {
-                                           if (e.key === 'Enter') {
-                                               setEditName(!editName)
-                                               editTaskName(e.target.value)
-                                           }
-                                       }}/>
+                    <div className='nameFieldWrap'>
+                        <textarea className='nameField'
+                                  disabled={!editName}
+                                  rows={1}
+                                  style={editName ? {background: 'white'} : {background: 'transparent'}}
+                                  defaultValue={props.tasks.name}
+                                  onKeyPress={(e) => {
+                                      if (e.key === 'Enter') {
+                                          setEditName(!editName)
+                                          editTaskName(e.target.value)
+                                      }
+                                  }}/>
+                        {
+                            editName
+                                ?
                                 <span className='saveBtn'
                                       onClick={(e) => {
                                           setEditName(!editName)
                                           editTaskName(e.target.previousSibling.value)
-
-                                      }}>
-                                          ok
-                                      </span>
-                            </div>
-                            :
-                            <h3 className='nameField'>{props.tasks.name}</h3>
-                    }
+                                      }}>&#128190;</span>
+                                :
+                                <EditIcon className='editIcon'
+                                          onClick={(e) => {
+                                              e.stopPropagation()
+                                              setEditName(!editName)
+                                          }}/>
+                        }
+                    </div>
                 </div>
                 <div className="numberOfTasks">
                     <Button className='showBtn'
@@ -115,8 +118,6 @@ const TasksGroup = (props) => {
                     </Button>
                     <Button className='addTask'
                             variant="contained"
-                            // disabled={!showTasks}
-                            // style={!showTasks ? {background: '#c6c6c6'} : {background: '#00a4ff'}}
                             color="primary"
                             onClick={() => {
                                 addNewNestedTask('New nested task', 'not started')
@@ -125,15 +126,15 @@ const TasksGroup = (props) => {
                         add new nested task
                     </Button>
                 </div>
-                <span className='progress_line'
-                      style={{width: doneTasks.length / tasks.length * 100 + '%'}}
-                > </span>
-                <EditIcon className='editIcon'
-                          color={editName ? 'secondary' : 'primary'}
-                          onClick={(e) => {
-                              e.stopPropagation()
-                              setEditName(!editName)
-                          }}/>
+                <span className='progress_line'>
+                    {
+                        doneTasks.length
+                            ?
+                            Math.round(doneTasks.length / tasks.length * 100) + '%'
+                            :
+                            '0%'
+                    }
+                </span>
             </div>
             {
                 showTasks
@@ -163,7 +164,6 @@ const TasksGroup = (props) => {
                                        :
                                        {display: 'initial'}
                                }
-                               color='primary'
                                onClick={() => {
                                    setWarning(!warning)
                                }}/>

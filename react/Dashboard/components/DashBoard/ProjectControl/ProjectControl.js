@@ -125,222 +125,202 @@ const ProjectControl = (props) => {
     return (
         <div className="projectControl">
             <div className="container">
-                <div className={tabValue === 'Project' ? 'tabs first' : 'tabs second'}>
-                    <div className="tab project"
-                         onClick={() => {
-                             setTabValue('Project')
-                         }}>
-                        Project
+                <div className="projectControlWrap">
+                    <div className={tabValue === 'Project' ? 'tabs first' : 'tabs second'}>
+                        <div className="tab project"
+                             onClick={() => {
+                                 setTabValue('Project')
+                             }}>
+                            Project
+                        </div>
+                        <div className="tab tabTasks"
+                             onClick={() => {
+                                 setTabValue('Tasks')
+                             }}>
+                            Tasks
+                        </div>
+                        <span className='activeTab'> </span>
                     </div>
-                    <div className="tab tabTasks"
-                         onClick={() => {
-                             setTabValue('Tasks')
-                         }}>
-                        Tasks
-                    </div>
-                    <span className='activeTab'></span>
-                </div>
-                <div className="tabValue">
-                    {
-                        tabValue === 'Project'
-                            ?
-                            <div className="project">
-                                <div className="projectWrap">
-                                    <ProjectField value={project.name}
-                                                  edit={setProjectName}
-                                                  update={updateProjectName}
-                                                  uniqId={'asd0'}
-                                                  rows={1}/>
-                                    <ProjectField value={project.description}
-                                                  edit={setProjectDescription}
-                                                  update={updateProjectName}
-                                                  uniqId={'asd1'}
-                                                  rows={6}/>
-                                    <ProjectField value={project.accesses}
-                                                  edit={setProjectAccesses}
-                                                  update={updateProjectName}
-                                                  uniqId={'asd3'}
-                                                  rows={6}/>
-                                </div>
-                                <div className="usersAndFiles">
-                                    <div className="users">
-                                        {
-                                            users.map((arr, index) => {
-                                                const users_id = project.users_list.split(',')
-                                                for (let i = 0; i < users_id.length; i++) {
-                                                    if (arr.id === parseInt(users_id[i])) {
-                                                        return (
-                                                            <div className="userWrap"
-                                                                 key={index}>
-                                                                <div className="user">
-                                                                    <img src={arr.profile.avatar.image
-                                                                        ?
-                                                                        arr.profile.avatar.image
-                                                                        :
-                                                                        defaultAva}
-                                                                         alt={arr.first_name}/>
-                                                                </div>
-                                                                <p className="userName">{arr.first_name}</p>
-                                                                {
-                                                                    getAccess(currentUserRole, allowedUsersToDelAddUsers)
-                                                                        ?
-                                                                        <span className='delBtn'
-                                                                              id={arr.id}
-                                                                              onClick={() => {
-                                                                                  delUser(arr.id)
-                                                                              }}
-                                                                        >-</span>
-                                                                        :
-                                                                        ''
-                                                                }
-                                                            </div>
-                                                        )
-                                                    }
-                                                }
-                                            })
-                                        }
-                                        {
-                                            getAccess(currentUserRole, allowedUsersToDelAddUsers)
-                                                ?
-                                                <div className='addUserBtn'
-                                                     onClick={() => {
-                                                         setAddUserActive(!addUserActive)
-                                                     }}>
-                                                    <span>+</span>
-                                                </div>
-                                                :
-                                                ''
-                                        }
-                                    </div>
-                                    <div className="projectFiles">
-                                        <div className="filesWrap">
+                    <div className="tabValue">
+                        {
+                            tabValue === 'Project'
+                                ?
+                                <div className="project">
+                                    <div className="projectWrap">
+                                        <ProjectField value={project.name}
+                                                      className='nameProject'
+                                                      edit={setProjectName}
+                                                      update={updateProjectName}
+                                                      rows={1}
+                                                      uniqId={'asd0'}/>
+                                        <ProjectField value={project.description}
+                                                      className='description'
+                                                      edit={setProjectDescription}
+                                                      update={updateProjectName}
+                                                      rows={10}
+                                                      uniqId={'asd1'}/>
+                                        <ProjectField value={project.accesses}
+                                                      className='accesses'
+                                                      edit={setProjectAccesses}
+                                                      update={updateProjectName}
+                                                      uniqId={'asd3'}/>
+                                        <div className="projectField users">
                                             {
-                                                files.length
-                                                    ?
-                                                    files.map((el, index) => {
-                                                        return (
-                                                            <a className="file"
-                                                               href={el.file}
-                                                               download
-                                                               key={index}>
-
-                                                                <div className="fileIcon">
-                                                                    {
-                                                                        imgs.indexOf(el.file.split('.').pop()) !== -1
+                                                users.map((arr, index) => {
+                                                    const users_id = project.users_list.split(',')
+                                                    for (let i = 0; i < users_id.length; i++) {
+                                                        if (arr.id === parseInt(users_id[i])) {
+                                                            return (
+                                                                <div className="userWrap"
+                                                                     key={index}>
+                                                                    <div className="user">
+                                                                        <img src={arr.profile.avatar.image
                                                                             ?
-                                                                            <img src={el.file} alt=""/>
+                                                                            arr.profile.avatar.image
                                                                             :
-                                                                            <DescriptionIcon/>
+                                                                            defaultAva}
+                                                                             alt={arr.first_name}/>
+                                                                    </div>
+                                                                    <p className="userName">{arr.first_name}</p>
+                                                                    {
+                                                                        getAccess(currentUserRole, allowedUsersToDelAddUsers)
+                                                                            ?
+                                                                            <span className='delBtn'
+                                                                                  id={arr.id}
+                                                                                  onClick={() => {
+                                                                                      delUser(arr.id)
+                                                                                  }}
+                                                                            >&times;</span>
+                                                                            :
+                                                                            ''
                                                                     }
                                                                 </div>
-                                                                <h4 className="fileName">{el.file.split('/').pop()}</h4>
-                                                                {
-                                                                    getAccess(currentUserRole, allowedUsersToDelAddProjFiles)
-                                                                        ?
-                                                                        <span className="delBtn"
-                                                                              onClick={(e) => {
-                                                                                  e.preventDefault()
-                                                                                  delProjectFile(el.id)
-                                                                              }}
-                                                                              id="9">-</span>
-                                                                        :
-                                                                        ''
-                                                                }
-                                                            </a>
-                                                        )
-                                                    })
+                                                            )
+                                                        }
+                                                    }
+                                                })
+                                            }
+                                            {
+                                                getAccess(currentUserRole, allowedUsersToDelAddUsers)
+                                                    ?
+                                                    <div className='addUserBtn'
+                                                         onClick={() => {
+                                                             setAddUserActive(!addUserActive)
+                                                         }}>
+                                                        <span>+</span>
+                                                    </div>
                                                     :
                                                     ''
                                             }
                                         </div>
-                                        {
-                                            getAccess(currentUserRole, allowedUsersToDelAddProjFiles)
-                                                ?
-                                                <Button className="addFileBtn"
-                                                        color='secondary'
-                                                        variant="contained"
-                                                        onChange={(event) => {
-                                                            postProjectFilesFetch(event.target.files, project.id)
-                                                                .then(() => {
-                                                                    update()
-                                                                })
-                                                        }}
-                                                        component="label">
-                                                    +
-                                                    <input type="file" hidden/>
-                                                </Button>
-                                                :
-                                                ''
-                                        }
+                                        <div className="projectField files">
+                                            <div className="filesWrap">
+                                                {
+                                                    files.length
+                                                        ?
+                                                        files.map((el, index) => {
+                                                            return (
+                                                                <a className="file"
+                                                                   href={el.file}
+                                                                   download
+                                                                   key={index}>
+
+                                                                    <div className="fileIcon">
+                                                                        {
+                                                                            imgs.indexOf(el.file.split('.').pop()) !== -1
+                                                                                ?
+                                                                                <img src={el.file} alt=""/>
+                                                                                :
+                                                                                <DescriptionIcon/>
+                                                                        }
+                                                                    </div>
+                                                                    <h4 className="fileName">{el.file.split('/').pop()}</h4>
+                                                                    {
+                                                                        getAccess(currentUserRole, allowedUsersToDelAddProjFiles)
+                                                                            ?
+                                                                            <span className="delBtn"
+                                                                                  onClick={(e) => {
+                                                                                      e.preventDefault()
+                                                                                      delProjectFile(el.id)
+                                                                                  }}
+                                                                                  id="9">&times;</span>
+                                                                            :
+                                                                            ''
+                                                                    }
+                                                                </a>
+                                                            )
+                                                        })
+                                                        :
+                                                        ''
+                                                }
+                                            </div>
+                                            {
+                                                getAccess(currentUserRole, allowedUsersToDelAddProjFiles)
+                                                    ?
+                                                    <Button className="addFileBtn"
+                                                            onChange={(event) => {
+                                                                postProjectFilesFetch(event.target.files, project.id)
+                                                                    .then(() => {
+                                                                        update()
+                                                                    })
+                                                            }}
+                                                            component="label">
+                                                        +
+                                                        <input type="file" hidden/>
+                                                    </Button>
+                                                    :
+                                                    ''
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="discussion">
-                                    <Talk project={project}
-                                          userId={currentUserId}
-                                          currentUserName={currentUserName}
-                                          update={update}/>
-                                </div>
-                            </div>
-                            :
-                            tabValue === 'Tasks'
-                                ?
-                                <div className="projectTasks">
-                                    {/*<div className="tasksControl">*/}
-                                    {/*    <Button className='addBtn'*/}
-                                    {/*            variant="contained"*/}
-                                    {/*            color="primary">*/}
-                                    {/*        Add single task*/}
-                                    {/*    </Button>*/}
-                                    {/*    <Button className='addBtn'*/}
-                                    {/*            variant="contained"*/}
-                                    {/*            color="primary">*/}
-                                    {/*        add task group*/}
-                                    {/*    </Button>*/}
-                                    {/*</div>*/}
-                                    <div className="allTasks">
-                                        <Tasks/>
+                                    <div className="discussion">
+                                        <Talk project={project}
+                                              userId={currentUserId}
+                                              currentUserName={currentUserName}
+                                              update={update}/>
                                     </div>
                                 </div>
                                 :
-                                ''
-                    }
+                                tabValue === 'Tasks'
+                                    ?
+                                    <div className="projectTasks">
+                                        <div className="allTasks">
+                                            <Tasks/>
+                                        </div>
+                                    </div>
+                                    :
+                                    ''
+                        }
+                    </div>
                 </div>
-            </div>
-            {
-                addUserActive
-                    ?
-                    <div className='addUserWrap active'>
-                        <div className='box'>
-                            <UsersAll className="addUser" checkedUsers={checkedUsers}
-                                      setCheckedUsers={setCheckedUsers}/>
-                            <div className='btns'>
-                                <Button className='cancel'
-                                        variant='contained'
-                                        onClick={() => {
-                                            setAddUserActive(!addUserActive)
-                                        }}
-                                        color='secondary'>Cancel</Button>
-                                <Button className='save'
-                                        variant='contained'
-                                        onClick={() => {
-                                            addUsers()
-                                            setAddUserActive(!addUserActive)
-                                        }}
-                                        color='primary'>Save</Button>
+                {
+                    addUserActive
+                        ?
+                        <div className='addUserWrap active'>
+                            <div className='box'>
+                                <UsersAll className="addUser" checkedUsers={checkedUsers}
+                                          setCheckedUsers={setCheckedUsers}/>
+                                <div className='btns'>
+                                    <Button className='cancel'
+                                            variant='contained'
+                                            onClick={() => {
+                                                setAddUserActive(!addUserActive)
+                                            }}
+                                            color='secondary'>Cancel</Button>
+                                    <Button className='save'
+                                            variant='contained'
+                                            onClick={() => {
+                                                addUsers()
+                                                setAddUserActive(!addUserActive)
+                                            }}
+                                            color='primary'>Save</Button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    :
-                    ''
-            }
-
-            {/*<button*/}
-            {/*    onClick={() => {*/}
-            {/*        audio.play()*/}
-            {/*    }}*/}
-            {/*>CLICK*/}
-            {/*</button>*/}
-
+                        :
+                        ''
+                }
+            </div>
         </div>
     );
 };

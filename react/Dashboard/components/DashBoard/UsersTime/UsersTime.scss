@@ -1,83 +1,76 @@
 .users_times {
   padding: 20px;
-  color: #757575;
 
   .users_times_control {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 30px;
-    background: white;
-    border-radius: 10px;
-    padding: 15px 25px;
-    box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
-    0 4px 5px 0 rgb(0 0 0 / 14%),
-    0 1px 10px 0px rgb(0 0 0 / 12%);
+    margin-bottom: 15px;
 
     .btn {
       display: block;
       padding: 10px 20px;
-      background: #afd9ee;
-      border-radius: 4px;
       cursor: pointer;
-      width: 100px;
+      width: 125px;
       text-align: center;
+      color: white;
+      font-weight: 600;
+      transition: 0.2s;
+      &:hover{
+        color: #EDC939;
+      }
     }
 
     .current_month {
       text-align: center;
       padding: 10px 10px;
-      background: #dbdbdb;
-      border-radius: 4px;
       text-transform: uppercase;
       width: 200px;
+      color: white;
+      font-weight: 600;
     }
 
   }
 
   .table {
     display: flex;
-    justify-content: space-evenly;
+    //justify-content: space-evenly;
     flex-wrap: wrap;
-    //flex-direction: column;
+    column-gap: 30px;
 
     .user_item {
-      //display: flex;
-      margin: 10px;
-      background: white;
-      border-radius: 10px;
-      padding: 15px 25px;
-      box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
-      0 4px 5px 0 rgb(0 0 0 / 14%),
-      0 1px 10px 0px rgb(0 0 0 / 12%);
-
+      width: calc(100%/2 - 15px);
+      margin-bottom: 30px;
 
       .user_meta {
-        font-size: 24px;
         min-width: 100%;
-        padding: 10px 0;
+        text-align: center;
+        color: white;
+        background: #565656;
+        margin-bottom: 1px;
       }
 
       .days_name {
         display: flex;
+        width: 100%;
+        background: #565656;
 
         p {
           text-align: center;
           font-size: 12px;
-          width: 70px;
-          margin: 2px;
-          background: #dbf3ff;
-          border-radius: 4px;
+          color: white;
+          width: calc(100%/7);
+          margin: 1px;
 
           &:nth-child(7), &:nth-child(1) {
-            background: #dbdbdb;
+            background: #2f2f2f;
           }
         }
       }
 
       .user_time_meta {
-        width: 530px;
+        width: 100%;
         display: flex;
         flex-wrap: wrap;
 
@@ -85,32 +78,34 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 70px;
-          margin: 2px;
-          border-radius: 4px;
+          width: calc(100%/7);
+          height: 45px;
           font-size: 16px;
-          background: #dbf3ff;
-          padding-top: 20px;
+          background: rgba(255, 255, 255, 0.75);
           position: relative;
+          border: 0.5px solid #565656;
 
 
           &:nth-child(7n+7) {
-            background: #dbdbdb;
+            background: #a9a9a9;
           }
 
           &:nth-child(1) {
-            background: #dbdbdb;
+            background: #a9a9a9;
           }
 
           &:nth-child(7n+8) {
-            background: #dbdbdb;
+            background: #a9a9a9;
           }
 
           .day_ {
             position: absolute;
-            top: 2px;
-            right: 4px;
-            font-size: 12px;
+            top: 1px;
+            right: 3px;
+            font-size: 10px;
+          }
+          .time_{
+            font-size: 14px;
           }
         }
       }

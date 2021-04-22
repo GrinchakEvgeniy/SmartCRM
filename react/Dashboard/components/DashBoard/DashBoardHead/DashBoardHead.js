@@ -3,12 +3,12 @@ import './DashBoardHead.scss'
 import {connect} from 'react-redux';
 import {getUser, setSocket} from "../../redux/actions/actions";
 import {getUserFetch} from "../../requests";
-import DashBoardHeadUserMenu from "../DashBoardHeadUserMenu/DashBoardHeadUserMenu";
+import DashBoardHeadUserMenu from "../DashBoardHeadUser/DashBoardHeadUser";
 import WorkNow from "../WorkNow/WorkNow";
-import WorkIcon from '@material-ui/icons/Work';
-import TimerIcon from '@material-ui/icons/Timer';
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import WorkTimeToday from "../WorkTimeToday/WorkTimeToday";
+import IconWorkNow from "../Icons/IconWorkNow";
+import IconWorkPlace from "../Icons/IconWorkPlace";
+import CRM_Logo from "../Icons/CRM_Logo";
 
 const DashBoardHead = (props) => {
     const [workNowPopup, setWorkNowPopup] = useState(false);
@@ -17,15 +17,12 @@ const DashBoardHead = (props) => {
     const [hour, setHour] = useState('00');
     const [isActive, setIsActive] = useState(false);
     const [counter, setCounter] = useState(0);
-
     const [workTimeToday, setWorkTimeToday] = useState(false);
-
     const [workNowObject, setWorkNowObject] = useState({});
     const [selfEducation, setSelfEducation] = useState(false);
 
     useEffect(() => {
         let intervalId;
-
         if (isActive) {
             intervalId = setInterval(() => {
                 const secondCounter = counter % 60;
@@ -66,19 +63,6 @@ const DashBoardHead = (props) => {
                 + data.id
                 + '/'
             ))
-
-            // chatSocket.onmessage = function(e) {
-            //     const data = JSON.parse(e.data);
-            //     console.log(data)
-            // };
-            //
-            // chatSocket.onclose = function(e) {
-            //     console.error('Chat socket closed unexpectedly');
-            // };
-
-            // chatSocket.send(JSON.stringify({
-            //     'message': message
-            // }));
         })
     }, [])
 
@@ -107,16 +91,15 @@ const DashBoardHead = (props) => {
                     <span/>
                 </div>
                 <div className="logo">
-                    <img src="/static/images/logo.png" alt="logo"/>
+                    <CRM_Logo/>
                 </div>
                 <div className='actionIconsWrap'>
                     <div className="work_now">
-                        <TimerIcon className='work_now_icon'
-                                   onClick={(e) => {
-                                       setWorkNowPopup(!workNowPopup)
-                                   }}/>
-                        <div className={isActive ? 'clock_hand active' : 'clock_hand'}
-                             onClick={() => setWorkNowPopup(!workNowPopup)}> </div>
+                        <div className='icon_wrap' onClick={() => {
+                            setWorkNowPopup(!workNowPopup)
+                        }}>
+                            <IconWorkNow className='work_now_icon'/>
+                        </div>
                         {
                             workNowPopup ?
                                 <WorkNow time={{'hour': hour, 'minute': minute, 'second': second}}
@@ -133,11 +116,17 @@ const DashBoardHead = (props) => {
                         }
                     </div>
                     <div className="work_time_today">
-                        <HomeWorkIcon className="work_time_today_icon"
-                                      onClick={() => setWorkTimeToday(!workTimeToday)}/>
+                        <div className='icon_wrap'
+                             onClick={() => setWorkTimeToday(!workTimeToday)}>
+                            <IconWorkPlace className="work_time_today_icon"/>
+                        </div>
                         {
-                            workTimeToday ? <WorkTimeToday setWorkTimeToday={setWorkTimeToday}
-                                                           user={props.user_data}/> : ""
+                            workTimeToday
+                                ?
+                                <WorkTimeToday setWorkTimeToday={setWorkTimeToday}
+                                               user={props.user_data}/>
+                                :
+                                ""
                         }
                     </div>
                 </div>

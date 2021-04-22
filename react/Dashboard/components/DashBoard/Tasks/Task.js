@@ -92,82 +92,77 @@ const Task = (props) => {
                 <div className="taskHeader">
                     <div className='nameStatus'>
                         <FormControl variant="filled"
-                            disabled={!(currentUser === props.tasks.worked_user_id || props.tasks.worked_user_id === null)}
+                                     disabled={!(currentUser === props.tasks.worked_user_id || props.tasks.worked_user_id === null)}
                                      className='status'
                                      style={
                                          status === 'pending'
                                              ?
-                                             {background: '#ffff48'}
+                                             {background: 'rgba(255, 255, 255, 0.74)'}
                                              :
                                              status === 'at work'
                                                  ?
-                                                 {background: '#ff9745'}
+                                                 {background: 'rgba(255, 255, 255, 0.74)'}
                                                  :
                                                  status === 'done'
                                                      ?
-                                                     {background: '#4fff4f'}
+                                                     {background: '#EDC939'}
                                                      :
-                                                     {background: '#D8D8D8'}
-
+                                                     {background: 'rgba(255, 255, 255, 0.74)'}
                                      }>
                             <Select value={status}
                                     onChange={(event) => {
                                         setStatus(event.target.value)
                                         editNestedTaskStatusAndWorker(event)
-                                        // toPerformTheTask(event.target.value)
                                     }}>
                                 <MenuItem value='pending'>PENDING</MenuItem>
                                 <MenuItem value='at work'>AT WORK</MenuItem>
                                 <MenuItem value='done'>DONE</MenuItem>
                             </Select>
                         </FormControl>
-                        {
-                            editName
-                                ?
-                                <div className='nameWrap'>
-                                    <input className='name'
-                                           type="text"
-                                           defaultValue={props.tasks.name}
-                                           onKeyPress={(e) => {
-                                               if (e.key === 'Enter') {
-                                                   setEditName(!editName)
-                                                   editNestedTaskName(e.target.value)
-                                               }
-                                           }}/>
+                        <div className='nameWrap'>
+                            <p className='number'>{props.number + '.'}</p>
+                            <textarea className='name'
+                                      defaultValue={props.tasks.name}
+                                      disabled={!editName}
+                                      rows={1}
+                                      maxLength='65'
+                                      style={editName ? {background: '#d2d2d2'} : {background: 'transparent'}}
+                                      onKeyPress={(e) => {
+                                          if (e.key === 'Enter') {
+                                              setEditName(!editName)
+                                              editNestedTaskName(e.target.value)
+                                          }
+                                      }}/>
+                            {
+                                editName
+                                    ?
                                     <span className='saveBtn'
                                           onClick={(e) => {
                                               setEditName(!editName)
                                               editNestedTaskName(e.target.previousSibling.value)
-
                                           }}>
-                                          ok
+                                          &#128190;
                                       </span>
-                                </div>
-                                :
-                                <div className='nameWrap'>
-                                    <h3 className='name'>{props.number}. {props.tasks.name}</h3>
-                                </div>
-                        }
+                                    :
+                                    <EditIcon className='editIcon' onClick={(e) => {
+                                        setEditName(!editName)
+                                    }}/>
+                            }
+                        </div>
                     </div>
                     <div className='creatorWorker'>
-                        <h4 className="creator">
+                        <p className="creator">
                             Creator: {props.findName(props.tasks.created_user_id, props.users)}
-                        </h4>
-                        <h4 className="usersWorked">
+                        </p>
+                        <p className="usersWorked">
                             Worked: {props.findName(props.tasks.worked_user_id, props.users)}
                             {/*Worked: {props.tasks.worked_user_id}*/}
-                        </h4>
+                        </p>
                     </div>
-                    <EditIcon className='editIcon'
-                              color={editName ? 'secondary' : 'primary'}
-                              onClick={() => {
-                                  setEditName(!editName)
-                              }}/>
                 </div>
                 <div className="taskContent">
                     <Button className='showBtn'
                             variant="contained"
-                            color="secondary"
                             onClick={() => {
                                 setShowDescription(!showDescription)
                             }}>
@@ -177,37 +172,32 @@ const Task = (props) => {
                         showDescription
                             ?
                             <div className="description">
-                                {
-                                    editDescription
-                                        ?
-                                        <div className='descrWrap'>
-                                            <textarea className='descriptionVal'
-                                                      defaultValue={props.tasks.description}
-                                                      onKeyPress={(e) => {
-                                                          if (e.key === 'Enter') {
-                                                              setEditDescription(!editDescription)
-                                                              editNestedTasksDescription(e.target.value)
-                                                          }
-                                                      }}/>
-                                            <span className='saveDescrBtn'
+                                <div className='descrWrap'>
+                                    <textarea className='descriptionVal'
+                                              defaultValue={props.tasks.description}
+                                              disabled={!editDescription}
+                                              rows='3'
+                                              onKeyPress={(e) => {
+                                                  if (e.key === 'Enter') {
+                                                      setEditDescription(!editDescription)
+                                                      editNestedTasksDescription(e.target.value)
+                                                  }
+                                              }}/>
+                                    {
+                                        editDescription
+                                            ?
+                                            <span className='saveBtn'
                                                   onClick={(e) => {
                                                       setEditDescription(!editDescription)
                                                       editNestedTasksDescription(e.target.previousSibling.value)
-
-                                                  }}>
-                                          ok
-                                      </span>
-                                        </div>
-                                        :
-                                        <p>
-                                            {props.tasks.description}
-                                        </p>
-                                }
-                                <EditIcon className='editIcon'
-                                          color={editDescription ? 'secondary' : 'primary'}
-                                          onClick={() => {
-                                              setEditDescription(!editDescription)
-                                          }}/>
+                                                  }}>&#128190;</span>
+                                            :
+                                            <EditIcon className='editIcon'
+                                                      onClick={() => {
+                                                          setEditDescription(!editDescription)
+                                                      }}/>
+                                    }
+                                </div>
                             </div>
                             :
                             ''
@@ -215,7 +205,6 @@ const Task = (props) => {
                     }
                     <Button className='showBtn'
                             variant="contained"
-                            color="secondary"
                             onClick={() => {
                                 setShowFiles(!showFiles)
                             }}>
@@ -257,7 +246,7 @@ const Task = (props) => {
                                                                           props.update()
                                                                       })
                                                               }}
-                                                              id="9">-</span>
+                                                              id="9">&times;</span>
                                                     </a>
                                                 )
                                             })
@@ -266,12 +255,10 @@ const Task = (props) => {
                                     }
                                 </div>
                                 <Button className="addFileBtn"
-                                        color='secondary'
                                         variant="contained"
                                         onChange={(event) => {
                                             postProjectNestedTaskFilesFetch(event.target.files, props.tasks.id)
                                                 .then((data) => {
-                                                    console.log('add file', data)
                                                     props.update()
                                                 })
                                         }}
@@ -286,7 +273,6 @@ const Task = (props) => {
                 </div>
             </div>
             <DeleteForeverIcon className='delNestedTask'
-                               color='primary'
                                onClick={() => {
                                    console.log('DELETE TASK')
                                    setWarning(!warning)
@@ -299,7 +285,6 @@ const Task = (props) => {
                         <div className="btns">
                             <Button className='btn'
                                     variant="contained"
-                                    color="primary"
                                     onClick={() => {
                                         setWarning(!warning)
                                     }}>
@@ -307,7 +292,6 @@ const Task = (props) => {
                             </Button>
                             <Button className='btn'
                                     variant="contained"
-                                    color="secondary"
                                     onClick={() => {
                                         delNestedTask(props.tasks.id)
                                         setWarning(!warning)

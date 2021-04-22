@@ -23,38 +23,38 @@ const User = (props) => {
     //     return color;
     // }
 
-    const roleColor = (role) => {
-        let color
-        switch (role) {
-            case 'S':
-                color = '#a4ffb1'
-                break;
-            case 'HR':
-                color = '#a4ffe4'
-                break;
-            case 'PM':
-                color = '#a4e0ff'
-                break;
-            case 'SM':
-                color = '#d1a4ff'
-                break;
-            case 'TL':
-                color = '#ffe5a4'
-                break;
-            case 'D':
-                color = '#fff994'
-                break;
-            case 'Dev':
-                color = '#a7a4ff'
-                break;
-            case 'G':
-                color = '#ffa4bf'
-                break;
-            default:
-                color = '#e4e4e4';
-        }
-        return color;
-    }
+    // const roleColor = (role) => {
+    //     let color
+    //     switch (role) {
+    //         case 'S':
+    //             color = '#a4ffb1'
+    //             break;
+    //         case 'HR':
+    //             color = '#a4ffe4'
+    //             break;
+    //         case 'PM':
+    //             color = '#a4e0ff'
+    //             break;
+    //         case 'SM':
+    //             color = '#d1a4ff'
+    //             break;
+    //         case 'TL':
+    //             color = '#ffe5a4'
+    //             break;
+    //         case 'D':
+    //             color = '#fff994'
+    //             break;
+    //         case 'Dev':
+    //             color = '#a7a4ff'
+    //             break;
+    //         case 'G':
+    //             color = '#ffa4bf'
+    //             break;
+    //         default:
+    //             color = '#e4e4e4';
+    //     }
+    //     return color;
+    // }
 
     const changeRole = (event) => {
 
@@ -73,7 +73,6 @@ const User = (props) => {
 
     const Change = (id) => {
         if (props.user_data.id === props.value.id) {
-            // console.log(12)
             props.setAlerts({type: "warning", message: "You don`t can change your role"});
             let popups = document.getElementsByClassName('select_role_wrap');
             for (let i = 0; i < popups.length; i++) {
@@ -119,10 +118,7 @@ const User = (props) => {
                 <div className="full_name">{props.value.first_name + " " + props.value.last_name}</div>
                 <div className="position"><p>{props.value.profile.position}</p></div>
                 <div className='roleWrap'>
-                    <div className="now_role"
-                        // style={{background: getRandomColor()}}
-                         style={{background: roleColor(props.value.profile.role_id.value)}}
-                    >
+                    <div className="now_role">
                         {props.value.profile.role_id.value}
                     </div>
 
@@ -135,7 +131,7 @@ const User = (props) => {
                                          (event) => {
                                              changeRole(event)
                                          }}>
-                                    &#9998;
+                                    &#10000;
                                     <div className="select_role_wrap">
                                         {
                                             props.roles.map((value, index) => {

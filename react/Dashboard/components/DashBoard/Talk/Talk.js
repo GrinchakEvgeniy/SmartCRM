@@ -74,14 +74,12 @@ const Talk = (props) => {
                     }
                 </div>
             </div>
-            {
-                (attachUsers.split(',').indexOf(String(currentUserId)) !== -1)
-                    ?
                     <div className="createTweet">
                         <TextField className='inputField'
                                    id="message"
-                                   label="Message"
+                                   // label="Message"
                                    fullWidth
+                                   disabled={!(attachUsers.split(',').indexOf(String(currentUserId)) !== -1)}
                                    multiline
                                    rows={5}
                                    rowsMax={5}
@@ -101,9 +99,6 @@ const Talk = (props) => {
                             </div>
                         </div>
                     </div>
-                    :
-                    ''
-            }
         </div>
     );
 };

@@ -1,12 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {getUser} from "../../redux/actions/actions";
 import {connect} from "react-redux";
-import Fab from '@material-ui/core/Fab';
-import EditIcon from '@material-ui/icons/Edit';
 import "./Profile.scss";
 import {isEmpty} from "../../helper";
-import PersonalInfoProfile from "../PersonalInfoProfile/PersonalInfoProfile";
-import FamilyInfoProfile from "../FamilyInfoProfile/FamilyInfoProfile";
+import PersonalInfoProfile from "./ProfileInfo";
 import {getUserFetch, putAvatarFetch} from "../../requests";
 import Button from "@material-ui/core/Button";
 import AutorenewIcon from '@material-ui/icons/Autorenew';
@@ -28,22 +25,11 @@ const Profile = (props) => {
             <div className="container">
                 <div className="profileWrap">
                     <div className="personalInfo">
-                        <Fab color="primary"
-                             aria-label="edit"
-                             className="editBtn"
-                             onClick={() => {
-                                 props.setPopUpOptions('PersonalInfoProfile')
-                                 props.setShowPopUp(true)
-                             }}>
-                            <EditIcon/>
-                        </Fab>
-                        <PersonalInfoProfile/>
                         <div className="AvaWrap">
                             <div className="Ava">
                                 <img src={avatar ? avatar : defaultAva} alt="ava"/>
                             </div>
                             <Button className="changeAva"
-                                    color='secondary'
                                     variant="contained"
                                     onChange={(event) => {
                                         putAvatarFetch(props.user_data.profile.avatar.id, event.target.files)
@@ -57,18 +43,7 @@ const Profile = (props) => {
                                 <input type="file" hidden/>
                             </Button>
                         </div>
-                    </div>
-                    <div className="familyInfo">
-                        <Fab color="primary"
-                             aria-label="edit"
-                             className="editBtn"
-                             onClick={() => {
-                                 props.setPopUpOptions('FamilyInfoProfile')
-                                 props.setShowPopUp(true)
-                             }}>
-                            <EditIcon/>
-                        </Fab>
-                        <FamilyInfoProfile/>
+                        <PersonalInfoProfile/>
                     </div>
                 </div>
             </div>

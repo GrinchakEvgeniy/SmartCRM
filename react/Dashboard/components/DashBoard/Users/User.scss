@@ -1,20 +1,19 @@
 .item {
-  width: 440px;
-  height: 200px;
+  width: 360px;
+  height: 180px;
   display: flex;
-  margin: 10px;
-  background: #fff;
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.75);
+  padding: 15px 25px;
   align-items: center;
   position: relative;
-  border-radius: 10px;
-  transition: 0.4s cubic-bezier(0.45, -0.67, 0.53, 1.63);
+  border-radius: 3px;
+  transition: 0.2s;
   box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%),
   0 4px 5px 0 rgb(0 0 0 / 14%),
   0 1px 10px 0px rgb(0 0 0 / 12%);
 
   &:hover{
-    //transform: scale(1.01);
+    background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 7px 15px 5px rgb(0 0 0 / 20%),
     0 7px 9px 0 rgb(0 0 0 / 7%),
     0 9px 6px 0 rgb(0 0 0 / 25%);
@@ -22,44 +21,42 @@
   }
 
   .info {
-    width: 200px;
+    color: #383838;
+    width: 160px;
     align-self: flex-start;
 
     .full_name {
       width: 100%;
-      font-size: 20px;
+      font-size: 14px;
+      font-weight: 600;
       white-space: nowrap;
-      padding: 4px;
       pointer-events: none;
       margin-bottom: 10px;
     }
 
     .position {
       width: 100%;
-      background-color: #e4e4e4;
-      border-radius: 10px;
-      padding: 10px 20px;
+      padding: 10px 0;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       pointer-events: none;
       margin-bottom: 10px;
 
       p {
-        font-size: 16px;
+        font-size: 14px;
       }
     }
 
     .roleWrap {
       position: relative;
-      //z-index: 15;
 
       .now_role {
         width: 100%;
-        text-align: center;
-        padding: 10px 20px;
-        border-radius: 10px;
-        background: #e4e4e4;
+        padding: 6px 10px;
+        border-radius: 3px;
+        background: #383838;
+        color: white;
       }
 
       .btn_change_roleWrap {
@@ -71,21 +68,12 @@
         .btn_change_role {
           position: relative;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
           width: 25px;
           height: 25px;
-          border-radius: 50%;
-          background: #3f51b5;
           color: white;
           cursor: pointer;
-          transition: 0.5s;
-
-          &:hover {
-            background: #303f9f;
-            color: white;
-            transform: scale(1.1);
-          }
 
           .select_role_wrap {
             top: 120%;
@@ -95,9 +83,10 @@
             justify-content: center;
             flex-direction: column;
             position: absolute;
-            background: white;
+            background: rgba(255, 255, 255, 0.7);
+            -webkit-backdrop-filter: saturate(180%) blur(17px);
+            backdrop-filter: saturate(180%) blur(17px);
             z-index: 12;
-            color: #757575;
             width: 100px;
             box-shadow: 0 0 2px 1px grey;
             padding: 10px;
@@ -107,18 +96,17 @@
               width: 100%;
               text-align: center;
               margin: 4px 0;
-              background-color: #e2e2e2;
-              border-radius: 4px;
-              padding: 2px 10px;
-              transition: 0.4s;
-
-              &:hover {
-                box-shadow: 0 0 3px 1px grey;
+              background-color: #383838;
+              border-radius: 3px;
+              padding: 2px;
+              transition: 0.2s;
+              &:hover{
+                color: #EDC939;
               }
             }
 
             &.active {
-              transition: 0.5s;
+              //transition: 0.5s;
               display: flex;
               flex-direction: column;
             }
@@ -130,12 +118,12 @@
 
   .avatar {
     margin-right: 20px;
-    width: 150px;
-    height: 150px;
+    width: 135px;
+    height: 135px;
 
     .imgWrap {
-      width: 150px;
-      height: 150px;
+      width: 135px;
+      height: 135px;
       border-radius: 50%;
       overflow: hidden;
       background: #9d9d9d;
@@ -160,13 +148,11 @@
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: #f50057;
       transition: 0.4s;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-size: 36px;
+      font-size: 24px;
       cursor: pointer;
 
       .itemBtn {
@@ -189,7 +175,8 @@
         }
       }
       &:hover {
-        background: #C51162;
+        background: rgba(56, 56, 56, 0.4);
+        color: white;
         .itemBtn {
           &.title {
             top: 105%;

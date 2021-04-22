@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import FullCalendar from '@fullcalendar/react'
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import {Calendar, momentLocalizer} from "react-big-calendar";
 import dayGridPlugin from '@fullcalendar/daygrid'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -16,7 +16,7 @@ const Events = (props) => {
     const [addEvent, setAddEvent] = useState("");
     const [renderUpdateEvent, setRenderUpdateEvent] = useState("");
 
-    const handleSelect = ({ start, end }) => {
+    const handleSelect = ({start, end}) => {
         setAddEvent(<NewEvents
             start={start}
             setAddEvent={setAddEvent}
@@ -26,16 +26,20 @@ const Events = (props) => {
         />)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getEventsFetch()
-            .then(data=>setEvents(data))
+            .then(data => setEvents(data))
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         getEventsFetch()
-            .then(data=>{
-                const res = data.map((el, index, arr)=>{
-                    return {...arr[index], start: moment(arr[index].start).toDate(), end: moment(arr[index].end).toDate()}
+            .then(data => {
+                const res = data.map((el, index, arr) => {
+                    return {
+                        ...arr[index],
+                        start: moment(arr[index].start).toDate(),
+                        end: moment(arr[index].end).toDate()
+                    }
                 })
                 console.log(res)
                 setEvents(res)
@@ -57,7 +61,7 @@ const Events = (props) => {
     }
 
     const updateEvent = (event) => {
-        if(event.user_id != props.user_data.id) return false;
+        if (event.user_id !== props.user_data.id) return false;
         setRenderUpdateEvent(
             <UpdateEvents
                 event={event}
@@ -70,19 +74,21 @@ const Events = (props) => {
 
     const localizer = momentLocalizer(moment)
     return (
-        <div className="container events">
-            <Calendar
-                localizer={localizer}
-                onSelectSlot={handleSelect}
-                selectable
-                plugins={[ dayGridPlugin ]}
-                initialView="dayGridMonth"
-                events={events}
-                eventPropGetter={(eventStyleGetter)}
-                onSelectEvent={event => updateEvent(event)}
-            />
-            {addEvent}
-            {renderUpdateEvent}
+        <div className="container">
+            <div className='events'>
+                <Calendar
+                    localizer={localizer}
+                    onSelectSlot={handleSelect}
+                    selectable
+                    plugins={[dayGridPlugin]}
+                    initialView="dayGridMonth"
+                    events={events}
+                    eventPropGetter={(eventStyleGetter)}
+                    onSelectEvent={event => updateEvent(event)}
+                />
+                {addEvent}
+                {renderUpdateEvent}
+            </div>
         </div>
     );
 };

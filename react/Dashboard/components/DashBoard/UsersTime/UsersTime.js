@@ -6,6 +6,7 @@ import './UsersTime.scss'
 import {getAccess, isEmpty} from "../../helper";
 import {getUser, setSocket} from "../../redux/actions/actions";
 import {connect} from "react-redux";
+import NoAccess from "../NoAccess/NoAccess";
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -32,10 +33,10 @@ const UsersTime = (props) => {
             year: calendar.year
         };
         // console.log(body)
-        getUsersFetch().then(data=>setUsers(data));
-        const { dates, nextMonth, nextYear, previousMonth, previousYear } = datesGenerator(body);
+        getUsersFetch().then(data => setUsers(data));
+        const {dates, nextMonth, nextYear, previousMonth, previousYear} = datesGenerator(body);
 
-        setDates([ ...dates ]);
+        setDates([...dates]);
         setCalendar({
             ...calendar,
             nextMonth,
@@ -45,7 +46,7 @@ const UsersTime = (props) => {
         });
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!isEmpty(props.user_data)) {
             if (props.user_data.profile.length === 0) return;
             setCurrentUserRole(props.user_data.profile.role_id.value)
@@ -53,10 +54,10 @@ const UsersTime = (props) => {
     }, [props.user_data])
 
     const onClickNext = () => {
-        const body = { month: calendar.nextMonth, year: calendar.nextYear };
-        const { dates, nextMonth, nextYear, previousMonth, previousYear } = datesGenerator(body);
+        const body = {month: calendar.nextMonth, year: calendar.nextYear};
+        const {dates, nextMonth, nextYear, previousMonth, previousYear} = datesGenerator(body);
 
-        setDates([ ...dates ]);
+        setDates([...dates]);
         setCalendar({
             ...calendar,
             month: calendar.nextMonth,
@@ -69,10 +70,10 @@ const UsersTime = (props) => {
     }
 
     const onClickPrevious = () => {
-        const body = { month: calendar.previousMonth, year: calendar.previousYear };
-        const { dates, nextMonth, nextYear, previousMonth, previousYear } = datesGenerator(body);
+        const body = {month: calendar.previousMonth, year: calendar.previousYear};
+        const {dates, nextMonth, nextYear, previousMonth, previousYear} = datesGenerator(body);
 
-        setDates([ ...dates ]);
+        setDates([...dates]);
         setCalendar({
             ...calendar,
             month: calendar.previousMonth,
@@ -88,10 +89,10 @@ const UsersTime = (props) => {
         setSelectedDate(new Date(date.year, date.month, date.date))
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (dates.length === 0) return;
         let f = dates[0][0];
-        let b = dates[dates.length-1][dates[dates.length-1].length - 1];
+        let b = dates[dates.length - 1][dates[dates.length - 1].length - 1];
         let fd = f.date < 10 ? `0${f.date}` : f.date;
         let fm = f.month < 10 ? `0${f.month}` : f.month;
         let bd = b.date < 10 ? `0${b.date}` : b.date;
@@ -112,25 +113,25 @@ const UsersTime = (props) => {
         return Date.parse(`${year}-${mm}-${dd}T00:00:00`)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const result = [];
-        users.forEach((user)=>{
-            result.push({user:user.first_name+' '+user.last_name, id:user.id, times:[], render:[]})
-            dataTimes.forEach((time)=>{
-                if(time.user_id === user.id){
-                    result[result.length-1].times.push({
-                        today:time.today,
-                        hours:parseInt(time.finish) - parseInt(time.start)
+        users.forEach((user) => {
+            result.push({user: user.first_name + ' ' + user.last_name, id: user.id, times: [], render: []})
+            dataTimes.forEach((time) => {
+                if (time.user_id === user.id) {
+                    result[result.length - 1].times.push({
+                        today: time.today,
+                        hours: parseInt(time.finish) - parseInt(time.start)
                     })
                 }
             })
         })
-        result.forEach((res, index)=>{
-            dates.forEach((week)=>{
-                week.forEach((day)=>{
+        result.forEach((res, index) => {
+            dates.forEach((week) => {
+                week.forEach((day) => {
                     let finded = false;
-                    res.times.forEach((time)=>{
-                        if(parseInt(time.today) === getUnixDay(day.year, day.month, day.date)){
+                    res.times.forEach((time) => {
+                        if (parseInt(time.today) === getUnixDay(day.year, day.month, day.date)) {
                             result[index].render.push({
                                 day: day.date < 10 ? `0${day.date}` : day.date,
                                 hours: time.hours
@@ -138,7 +139,7 @@ const UsersTime = (props) => {
                             finded = true;
                         }
                     })
-                    if(!finded){
+                    if (!finded) {
                         result[index].render.push({
                             day: day.date < 10 ? `0${day.date}` : day.date,
                             hours: 0
@@ -147,11 +148,11 @@ const UsersTime = (props) => {
                 })
             })
         })
-        result.forEach((value, index)=>{
-            for(let i = 1; i < value.render.length; i++){
-                if(value.render[i].day === value.render[i-1].day){
-                    value.render[i].hours += value.render[i-1].hours
-                    value.render.splice(i-1, 1);
+        result.forEach((value, index) => {
+            for (let i = 1; i < value.render.length; i++) {
+                if (value.render[i].day === value.render[i - 1].day) {
+                    value.render[i].hours += value.render[i - 1].hours
+                    value.render.splice(i - 1, 1);
                     i--
                 }
             }
@@ -181,13 +182,13 @@ const UsersTime = (props) => {
                     <div className="container">
                         <div className='users_times_control'>
                             <div className='btn prev' onClick={onClickPrevious}>
-                                Previous
+                                &lt; Previous
                             </div>
                             <div className="current_month">
                                 {months[calendar.month]}
                             </div>
                             <div className='btn next' onClick={onClickNext}>
-                                Next
+                                Next &gt;
                             </div>
                         </div>
                         <div className="table">
@@ -229,40 +230,22 @@ const UsersTime = (props) => {
                         {/*</div>*/}
                     </div>
                     :
-                    <div className='noAccess' style={{
-                        width: '600px',
-                        height: '300px',
-                        position: "fixed",
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '10px',
-                        background: 'white',
-                        boxShadow: '1px 3px 10px 0px #bfbfbf'
-                    }}>
-                        <h2 style={{
-                            color: '#757575',
-                            fontSize: '36px',
-                            textTransform: 'uppercase'
-                        }}>
-                            You don't have access.
-                        </h2>
-                    </div>
+                    <NoAccess/>
             }
         </div>
     );
-};
+}
+;
 
-const putState = (state) => {
+const putState = (state) =>
+{
     return {
         user_data: state.user_data,
         web_socket: state.web_socket
     }
 }
-const putDispatch = (dispatch) => {
+const putDispatch = (dispatch) =>
+{
     return {
         updateUserData: (data) => dispatch(getUser(data)),
         setSocket: (data) => dispatch(setSocket(data))

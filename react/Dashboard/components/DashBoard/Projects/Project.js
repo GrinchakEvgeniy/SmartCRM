@@ -68,7 +68,7 @@ const Project = (props) => {
                         setWarning(!warning)
                     }}>
                         <div className="iconWrap">
-                            <div className="lid"></div>
+                            <div className="lid"> </div>
                             <div className="trash">    &times;</div>
                         </div>
                     </div>

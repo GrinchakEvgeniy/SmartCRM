@@ -7,37 +7,51 @@
   background-image: url("../../images/bg_login.jpg");
   background-size: cover;
   background-position: center;
+
   .login {
-    background: white;
-    width: 450px;
-    height: 550px;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: saturate(180%) blur(17px);
+    backdrop-filter: saturate(180%) blur(7px);
+    padding: 100px 50px 50px;
+    border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 6px 4px 10px -2px #cacaca;
+    flex-direction: column;
 
     .login_form {
+      font-size: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
       width: 300px;
 
-      .login_form_username {
-        margin-bottom: 20px;
+      .login_form_username, .login_form_pass {
+        border-radius: 3px;
+        border: 3px solid transparent;
+        color: #383838;
+        background: rgba(255, 255, 255, 0.5);
+        margin-bottom: 30px;
         width: 100%;
-      }
-
-      .login_form_pass {
-        margin-bottom: 20px;
-        width: 100%;
+        padding: 18px 20px;
+        &:focus{
+          border: 3px solid #EDC939;
+        }
       }
 
       .login_form_btn {
         width: 100%;
         height: 56px;
+        margin-bottom: 20px;
       }
+    }
+    .warning{
+      height: 50px;
+      max-width: 300px;
+      color: red;
+      text-align: center;
+      font-weight: 600;
     }
   }
 }

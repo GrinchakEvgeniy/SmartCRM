@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import CodeRoundedIcon from '@material-ui/icons/CodeRounded';
 import "./DashBoardSidebarElms.scss";
 import {Link, NavLink} from "react-router-dom";
 import {getUser, newNotification, setSocket} from "../../redux/actions/actions";
@@ -37,7 +36,6 @@ const DashBoardSidebarElms = (props) => {
             <div className="elemWrap">
                 <div className="icon">
                     {props.icon}
-                    {/*<CodeRoundedIcon/>*/}
                 </div>
                 <div className="label">
                     <h4>{props.label}</h4>

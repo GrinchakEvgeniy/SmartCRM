@@ -91,15 +91,19 @@ const WorkTimeToday = (props) => {
     }
 
     return (
-        <div className='work_time_today'>
+        <div className='work_time_today_popUp'>
             <div className="work_time_today_wrap">
-                <div className="title"><p>Work Time Today</p></div>
+                <div className="title">
+                    <h2>Work Time Today</h2>
+                </div>
                 <div className="content">
                     {
                         newObject ?
                             <div className="date_in">
                                 <div className="date">
-                                    <div className="ttl"><p>Date Start</p></div>
+                                    <div className="ttl">
+                                        <p>Date Start</p>
+                                    </div>
                                     <div className="inputs_wrap">
                                         <TextField
                                             id="time1"
@@ -171,7 +175,6 @@ const WorkTimeToday = (props) => {
                                     <div className="btn_wrap">
                                         <Button variant="contained"
                                                 className="btn btn-new"
-                                                color="primary"
                                                 onClick={submit_out}
                                         >
                                             Submit

@@ -8,6 +8,7 @@ import {getAccess, isEmpty} from "../../helper";
 import Button from "@material-ui/core/Button";
 import {Link, NavLink} from "react-router-dom";
 import Project from "./Project";
+import NoAccess from "../NoAccess/NoAccess";
 
 const Projects = (props) => {
     const [projectsSimple, setProjectsSimple] = useState([]);
@@ -28,14 +29,9 @@ const Projects = (props) => {
             .then(data => setUsers(data));
         getClientsFetch()
             .then(data => setClients(data));
-        // getUserFetch().then(data => {
-        //     setCurrentUserRole(data.profile.role_id.value)
-        //     setCurrentUserName(data.first_name)
-        //     setCurrentUserId(data.id)
-        // })
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!isEmpty(props.user_data)) {
             if (props.user_data.profile === 0) return;
             setCurrentUserRole(props.user_data.profile.role_id.value)
@@ -92,28 +88,7 @@ const Projects = (props) => {
                             }
                         </div>
                         :
-                        <div className='noAccess' style={{
-                            width: '600px',
-                            height: '300px',
-                            position: "fixed",
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            borderRadius: '10px',
-                            background: 'white',
-                            boxShadow: '1px 3px 10px 0px #bfbfbf'
-                        }}>
-                            <h2 style={{
-                                color: '#757575',
-                                fontSize: '36px',
-                                textTransform: 'uppercase'
-                            }}>
-                                You don't have access.
-                            </h2>
-                        </div>
+                        <NoAccess/>
                 }
             </div>
             {

@@ -1,10 +1,11 @@
 .clients {
-  background: white;
-  color: #757575;
-  box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
+  //background: rgba(255, 255, 255, 0.7);
+  //-webkit-backdrop-filter: saturate(180%) blur(17px);
+  //backdrop-filter: saturate(180%) blur(17px);
+  //box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
 
   .container {
-    padding: 20px;
+    padding: 0 20px 20px;
 
     .clientsWrap {
       margin: 0 auto;
@@ -13,8 +14,8 @@
       .actions {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
+        justify-content: flex-end;
+        margin-bottom: 20px;
 
         .createNewClient {
           opacity: 0;
@@ -29,8 +30,8 @@
             display: flex;
             margin-right: 20px;
 
-            div {
-              margin: 5px;
+            input:first-child {
+              margin-right: 10px;
             }
           }
 
@@ -58,6 +59,7 @@
         .action_wrap {
           display: flex;
           align-items: center;
+          width: fit-content;
 
           .MuiFormControl-root {
             margin-right: 20px;
@@ -65,13 +67,41 @@
 
           .MuiInputBase-root {
             height: 46px;
+
+            &::after {
+              width: 0;
+              height: 0;
+            }
+
+            &::before {
+              width: 0;
+              height: 0;
+            }
+
+            .MuiSelect-root {
+              font-size: 16px;
+              font-weight: 600;
+              color: white;
+            }
+
+            svg {
+              fill: white;
+            }
+          }
+          &.action{
+            min-width: 200px;
+          }
+          &.addClient{
+            min-width: 150px;
           }
         }
 
         .search_wrap {
-          .MuiInputBase-root {
-            height: 46px;
-          }
+          width: 100%;
+          margin: 0 20px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
         }
       }
 
@@ -80,20 +110,21 @@
         flex-direction: column;
 
         .headers {
-          background: #bae8ff;
+          background: #383838;
           height: 40px;
           display: flex;
-          border: 1px solid grey;
-          border-radius: 5px;
+          border: 1px solid #383838;
+          border-radius: 3px 3px 0 0;
 
           div {
             display: flex;
             align-items: center;
             width: 100%;
             padding: 10px;
+            color: white;
 
             &:not(:last-child) {
-              border-right: 1px solid #b1b1b1;
+              border-right: 1px solid #383838;
             }
           }
 
@@ -112,10 +143,12 @@
           .row {
             height: 40px;
             display: flex;
-            border: 1px solid grey;
-            border-radius: 5px;
-            border-top: white;
+            border: 1px solid #383838;
+            border-top: none;
             transition: .4s;
+            &:last-child{
+              border-radius: 0 0 3px 3px;
+            }
 
             &:hover {
               background: #c7c7c7;
@@ -128,7 +161,7 @@
               padding: 10px;
 
               &:not(:last-child) {
-                border-right: 1px solid #b1b1b1;
+                border-right: 1px solid #383838;
               }
             }
 
@@ -148,11 +181,11 @@
           }
 
           .grey {
-            background: #f5f5f5;
+            background: rgba(255, 255, 255, 0.9);
           }
 
           .white {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
           }
         }
       }

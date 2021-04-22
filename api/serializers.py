@@ -29,7 +29,7 @@ class ProjectSimpleFWNSerializer(serializers.ModelSerializer):
 
 
 class WorkNowSerializer(serializers.ModelSerializer):
-    project_id = ProjectSimpleFWNSerializer()
+    project_id = ProjectSimpleFWNSerializer(read_only=True)
 
     class Meta:
         model = WorkNow

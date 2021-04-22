@@ -1,12 +1,10 @@
 .tasks{
   width: 100%;
-  color: #757575;
-  padding: 5px 10px;
-  border: 1px solid grey;
-  border-radius: 5px;
+  border-radius: 3px;
   margin-bottom: 10px;
 
   .addNewTasksGroup{
+    text-align: end;
     .addTasksGroupBtn{
       margin-bottom: 10px;
     }

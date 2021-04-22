@@ -2,14 +2,15 @@
   position: absolute;
   left: 50%;
   top: calc(100% + 10px);
-  border-radius: 10px;
-  background: white;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: saturate(180%) blur(17px);
+  backdrop-filter: saturate(180%) blur(17px);
   width: 350px;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   z-index: 8;
-  color: #757575;
   box-shadow: 0px -2px 6px -1px rgb(0 0 0 / 20%),
   0 1px 5px 0 rgb(0 0 0 / 14%),
   0 1px 10px 0px rgb(0 0 0 / 12%);
@@ -21,7 +22,9 @@
     left: 50%;
     width: 20px;
     height: 15px;
-    background: #41a0ff;
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: saturate(180%) blur(17px);
+    backdrop-filter: saturate(180%) blur(17px);
     transform: translateX(-50%);
     clip-path: polygon(50% 0, 100% 100%, 0 100%);
   }
@@ -30,7 +33,7 @@
     padding: 5px;
 
     .time {
-      padding-top: 30px;
+      //padding-top: 30px;
       display: flex;
       justify-content: center;
       font-size: 24px;
@@ -54,14 +57,10 @@
   }
 
   .title {
-    color: #f3f3f3;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #41a0ff;
-    border-radius: 10px 10px 0 0;
-    font-weight: 600;
   }
 
   .on_off_btn {

@@ -38,7 +38,7 @@ const UsersAll = (props) => {
                                      let elem = event.target.closest('.user_check_wrap')
                                      elem.dataset.check === 'false'
                                          ?
-                                         (elem.dataset.check = "true", elem.style.background = "#b0d6ff")
+                                         (elem.dataset.check = "true", elem.style.background = "rgba(237,201,57,0.5)")
                                          :
                                          (elem.dataset.check = "false", elem.style.background = "#f7f7f7")
                                      userCheck(event)

@@ -1,24 +1,49 @@
 .task {
-  width: calc(100% - 30px);
-  border-radius: 5px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 10px;
-  background: #d2efff;
+  background: rgba(255, 255, 255, 0.80);
   margin-bottom: 10px;
   position: relative;
+
+  .editIcon, .saveBtn {
+    line-height: 19px;
+    font-size: 14px;
+    position: absolute;
+    padding: 4px;
+    width: 28px;
+    height: 28px;
+    //top: 5px;
+    //right: -32px;
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: 50%;
+    background: #EDC939;
+
+    &:hover {
+      fill: white;
+    }
+  }
+
+  .editIcon {
+    opacity: 0;
+  }
 
   .taskWrap {
     width: 100%;
 
     .taskHeader {
+      width: 100%;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
 
       .nameStatus {
+        width: 100%;
+
         .status {
           width: 100px;
           margin-bottom: 3px;
@@ -33,69 +58,50 @@
           }
         }
 
-        input {
-          width: 90%;
-          border: none;
-          color: #2f2f2f;
-          min-width: fit-content;
-          display: block;
-          font-size: 1.17em;
-          font-weight: bold;
-          line-height: 22px;
-          border-radius: 5px;
-          outline: none;
-        }
-
         .nameWrap {
           position: relative;
+          max-width: 100%;
+          margin-right: 20px;
+          display: flex;
 
-          .name {
-            padding: 5px;
-            min-height: 32px;
-            margin-bottom: 3px;
-
+          .editIcon, .saveBtn {
+            top: 5px;
+            right: -14px;
           }
 
-          .saveBtn {
-            color: white;
-            text-align: center;
-            padding: 2px 4px;
-            background: #999988;
-            border-radius: 4px;
-            font-size: 18px;
-            line-height: 18px;
-            display: block;
-            position: absolute;
-            left: 86%;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            transition: 0.2s;
-
-            &:hover {
-              background: #5d5d53;
+          &:hover {
+            .editIcon {
+              opacity: 1;
             }
           }
+
+          .number {
+            font-size: 18px;
+            font-weight: 600;
+            padding: 5px;
+          }
+
+          .name {
+            resize: none;
+            border-radius: 3px;
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            padding: 5px 36px 5px 5px;
+            min-height: 32px;
+            margin-bottom: 3px;
+            font-family: "Poppins", sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #383838;
+            background: #d2d2d2;
+          }
         }
-
-
       }
 
       .creatorWorker {
-        margin-right: 40px;
-      }
-
-      .editIcon {
-        position: absolute;
-        top: 0;
-        right: 0;
-        cursor: pointer;
-        transition: 0.2s;
-
-        &:hover {
-          fill: #c51162;
-          transform: scale(1.2);
-        }
+        min-width: 200px;
+        padding-left: 15px;
       }
     }
 
@@ -104,71 +110,61 @@
       flex-direction: column;
 
       .description {
-        min-height: 31px;
         position: relative;
         margin: 0 0 10px;
-        background: #e3f3ff;
-        border-radius: 5px;
-        padding: 5px 20px 5px 5px;
-        border: 1px solid #BDBDBD;
-
-        .editIcon {
-          position: absolute;
-          top: 3px;
-          right: 5px;
-          cursor: pointer;
-        }
+        background: #dbdbdb;
+        border-radius: 3px;
+        padding: 5px 36px 5px 5px;
 
         .descriptionVal {
           width: 98%;
-          height: 100px;
-          border: none;
-          color: #757575;
-          min-width: fit-content;
           display: block;
           font-size: 16px;
-          font-weight: bold;
+          //font-weight: bold;
           line-height: 22px;
-          border-radius: 5px;
-          outline: none;
           resize: none;
+          border: none;
+          border-radius: 3px;
+          min-width: 100%;
+          max-width: 100%;
+          padding: 5px;
+          min-height: 32px;
+          margin-bottom: 3px;
+          font-family: "Poppins", sans-serif;
+          color: #383838;
         }
 
         .descrWrap {
           position: relative;
 
-          .saveDescrBtn {
-            color: white;
-            text-align: center;
-            padding: 2px 4px;
-            background: #999988;
-            border-radius: 4px;
-            font-size: 18px;
-            line-height: 18px;
-            display: block;
-            position: absolute;
-            left: 94%;
-            top: 4px;
-            cursor: pointer;
-            transition: 0.2s;
+          .editIcon, .saveBtn {
+            top: 0;
+            right: -32px;
+          }
 
-            &:hover {
-              background: #5d5d53;
-            }
+          .editIcon {
+            opacity: 0;
           }
         }
 
+        &:hover {
+          .descrWrap {
+            .editIcon {
+              opacity: 1;
+            }
+          }
+        }
       }
 
       .showBtn {
         text-transform: none;
-        background: #00a4ff;
+        background: #EDC939;;
         width: 100px;
         min-width: 100px;
         padding: 2px 4px;
         font-size: 10px;
         height: 16px;
-        margin: 0 5px 3px 5px;
+        margin: 0 5px 5px 0;
       }
 
       .taskFiles {
@@ -177,9 +173,8 @@
         min-height: 100px;
         overflow: auto;
         padding: 0;
-        border: 1px solid #BDBDBD;
-        border-radius: 4px;
-        background: #e3f3ff;
+        border-radius: 3px;
+        background: #dbdbdb;
         margin-bottom: 25px;
 
         .filesWrap {
@@ -234,7 +229,7 @@
             }
 
             &:hover {
-              background: #c2e1f5;
+              background: rgba(237, 201, 57, 0.5);
 
               .fileName {
                 height: fit-content;
@@ -253,11 +248,11 @@
               top: 0;
               width: 15px;
               height: 15px;
-              background: #C51162;
+              background: #383838;
               color: white;
               text-align: center;
-              line-height: 14px;
-              font-size: 30px;
+              line-height: 17px;
+              font-size: 20px;
               border-radius: 50%;
               transition: 0.4s;
               transition-delay: 0.4s;
@@ -271,23 +266,23 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          right: 4px;
-          bottom: 4px;
+          right: 6px;
+          bottom: 6px;
           width: 25px;
           min-width: 25px;
           height: 25px;
-          padding: 6px 6px 6px 6px;
-          background-color: #f50057;
+          padding: 6px 5px 6px 6px;
+          background-color: #383838;
           border-radius: 50%;
           color: white;
-          font-size: 22px;
+          font-size: 18px;
           line-height: 10px;
           cursor: pointer;
           transition-property: background-color, transform;
           transition-duration: 0.4s, 0.1s;
 
           &:hover {
-            background-color: #c51162;
+            background-color: #EDC939;
           }
 
           &:active {
@@ -300,12 +295,12 @@
 
   .delNestedTask {
     position: absolute;
-    right: 10px;
-    bottom: 10px;
+    right: 12px;
+    bottom: 8px;
     transition: 0.2s;
 
     &:hover {
-      fill: #c51162;
+      fill: #EDC939;
       transform: scale(1.2);
     }
   }

@@ -2,47 +2,53 @@
   .project_name {
     padding: 10px;
     text-align: center;
-    background: #f0f0f0;
-    border-radius: 10px;
-    transition: .4s;
+    background: #565656;
+    border-radius: 3px;
     margin-bottom: 10px;
 
     p {
       font-size: 32px;
       font-weight: 900;
       text-transform: uppercase;
-    }
-
-    &:hover {
-      background: #d7d7d7;
+      color: white;
     }
   }
 
   .content {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    flex-wrap: wrap;
 
-    .__users{
+    .__users {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 100%;
       height: 100%;
       padding: 10px 5px;
-      background: #F3F3F3;
-      border-radius: 5px;
+      background: #565656;
+      border-radius: 3px;
+      margin-bottom: 30px;
     }
 
     .user_time_project {
+      margin: 5px;
       display: flex;
       align-items: center;
+      color: white;
 
       .user_info {
         display: flex;
         align-items: center;
         margin-right: 10px;
 
+
         .avatar {
-          width: 50px;
-          min-width: 50px;
-          height: 50px;
+          width: 40px;
+          min-width: 40px;
+          height: 40px;
           border-radius: 50%;
           overflow: hidden;
           display: flex;
@@ -57,17 +63,17 @@
           }
         }
       }
-      .time_project{
-        font-size: 24px;
+
+      .time_project {
+        font-size: 18px;
       }
     }
 
     .diagram {
       display: flex;
-      //align-items: center;
-      //justify-content: center;
       width: 100%;
-      .canvasjs-chart-canvas{
+
+      .canvasjs-chart-canvas {
         top: 50%;
         left: 50%;
         transform: translateX(-50%);

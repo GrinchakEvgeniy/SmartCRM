@@ -3,14 +3,15 @@
   left: 50%;
   top: calc(100% + 5px);
   transform: translate(-50%, 0);
-  background: #fff;
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: saturate(180%) blur(17px);
+  backdrop-filter: saturate(180%) blur(17px);
   box-shadow: 0px -2px 6px -1px rgb(0 0 0 / 20%),
   0 1px 5px 0 rgb(0 0 0 / 14%),
   0 1px 10px 0px rgb(0 0 0 / 12%);
-  border-radius: 10px;
+  border-radius: 3px;
   min-width: 350px;
   min-height: 290px;
-  color: #757575;
   z-index: 8;
 
   &:after {
@@ -20,19 +21,19 @@
     left: 50%;
     width: 20px;
     height: 15px;
-    background: #41a0ff;
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: saturate(180%) blur(17px);
+    backdrop-filter: saturate(180%) blur(17px);
     transform: translateX(-50%);
     clip-path: polygon(50% 0, 100% 100%, 0 100%);
   }
 
   .title {
-    background: #41a0ff;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 10px;
     border-radius: 10px 10px 0 0;
-    color: white;
     font-weight: 600;
   }
 
@@ -41,7 +42,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 20px;
+    padding: 0 20px 20px;
 
     .date_in, .data_out {
       width: 100%;
@@ -76,10 +77,19 @@
       .ttl {
         margin-bottom: 30px;
       }
+
+      //button {
+      //  background: #EDC939;
+      //
+      //  .MuiButton-label {
+      //    color: #292929;
+      //  }
+      //}
     }
   }
 }
-.work_time_today_subLayer{
+
+.work_time_today_subLayer {
   position: fixed;
   top: 0;
   left: 0;

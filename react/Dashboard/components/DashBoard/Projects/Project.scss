@@ -3,19 +3,17 @@
 
   .project {
     position: relative;
-    color: #757575;
-    width: 325px;
-    height: 200px;
+    width: 360px;
+    height: 180px;
     padding: 15px 25px;
-    background: white;
-    border-radius: 10px;
-    margin: 12px;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 3px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
-    transition: 0.4s cubic-bezier(0.45, -0.67, 0.53, 1.63);
-    box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
+    transition: 0.2s;
+    //box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0px rgb(0 0 0 / 12%);
 
     .users {
       min-height: 40px;
@@ -27,8 +25,8 @@
         position: relative;
 
         .user {
-          width: 40px;
-          height: 40px;
+          width: 45px;
+          height: 45px;
           background: #a7a7a7;
           align-items: center;
           display: flex;
@@ -51,12 +49,12 @@
 
         .userName {
           position: absolute;
-          top: 100%;
+          top: 120%;
           left: 0;
-          background: #5d5d5d;
-          padding: 2px 5px;
+          background: #383838;
+          padding: 1px 5px;
           color: white;
-          font-weight: 900;
+          font-weight: 500;
           border-radius: 5px;
           white-space: nowrap;
           opacity: 0;
@@ -76,7 +74,7 @@
     }
 
     &:hover {
-      box-shadow: 0 7px 15px 5px rgb(0 0 0 / 20%), 0 7px 9px 0 rgb(0 0 0 / 7%), 0 9px 6px 0px rgb(0 0 0 / 25%);
+      background: rgba(255, 255, 255, 0.85);
     }
   }
   .warning {
@@ -142,10 +140,10 @@
     &:hover{
       .lid{
         transform: rotate(70deg);
-        background: #c51162;
+        background: #383838;
       }
       .trash{
-        background: #c51162;
+        background: #383838;
       }
     }
   }

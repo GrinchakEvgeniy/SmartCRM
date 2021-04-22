@@ -7,10 +7,9 @@
     overflow-y: auto;
     height: 100%;
     border-radius: 4px;
-    border: 1px solid #BDBDBD;
-    margin-bottom: 6px;
-    padding: 15px 5px;
-    color: #757575;
+    background: #dbdbdb;
+    margin-bottom: 14px;
+    padding: 15px;
 
     .tweetsWrap {
       display: flex;
@@ -26,8 +25,8 @@
         margin: 5px 0;
         width: 90%;
         padding: 15px;
-        border-radius: 15px 15px 0 15px;
-        background: #FAD6B1;
+        border-radius: 20px 20px 0 20px;
+        background: rgba(237, 201, 57, 0.7);
         align-self: flex-end;
         cursor: pointer;
         word-break: break-word;
@@ -38,8 +37,8 @@
 
         &.my {
           align-self: flex-start;
-          background: #afd9ee;
-          border-radius: 15px 15px 15px 0;
+          background: rgba(237, 201, 57, 0.5);
+          border-radius: 20px 20px 20px 0;
         }
       }
     }
@@ -47,6 +46,8 @@
 
   .createTweet {
     position: relative;
+    background: #dbdbdb;
+    border-radius: 3px;
 
     .inputField {
       .MuiOutlinedInput-multiline {

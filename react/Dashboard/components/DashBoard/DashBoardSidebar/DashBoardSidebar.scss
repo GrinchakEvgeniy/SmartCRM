@@ -1,16 +1,14 @@
 .dashBoardSidebar__wrap{
-  background: white;
+  background: rgba(78, 78, 78, 0.5);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 2;
   height: 100vh;
   width: 64px;
-  border-right: 2px solid #ececec;
   padding: 85px 20px 20px;
   overflow: hidden;
-  transition: .4s;
-  color: #757575;
+  transition: .4s ease-out;
   .dashBoardSidebar{
     min-width: 130px;
   }

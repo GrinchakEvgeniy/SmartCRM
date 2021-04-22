@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import DashBoardHead from "./DashBoardHead/DashBoardHead";
 import DashBoardSidebar from "./DashBoardSidebar/DashBoardSidebar";
 import Profile from "./Profile/Profile";
-import PopUp from "./PopUp/PopUp";
 import './DashBoard.scss'
 import {Switch, Route} from 'react-router-dom'
 import Clients from "./Clients/Clients";
@@ -44,9 +43,6 @@ const DashBoard = () => {
                     <Route path='/dashboard/project/:id' component={()=>{return <ProjectControl/>}}/>
                     <Route path='/dashboard/info' component={()=>{return <Info/>}}/>
                 </Switch>
-                <PopUp showPopUp={showPopUp}
-                       setShowPopUp={setShowPopUp}
-                       popUpOptions={popUpOptions}/>
             </div>
         </div>
     );

@@ -25,18 +25,15 @@ const ProjectField = (props) => {
     }, []);
 
     return (
-        <div className="projectField">
-            <TextField className='editField'
-                       id={props.uniqId}
-                       rows={props.rows ? props.rows : 1}
-                       rowsMax={10}
-                       multiline
-                       disabled={!editField}
-                       defaultValue={props.value}
-                       onChange={(e) => {
-                           props.edit(e.target.value)
-                       }}
-                       variant="outlined"/>
+        <div className={props.className ? 'projectField' + ' ' + props.className : 'projectField'}>
+            <textarea className='editField'
+                      id={props.uniqId}
+                      disabled={!editField}
+                      defaultValue={props.value}
+                      onChange={(e) => {
+                          props.edit(e.target.value)
+                      }}
+            />
             {
                 getAccess(currentUserRole, allowedUsersToEditField)
                     ?
@@ -44,9 +41,9 @@ const ProjectField = (props) => {
                          onClick={() => {
                              setShowMenuField(!showMenuField)
                          }}>
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                        <span> </span>
+                        <span> </span>
+                        <span> </span>
                     </div>
                     :
                     ''

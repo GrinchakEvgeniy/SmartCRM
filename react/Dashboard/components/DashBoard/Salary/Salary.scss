@@ -1,102 +1,162 @@
 .salary_wrap {
-  .new_salary, .update_salary{
-    .back{
+  .new_salary, .update_salary {
+    .back {
       position: fixed;
       width: 100%;
       height: 100%;
       top: 0;
-      background: #000000a6;
+      background: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: saturate(180%) blur(5px);
+      backdrop-filter: saturate(180%) blur(5px);
       left: 0;
       z-index: 123;
     }
-    .popup{
+
+    .popup {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
       z-index: 124;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 15px 60px;
-      .group1{
+      padding: 35px 60px;
+      border-radius: 3px;
+
+      .title{
+        margin-bottom: 20px;
+      }
+
+      .group1 {
         display: flex;
         justify-content: space-between;
-        width: 500px;
+        width: 510px;
         flex-wrap: wrap;
-        div{
-          min-width: 183px;
+        margin-bottom: 10px;
+
+        .field {
+          margin-bottom: 20px;
+          width: 150px;
+          div{
+            width: 150px;
+          }
         }
       }
-      .group2{
+
+      .group2 {
         display: flex;
         justify-content: space-between;
-        width: 500px;
+        width: 510px;
         flex-wrap: wrap;
-        .result{
+        margin-bottom: 30px;
+
+        .field{
+          width: 150px;
+        }
+
+        .result {
           display: flex;
           flex-direction: column;
           align-items: center;
         }
       }
-      div{
-        margin-bottom: 10px;
-      }
     }
   }
-  .panel{
+
+  .panel {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .history_salary_field{
+    margin-bottom: 20px;
+
+    .history_salary_field {
       display: flex;
       align-items: center;
-      justify-content: space-evenly;
-      border: 1px black dashed;
-      width: 60%;
-      padding: 5px 0;
+
+      .label {
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        margin-right: 10px;
+      }
+
+      .MuiOutlinedInput-root {
+        border-radius: 3px;
+        border: 1px solid white;
+
+      }
+
+      .MuiFormControl-root, .MuiInputBase-root {
+        width: 130px;
+        margin-right: 10px;
+        color: white;
+
+        .MuiOutlinedInput-input{
+          padding: 8px 14px;
+        }
+
+        .MuiSelect-root {
+          color: white;
+        }
+
+        svg {
+          fill: white;
+        }
+      }
     }
   }
-  .content{
-    margin-top: 20px;
+
+  .content {
     display: flex;
     flex-direction: column;
-    .item_selery_head{
+
+    .item_selery_head {
       display: flex;
       width: 100%;
-      justify-content: space-between;
-      div{
+      margin-bottom: 7px;
+
+      div {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        border: 1px solid grey;
-        background: #8d8d8d;
-        border-radius: 8px;
+        width: calc(100% / 9);
+        background: #565656;
+        color: white;
       }
     }
-    .item_selery{
+
+    .item_selery {
       display: flex;
       width: 100%;
+      height: 30px;
       justify-content: space-between;
       cursor: pointer;
-      margin-bottom: 2px;
-      margin-top: 2px;
-      div{
+      margin-bottom: 7px;
+
+      div {
+        font-size: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        border: 1px solid grey;
-        background: ivory;
-        border-radius: 8px;
+        width: calc(100% / 9);
+        transition: 0.2s;
+        background: rgba(255, 255, 255, 0.75);
+
+        &:first-child {
+          font-weight: 600;
+        }
+
+        &:not(:last-child) {
+          border-right: 1px solid #565656;
+        }
       }
-    }
-    .item_selery:hover{
-      div{
-        box-shadow: 0 0 5px grey;
-      transition: 0.4s;
+
+      &:hover {
+        div {
+          background: rgba(255, 255, 255, 0.9);
+        }
       }
     }
   }

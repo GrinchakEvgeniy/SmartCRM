@@ -1,8 +1,30 @@
 .tasksGroup {
   position: relative;
-  border: 1px solid #b4b4b4;
-  border-radius: 4px;
-  margin-bottom: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.74);
+  margin-bottom: 15px;
+
+  .editIcon, .saveBtn {
+    opacity: 0;
+    line-height: 19px;
+    font-size: 14px;
+    position: absolute;
+    padding: 4px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: 50%;
+    background: #EDC939;
+
+    &:hover {
+      fill: white;
+    }
+  }
+  .saveBtn{
+    opacity: 1;
+    padding-left: 5px;
+  }
 
   .tasksGroupHeader {
     background: transparent;
@@ -14,49 +36,44 @@
 
     .creatorName {
       justify-self: flex-end;
+      h5{
+        font-weight: 400;
+      }
     }
 
     .taskGroupName {
       justify-self: flex-start;
       margin: 5px 0;
 
-      input {
-        width: 90%;
-        border: none;
-        color: #2f2f2f;
-        min-width: fit-content;
-        display: block;
-        font-size: 1.17em;
-        font-weight: bold;
-        line-height: 22px;
-        border-radius: 5px;
-        outline: none;
+      &:hover{
+        .editIcon{
+          opacity: 1;
+        }
       }
 
-
-      .nameField {
-        padding: 5px 30px 5px 5px;
+      .nameFieldWrap{
         position: relative;
-      }
 
-      .saveBtn {
-        color: white;
-        text-align: center;
-        padding: 2px 4px;
-        background: #999988;
-        border-radius: 4px;
-        font-size: 18px;
-        line-height: 18px;
-        display: block;
-        position: absolute;
-        left: 86%;
-        top: 50%;
-        transform: translateY(-60%);
-        cursor: pointer;
-        transition: 0.2s;
+        .editIcon, .saveBtn {
+          top: 6px;
+          right: 6px;
+        }
 
-        &:hover {
-          background: #5d5d53;
+        .nameField {
+          padding: 10px 30px 10px 5px;
+          position: relative;
+          line-height: 22px;
+          resize: none;
+          width: 100%;
+          border: none;
+          color: #383838;
+          min-width: fit-content;
+          display: block;
+          font-size: 1.17em;
+          font-weight: bold;
+          border-radius: 3px;
+          font-family: "Poppins", sans-serif;
+          background: transparent;
         }
       }
     }
@@ -66,49 +83,47 @@
 
       .showBtn {
         text-transform: none;
-        background: #00a4ff;
+        background: #EDC939;
         width: 120px;
         min-width: 120px;
         padding: 2px 4px;
         font-size: 10px;
         height: 16px;
         margin: 0 5px 3px 5px;
+        &:hover{
+          background: white;
+        }
       }
 
       .addTask {
         text-transform: none;
-        background: #00a4ff;
+        background: #EDC939;
         width: 120px;
         min-width: 120px;
         padding: 2px 4px;
         font-size: 10px;
         height: 16px;
         margin: 0 5px 3px 5px;
+        &:hover{
+          background: white;
+        }
       }
     }
 
     .progress_line {
       position: absolute;
-      width: 0%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
       height: 100%;
-      background: #b0ffb0;
+      color: rgba(0, 0, 0, 0.2);
       border-radius: 7px;
       top: 0;
       left: 0;
+      font-size: 80px;
+      font-weight: 900;
       z-index: -1;
-    }
-
-    .editIcon {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      cursor: pointer;
-      transition: 0.2s;
-
-      &:hover {
-        fill: #c51162;
-        transform: scale(1.2);
-      }
     }
   }
 
@@ -122,12 +137,12 @@
   .delTask {
     position: absolute;
     right: 5px;
-    bottom: 10px;
+    bottom: 5px;
     transition: 0.2s;
     z-index: 1;
 
     &:hover {
-      fill: #c51162;
+      fill: #EDC939;
       transform: scale(1.2);
     }
   }

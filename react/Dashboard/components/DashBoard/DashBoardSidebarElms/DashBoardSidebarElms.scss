@@ -1,7 +1,7 @@
 .elem {
-  color: #757575;
+  color: #fff;
   text-decoration: none;
-  transition: 0.4s;
+  transition: 0.2s;
   .elemWrap {
     width: 100%;
     display: flex;
@@ -11,21 +11,61 @@
     margin-bottom: 10px;
 
     .icon {
+      position: relative;
       margin-right: 20px;
+      svg{
+        fill: white;
+        transition: 0.2s;
+      }
+      &:after{
+        position: absolute;
+        content: "";
+        top: 100%;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #EDC939;
+        transition: 0.2s;
+      }
     }
     .label{
       h4{
         white-space: nowrap;
+        font-family: Poppins, sans-serif;
       }
     }
   }
   &:hover{
-    color: #007cff;
+    color: #EDC939;
+    .elemWrap{
+      .icon{
+        svg{
+          fill: #EDC939;
+        }
+      }
+    }
   }
   &.active{
-    color: #007cff;
+    color: #EDC939;
+    .elemWrap{
+      .icon{
+        svg{
+          fill: #EDC939;
+        }
+        &:after{
+          width: 100%;
+        }
+      }
+    }
   }
 }
 .elem.new{
   color: #d91e1e;
+  .elemWrap{
+    .icon{
+      svg{
+        fill: #d91e1e;
+      }
+    }
+  }
 }
